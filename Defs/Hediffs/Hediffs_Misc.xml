@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	<HediffDef> <!-- Apply when Deathless Daji resurrects a pawn; adds 0.3 severity each time, permamently beserks pawn at max severity-->
+		<hediffClass>HediffWithComps</hediffClass>
+		<defName>DeathlessDaji_Hediff_Yaoma</defName>
+		<label>crimson psychosis</label>
+		<labelNoun>crimson psychosis</labelNoun>
+		<description>How many times can the mind endure death? To Daji, that question is irrelevant as long as the blood flows. Die frequently enough, and your ego will rot like those rivers of crimson...</description>
+		<defaultLabelColor>(0.8627, 0.0784, 0.2353)</defaultLabelColor>
+		
+		<chronic>true</chronic>
+		<isBad>false</isBad>
+		<minSeverity>0</minSeverity>
+		<maxSeverity>1</maxSeverity>
+		
+		<stages>
+			<li>
+				<minSeverity>0</minSeverity>
+				<label>minimal</label>
+			</li>
+			<li>
+				<minSeverity>0.25</minSeverity>
+				<label>minor</label>
+				<statOffsets>
+					<MentalBreakThreshold>0.03</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.5</minSeverity>
+				<label>major</label>
+				<statOffsets>
+					<MentalBreakThreshold>0.06</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>0.75</minSeverity>
+				<label>extreme</label>
+				<statOffsets>
+					<MentalBreakThreshold>0.09</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+			<li>
+				<minSeverity>1</minSeverity>
+				<label>terminal</label>
+				<statOffsets>
+					<MentalBreakThreshold>0.12</MentalBreakThreshold>
+				</statOffsets>
+			</li>
+		</stages>
+		
+		<comps>
+			<li Class="YaomaStorytellers.HediffCompProperties_CrimsonPsychosis">
+				<compClass>YaomaStorytellers.HediffComp_CrimsonPsychosis</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+
+</Defs>

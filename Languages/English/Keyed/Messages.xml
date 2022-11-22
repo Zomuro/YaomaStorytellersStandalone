@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  
+	<KaiyiKarmicIncidentNum>{0}/5 incidents selected.</KaiyiKarmicIncidentNum>
+	<MessageKaiyiKarmicIncidentNum>{0}/5 incidents selected.</MessageKaiyiKarmicIncidentNum>
+	<MessageKaiyiKarmicIncidentsFilled>All incidents slots are filled. Remove an incident or submit your offer.</MessageKaiyiKarmicIncidentsFilled>
+	<MessageKarmaTradeRemoveSelected>Removed incident from selection: {0}</MessageKarmaTradeRemoveSelected>
+	<MessageKarmaTradeEnd>The deal is concluded.</MessageKarmaTradeEnd>
+
+</LanguageData>

@@ -1,0 +1,23 @@
+<LanguageData> 
+	
+	<!-- Dialog_KarmaTrade -->
+	<KarmaTradeFates>Fates</KarmaTradeFates>
+	<KarmaTradeFatesSelected>Selection</KarmaTradeFatesSelected>
+	<KarmaTradeOverallKarma>Current karma: {0}\n\nFinal karma: {1}</KarmaTradeOverallKarma>
+	
+	<KarmaTradeIncidentCount>{0}/5</KarmaTradeIncidentCount>
+	
+	
+	<KarmaTradeDebtResolution>With your negative karma balance, you could trigger Kaiyi's "debt resolution" service. In that scenario, terrible events would occur beyond your control.\n\nDo you still wish to gamble your fate?</KarmaTradeDebtResolution>
+	<KarmaTradeDebtResolutionReturn>Return</KarmaTradeDebtResolutionReturn>
+	<KarmaTradeDebtResolutionConfirm>Confirm</KarmaTradeDebtResolutionConfirm>
+	
+	<KarmaTradeMakeOffer>Make offer</KarmaTradeMakeOffer>
+	
+	<!--
+	<KarmaTradeNoFatesSelected>No fate selected.\n\nCurrent karma: {0}</KarmaTradeNoFatesSelected>
+	<KarmaTradeCurrentKarma>Current karma: {0}</KarmaTradeCurrentKarma>
+	<KarmaTradeFinalKarma>Final karma: {0}</KarmaTradeFinalKarma>
+	-->
+	
+ </LanguageData>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  
+	<YaomaStorytellersSettings>Yaoma Storytellers (Standalone)</YaomaStorytellersSettings>
+	<YS_SettingsDeathlessDaji>Deathless Daji</YS_SettingsDeathlessDaji>
+	<YS_SettingsKaiyiKarmic>Kaiyi the Karmic</YS_SettingsKaiyiKarmic>
+	<YS_SettingsFarseerFan>Farseer Fan</YS_SettingsFarseerFan>
+
+	<YS_SettingsDajiResurrectMechs>Disable mech resurrection: {0}</YS_SettingsDajiResurrectMechs>
+	<YS_SettingsDajiResurrectMechsTooltip>Allows Deathless Daji to resurrect mechanoids in addition to flesh and bone pawns.</YS_SettingsDajiResurrectMechsTooltip>
+	<YS_SettingsDajiResurrectWeapons>Disable weapon retrieval: {0}</YS_SettingsDajiResurrectWeapons>
+	<YS_SettingsDajiResurrectWeaponsTooltip>Prevent pawns from retrieving a weapon in their immediate vicinity upon resurrection.</YS_SettingsDajiResurrectWeaponsTooltip>
+	<YS_SettingsDajiCrimsonSeverityGain>Crimson Psychosis severity gain: {0}</YS_SettingsDajiCrimsonSeverityGain>
+	<YS_SettingsDajiCrimsonSeverityGainTooltip>Alter how far a pawn's Crimson Psychosis progresses upon his or her resurrection.</YS_SettingsDajiCrimsonSeverityGainTooltip>
+	
+	<YS_SettingsFanGrace>Grace period factor: {0}x</YS_SettingsFanGrace>
+	<YS_SettingsFanGraceTooltip>Multiplies the minimum in-game days before Farseer Fan begins to tell the future.</YS_SettingsFanGraceTooltip>
+	<YS_SettingsFanPredict>Prediction period factor: {0}x</YS_SettingsFanPredict>
+	<YS_SettingsFanPredictTooltip>Sets the multiplier on mtbdays that defines the maximum time Farseer Fan can forecast out.</YS_SettingsFanPredictTooltip>
+	<YS_SettingsFanPredictDetail>Add hours to predictions: {0}</YS_SettingsFanPredictDetail>
+	<YS_SettingsFanPredictDetailTooltip>Make predictions more specific by adding which hour an incident will occur.</YS_SettingsFanPredictDetailTooltip>
+
+	<YS_SettingsKaiyiStart>Initial karma: {0}</YS_SettingsKaiyiStart>
+	<YS_SettingsKaiyiStartTooltip>The amount of karma a player starts with in a game. Only works when beginning the game with Kaiyi.</YS_SettingsKaiyiStartTooltip>
+	<YS_SettingsKaiyiCostFactor>Fate cost factor: {0}x</YS_SettingsKaiyiCostFactor>
+	<YS_SettingsKaiyiCostFactorTooltip>A multiplier on incident prices.</YS_SettingsKaiyiCostFactorTooltip>
+	<YS_SettingsKaiyiPointFactorPos>Positive karma scaling factor: {0}x</YS_SettingsKaiyiPointFactorPos>
+	<YS_SettingsKaiyiPointFactorPosTooltip>Alters the extent of the effect of positive karma on a incident's points, if it uses it.</YS_SettingsKaiyiPointFactorPosTooltip>
+	<YS_SettingsKaiyiPointFactorNeg>Negative karma scaling factor: {0}x</YS_SettingsKaiyiPointFactorNeg>
+	<YS_SettingsKaiyiPointFactorNegTooltip>Alters the extent of the effect of negative karma on a incident's points, if it uses it.</YS_SettingsKaiyiPointFactorNegTooltip>
+
+</LanguageData>

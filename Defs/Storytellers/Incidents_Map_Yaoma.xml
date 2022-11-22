@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<IncidentDef> <!-- Deathless Daji's exclusive incident -->
+		<defName>Resurrection_Yaoma</defName>
+		<label>resurrection</label>
+		<category>Special</category>
+		<targetTags>
+			<li>Map_PlayerHome</li>
+			<li>Map_TempIncident</li>
+			<li>Map_Misc</li>
+			<li>Map_RaidBeacon</li>
+		</targetTags>
+		<workerClass>YaomaStorytellers.IncidentWorker_Resurrection_Daji</workerClass>
+		<pawnHediff>DeathlessDaji_Hediff_Yaoma</pawnHediff>
+		<minThreatPoints>0.3</minThreatPoints> <!-- used to set severity adjustment each time it occurs to relevant pawns -->
+	</IncidentDef>
+	
+	<!-- Kaiyi the Karmic's exlusive incident -->
+	<IncidentDef> 
+		<defName>KarmaTrade_Yaoma</defName>
+		<label>karmic deal</label>
+		<category>Special</category>
+		<targetTags>
+			<li>Map_PlayerHome</li>
+		</targetTags>
+		<workerClass>YaomaStorytellers.IncidentWorker_KarmaTrade_Kaiyi</workerClass>
+	</IncidentDef>
+
+  
+</Defs>
