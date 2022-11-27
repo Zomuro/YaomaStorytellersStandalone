@@ -15,7 +15,7 @@ namespace YaomaStorytellers
 
         public float FarseerFanGracePeriodFactor = 1f;
 
-        public float FarseerFanMaxPeriodFactor = 4f;
+        public float FarseerFanMaxPeriodFactor = 5f;
 
         public bool FarseerFanPredictionDetail = false;
 
@@ -150,14 +150,19 @@ namespace YaomaStorytellers
             listing.Label("Farseer Fan");
             Text.Font = GameFont.Small;
             listing.GapLine();
-            listing.Label("YS_SettingsFanGrace".Translate(settings.FarseerFanGracePeriodFactor.ToString("F2")), -1,
+            string days = GenDate.ToStringTicksToDays((int)(0.95f * 60000 * settings.FarseerFanGracePeriodFactor), "F2");
+            listing.Label("YS_SettingsFanGrace".Translate(days), -1,
                 "YS_SettingsFanGraceTooltip".Translate());
             settings.FarseerFanGracePeriodFactor = listing.Slider((float)settings.FarseerFanGracePeriodFactor, 0f, 5f);
-            listing.Label("YS_SettingsFanPredict".Translate(settings.FarseerFanMaxPeriodFactor.ToString("F2")), -1,
+
+            string days2 = GenDate.ToStringTicksToDays((int)(1.15f * 60000 * settings.FarseerFanMaxPeriodFactor), "F2");
+            listing.Label("YS_SettingsFanPredict".Translate(days2), -1,
                 "YS_SettingsFanPredictTooltip".Translate());
             settings.FarseerFanMaxPeriodFactor = listing.Slider((float)settings.FarseerFanMaxPeriodFactor, 2f, 10f);
             listing.CheckboxLabeled("YS_SettingsFanPredictDetail".Translate(settings.FarseerFanPredictionDetail.ToString()),
                 ref settings.FarseerFanPredictionDetail, "YS_SettingsFanPredictDetailTooltip".Translate());
+
+            GenDate.ToStringTicksToDays(10);
 
             listing.Gap(16f);
             if (listing.ButtonText("Reset to default"))
