@@ -13,10 +13,10 @@
 	<YS_SettingsDajiCrimsonSeverityGain>Crimson Psychosis severity gain: {0}</YS_SettingsDajiCrimsonSeverityGain>
 	<YS_SettingsDajiCrimsonSeverityGainTooltip>Alter how far a pawn's Crimson Psychosis progresses upon his or her resurrection.</YS_SettingsDajiCrimsonSeverityGainTooltip>
 	
-	<YS_SettingsFanGrace>Grace period factor: {0}x</YS_SettingsFanGrace>
-	<YS_SettingsFanGraceTooltip>Multiplies the minimum in-game days before Farseer Fan begins to tell the future.</YS_SettingsFanGraceTooltip>
-	<YS_SettingsFanPredict>Prediction period factor: {0}x</YS_SettingsFanPredict>
-	<YS_SettingsFanPredictTooltip>Sets the multiplier on mtbdays that defines the maximum time Farseer Fan can forecast out.</YS_SettingsFanPredictTooltip>
+	<YS_SettingsFanGrace>Grace period: {0}</YS_SettingsFanGrace>
+	<YS_SettingsFanGraceTooltip>The minimum in-game days before Farseer Fan begins to tell the future at the start of the game.\n\nIncreasing this value will cause Farseer Fan to take longer at the start of the game before she starts predicting incidents (i.e. from one day to four days). Decreasing this value will shorten the period of time at the start of the game before she predicts any incidents.\n\nWARNING! It is not recommended to set this value too low- it will force only diseases to be predicted.</YS_SettingsFanGraceTooltip>
+	<YS_SettingsFanPredict>Max prediction period: {0}</YS_SettingsFanPredict>
+	<YS_SettingsFanPredictTooltip>Defines the maximum time Farseer Fan can forecast out.\n\nIncreasing this can cause Farseer Fan to predict incidents that are farther in the future (i.e. from five days to 15 days), while decreasing it limits how far.\n\nWARNING! It is not recommended to set this value too high, as it can cause long periods without any incidents. Likewise, setting this too low can force incidents to occur too frequently.</YS_SettingsFanPredictTooltip>
 	<YS_SettingsFanPredictDetail>Add hours to predictions: {0}</YS_SettingsFanPredictDetail>
 	<YS_SettingsFanPredictDetailTooltip>Make predictions more specific by adding which hour an incident will occur.</YS_SettingsFanPredictDetailTooltip>
 

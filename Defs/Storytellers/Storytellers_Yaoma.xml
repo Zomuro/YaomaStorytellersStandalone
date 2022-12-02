@@ -13,9 +13,9 @@
 				<allowedTargetTags>
 				  <li>Map_PlayerHome</li>
 				</allowedTargetTags>
-				<minDaysPassed>0.9</minDaysPassed>
-				<mtbDays>1.1</mtbDays>
-				<maxThreatBigIntervalDays>9</maxThreatBigIntervalDays>
+				<minDaysPassed>0.95</minDaysPassed>
+				<mtbDays>1.15</mtbDays>
+				<maxThreatBigIntervalDays>10</maxThreatBigIntervalDays>
 				<minIncChancePopulationIntentFactor>0.2</minIncChancePopulationIntentFactor>
 				<randomPointsFactorRange>0.75~1.75</randomPointsFactorRange>
 				<skipThreatBigIfRaidBeacon>true</skipThreatBigIfRaidBeacon>
