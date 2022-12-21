@@ -89,6 +89,7 @@ namespace YaomaStorytellers
                     break;
 
                 case Tab.KaiyiKarmic:
+                    Widgets.DrawTextureFitted(otherTwoThird, ContentFinder<Texture2D>.Get("UI/Storytellers/KaiyiKarmic", true), 0.9f);
                     //KaiyiKarmicSettings(ref listing);
                     break;
 
