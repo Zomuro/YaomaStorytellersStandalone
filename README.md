@@ -11,11 +11,15 @@ Survive their challenges, and you just may seize victory against the archotechs.
 
 ## Storytellers
 ### Farseer Fan
+![Farseer Fan](Textures/UI/Storytellers/FarseerFan.png?raw=true "Farseer Fan")
+
 *“Follow, divert, resist your flowing time- let the stars witness your fate.”*
 
 **Farseer Fan** will grant you visions of the future to come: you'll know what incidents will occur in advance. In exchange, she only asks to challenge you, increasing the difficulty of negative events as well as the frequency of incidents in general. Such is the price of knowing capricious fate, as the stars decreed.
 
 ### Kaiyi the Karmic
+![Kaiyi the Karmic](Textures/UI/Storytellers/KaiyiKarmic.png?raw=true "Kaiyi the Karmic")
+
 *“Significant customer lifetime value. Expect new capital.”*
 
 **Kaiyi the Karmic** appreciates a good deal. Random negative events payout karma, which can be spent to purchase beneficial or neutral events when negotiating with Kaiyi. Only negative events you have chosen grant their full karma, though, and event prices follow demand. Take care not to become a debtor, lest he employs some… reconciliation services.
