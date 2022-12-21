@@ -141,8 +141,8 @@
 		<defName>KaiyiKarmic_Yaoma</defName>
 		<label>Kaiyi the Karmic</label>
 		<description>Kaiyi the Karmic appreciates a good deal. Random negative events payout karma, which can be spent to purchase beneficial or neutral events when negotiating with Kaiyi. Only negative events you have chosen grant their full karma, though, and event prices follow demand. Take care not to become a debtor, lest he employs some… reconciliation services.\n\nKaiyi also reserves the right to increase incident frequency, influence certain incidents with the weight of karma, and adjust the prevalence of negative events; otherwise, he lets fate run its chaotic, random course.</description>
-		<portraitLarge>UI/Storytellers/FarseerFan</portraitLarge>
-		<portraitTiny>UI/Storytellers/FarseerFan_Tiny</portraitTiny>
+		<portraitLarge>UI/Storytellers/KaiyiKarmic</portraitLarge>
+		<portraitTiny>UI/Storytellers/KaiyiKarmic_Tiny</portraitTiny>
 		<listOrder>40</listOrder>
 		<comps>	
 		  <!-- Home all -->

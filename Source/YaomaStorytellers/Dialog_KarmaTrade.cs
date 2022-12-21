@@ -28,7 +28,7 @@ namespace YaomaStorytellers
 		public Dialog_KarmaTrade(IEnumerable<DebugMenuOption> options) : base(options)
 		{
 			this.options = options.ToList();
-			this.KarmaRing = ContentFinder<Texture2D>.Get("UI/Dialogs/KarmaRing", true);
+			this.KarmaRing = ContentFinder<Texture2D>.Get("UI/Dialogs/KaiyiKarmicRing", true);
 			this.karmaTracker = Find.Storyteller.storytellerComps.FirstOrDefault(x =>
 						x is StorytellerComp_KarmaTracker) as StorytellerComp_KarmaTracker;
 		}
