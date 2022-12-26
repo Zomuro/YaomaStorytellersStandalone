@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -12,6 +13,7 @@ namespace YaomaStorytellers
 		{
 			// grabs all the corpses on the target map, and for every corpse
 			Map map = (Map)parms.target;
+			List<Pawn> pawns = new List<Pawn>();
 			foreach (Corpse c in (from x in map.listerThings.ThingsInGroup(ThingRequestGroup.Corpse) select (Corpse)x).ToList())
 			{
 				// mechanoid check - if settings don't allow it, don't resurrect mechanoids
@@ -25,13 +27,17 @@ namespace YaomaStorytellers
 				// resurrect (w/o side effects for now)
 				ResurrectionUtility.Resurrect(c.InnerPawn);
 
+				pawns.Add(pawn);
 				// nab nearest weapon that the pawn can find in the 8 cells around it
-				if(!pawn.RaceProps.IsMechanoid && !YaomaStorytellerUtility.settings.DajiRetrieveWeaponsDisable)
-					pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Equip, FindNearestWeapon(pawn)));
+				if (!pawn.RaceProps.IsMechanoid && !YaomaStorytellerUtility.settings.DajiRetrieveWeaponsDisable)
+                {
+					Thing found = FindNearestWeapon(pawn);
+					if(found != null) pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Equip, FindNearestWeapon(found)));
+				}
 			}
 
 			base.SendStandardLetter("LetterLabelDeathlessDaji".Translate(), "LetterDeathlessDaji".Translate(),
-				LetterDefOf.NegativeEvent, parms, null,	Array.Empty<NamedArgument>());
+				LetterDefOf.NegativeEvent, parms, pawns, Array.Empty<NamedArgument>());
 			return true;
 		}
 
