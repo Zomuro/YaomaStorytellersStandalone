@@ -15,8 +15,6 @@ namespace YaomaStorytellers
 
         public float FarseerFanGracePeriodFactor = 1f;
 
-        public float FarseerFanMaxPeriodFactor = 5f;
-
         public bool FarseerFanPredictionDetail = false;
 
         public float KaiyiKarmicKarma = 0f;
@@ -37,7 +35,6 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref DajiRetrieveWeaponsDisable, "DajiRetrieveWeaponsDisable", false);
             Scribe_Values.Look(ref DajiCrimsonSeverityGain, "DajiCrimsonSeverityGain", 0.3f);
             Scribe_Values.Look(ref FarseerFanGracePeriodFactor, "FarseerFanGracePeriodFactor", 1f);
-            Scribe_Values.Look(ref FarseerFanMaxPeriodFactor, "FarseerFanMaxPeriodFactor", 4f);
             Scribe_Values.Look(ref FarseerFanPredictionDetail, "FarseerFanPredictionDetail", false);
             Scribe_Values.Look(ref KaiyiKarmicKarma, "KaiyiKarmicKarma", 0f);
             Scribe_Values.Look(ref KaiyiKarmicBasePriceFactor, "KaiyiKarmicBasePriceFactor", 1f);
@@ -90,7 +87,6 @@ namespace YaomaStorytellers
 
                 case Tab.KaiyiKarmic:
                     Widgets.DrawTextureFitted(otherTwoThird, ContentFinder<Texture2D>.Get("UI/Storytellers/KaiyiKarmic", true), 0.9f);
-                    //KaiyiKarmicSettings(ref listing);
                     break;
 
                 case Tab.DeathlessDaji:
@@ -130,7 +126,6 @@ namespace YaomaStorytellers
                 settings.DajiRetrieveWeaponsDisable = false;
                 settings.DajiCrimsonSeverityGain = 0.3f;
                 settings.FarseerFanGracePeriodFactor = 1f;
-                settings.FarseerFanMaxPeriodFactor = 4f;
                 settings.FarseerFanPredictionDetail = false;
                 settings.KaiyiKarmicKarma = 0f;
                 settings.KaiyiKarmicBasePriceFactor = 1f;
@@ -151,25 +146,18 @@ namespace YaomaStorytellers
             listing.Label("Farseer Fan");
             Text.Font = GameFont.Small;
             listing.GapLine();
-            string days = GenDate.ToStringTicksToDays((int)(0.95f * 60000 * settings.FarseerFanGracePeriodFactor), "F2");
+            float minDays = FarseerFan_RandomMain != null ? FarseerFan_RandomMain.minDaysPassed : 0.95f;
+            string days = GenDate.ToStringTicksToDays((int)(minDays * 60000 * settings.FarseerFanGracePeriodFactor), "F2");
             listing.Label("YS_SettingsFanGrace".Translate(days), -1,
                 "YS_SettingsFanGraceTooltip".Translate());
             settings.FarseerFanGracePeriodFactor = listing.Slider((float)settings.FarseerFanGracePeriodFactor, 0f, 5f);
-
-            string days2 = GenDate.ToStringTicksToDays((int)(1.15f * 60000 * settings.FarseerFanMaxPeriodFactor), "F2");
-            listing.Label("YS_SettingsFanPredict".Translate(days2), -1,
-                "YS_SettingsFanPredictTooltip".Translate());
-            settings.FarseerFanMaxPeriodFactor = listing.Slider((float)settings.FarseerFanMaxPeriodFactor, 2f, 10f);
             listing.CheckboxLabeled("YS_SettingsFanPredictDetail".Translate(settings.FarseerFanPredictionDetail.ToString()),
                 ref settings.FarseerFanPredictionDetail, "YS_SettingsFanPredictDetailTooltip".Translate());
-
-            GenDate.ToStringTicksToDays(10);
 
             listing.Gap(16f);
             if (listing.ButtonText("Reset to default"))
             {
                 settings.FarseerFanGracePeriodFactor = 1f;
-                settings.FarseerFanMaxPeriodFactor = 4f;
                 settings.FarseerFanPredictionDetail = false;
             }
         }
@@ -235,9 +223,24 @@ namespace YaomaStorytellers
             return "YaomaStorytellersSettings".Translate();
         }
 
+        // get StorytellerComp_RandomMain of Farseer Fan
+        public StorytellerCompProperties_RandomMain FarseerFan_RandomMain
+        {
+            get
+            {
+                if(compPropRandomMain == null)
+                {
+                    compPropRandomMain = StorytellerDefOf.FarseerFan_Yaoma.comps.FirstOrDefault(x => x.GetType() == typeof(StorytellerCompProperties_RandomMain)) as StorytellerCompProperties_RandomMain;
+                }
+                return compPropRandomMain;
+            }
+        }
+
         private static List<TabRecord> tabsList = new List<TabRecord>();
 
         private Tab tab;
+
+        private StorytellerCompProperties_RandomMain compPropRandomMain = null;
 
         private enum Tab
         {
