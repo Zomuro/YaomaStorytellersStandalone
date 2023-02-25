@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using Verse;
+using UnityEngine;
 
 namespace YaomaStorytellers
 {
@@ -195,6 +196,32 @@ namespace YaomaStorytellers
                     storyteller.TryFire(fi);
                 }
             }
+        }
+
+        public static bool DeathlessDajiDefUtility(StorytellerDef storytellerDef)
+        {
+            if (settings.DajiBloodyPortrait && storytellerDef == StorytellerDefOf.DeathlessDaji_Yaoma && 
+                storytellerDef.HasModExtension<StorytellerDajiToggle_ModExtension>())
+            {
+                StorytellerDajiToggle_ModExtension extension = storytellerDef.GetModExtension<StorytellerDajiToggle_ModExtension>();
+                if (extension is null || extension.portraitTinyAlt.NullOrEmpty() || extension.portraitLargeAlt.NullOrEmpty())
+                {
+                    return true;
+                }
+
+                LongEventHandler.ExecuteWhenFinished(delegate
+                {
+                    storytellerDef.portraitTinyTex = ContentFinder<Texture2D>.Get(extension.portraitTinyAlt, true);
+                    storytellerDef.portraitLargeTex = ContentFinder<Texture2D>.Get(extension.portraitLargeAlt, true);
+                });
+                for (int i = 0; i < storytellerDef.comps.Count; i++)
+                {
+                    storytellerDef.comps[i].ResolveReferences(storytellerDef);
+                }
+                return false;
+            }
+
+            return true;
         }
 
         // random ending parts for the "Stellar augury" letter

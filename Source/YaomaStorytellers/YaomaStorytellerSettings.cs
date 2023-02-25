@@ -13,6 +13,8 @@ namespace YaomaStorytellers
 
         public float DajiCrimsonSeverityGain = 0.3f;
 
+        public bool DajiBloodyPortrait = false;
+
         public float FarseerFanGracePeriodFactor = 1f;
 
         public bool FarseerFanPredictionDetail = false;
@@ -25,23 +27,24 @@ namespace YaomaStorytellers
 
         public float KaiyiKarmicScalingNegative = 1f;
 
-        public float KaiyiKarmicThresholdEndgamePositive = 500f;
+        /*public float KaiyiKarmicThresholdEndgamePositive = 500f;
 
-        public float KaiyiKarmicThresholdEndgameNegative = -500f;
+        public float KaiyiKarmicThresholdEndgameNegative = -500f;*/
 
         public override void ExposeData()
         {
             Scribe_Values.Look(ref DajiRessurectMechsDisable, "DajiRessurectMechsDisable", false);
             Scribe_Values.Look(ref DajiRetrieveWeaponsDisable, "DajiRetrieveWeaponsDisable", false);
             Scribe_Values.Look(ref DajiCrimsonSeverityGain, "DajiCrimsonSeverityGain", 0.3f);
+            Scribe_Values.Look(ref DajiBloodyPortrait, "DajiBloodyPortrait", false);
             Scribe_Values.Look(ref FarseerFanGracePeriodFactor, "FarseerFanGracePeriodFactor", 1f);
             Scribe_Values.Look(ref FarseerFanPredictionDetail, "FarseerFanPredictionDetail", false);
             Scribe_Values.Look(ref KaiyiKarmicKarma, "KaiyiKarmicKarma", 0f);
             Scribe_Values.Look(ref KaiyiKarmicBasePriceFactor, "KaiyiKarmicBasePriceFactor", 1f);
             Scribe_Values.Look(ref KaiyiKarmicScalingPositive, "KaiyiKarmicPointScalingPositive", 0.25f);
             Scribe_Values.Look(ref KaiyiKarmicScalingNegative, "KaiyiKarmicPointScalingNegative", 1f);
-            Scribe_Values.Look(ref KaiyiKarmicThresholdEndgamePositive, "KaiyiKarmicThresholdEndgamePositive", 500f);
-            Scribe_Values.Look(ref KaiyiKarmicThresholdEndgameNegative, "KaiyiKarmicThresholdEndgameNegative", -500f);
+            /*Scribe_Values.Look(ref KaiyiKarmicThresholdEndgamePositive, "KaiyiKarmicThresholdEndgamePositive", 500f);
+            Scribe_Values.Look(ref KaiyiKarmicThresholdEndgameNegative, "KaiyiKarmicThresholdEndgameNegative", -500f);*/
             base.ExposeData();
         }
     }
@@ -125,14 +128,16 @@ namespace YaomaStorytellers
                 settings.DajiRessurectMechsDisable = false;
                 settings.DajiRetrieveWeaponsDisable = false;
                 settings.DajiCrimsonSeverityGain = 0.3f;
+                settings.DajiBloodyPortrait = false;
+                StorytellerDefOf.DeathlessDaji_Yaoma.ResolveReferences();
                 settings.FarseerFanGracePeriodFactor = 1f;
                 settings.FarseerFanPredictionDetail = false;
                 settings.KaiyiKarmicKarma = 0f;
                 settings.KaiyiKarmicBasePriceFactor = 1f;
                 settings.KaiyiKarmicScalingPositive = 0.25f;
                 settings.KaiyiKarmicScalingNegative = 1f;
-                settings.KaiyiKarmicThresholdEndgamePositive = 500f;
-                settings.KaiyiKarmicThresholdEndgameNegative = -500f;
+                /*settings.KaiyiKarmicThresholdEndgamePositive = 500f;
+                settings.KaiyiKarmicThresholdEndgameNegative = -500f;*/
             }
             listing.End();
             
@@ -189,8 +194,8 @@ namespace YaomaStorytellers
                 settings.KaiyiKarmicBasePriceFactor = 1f;
                 settings.KaiyiKarmicScalingPositive = 0.25f;
                 settings.KaiyiKarmicScalingNegative = 1f;
-                settings.KaiyiKarmicThresholdEndgamePositive = 500f;
-                settings.KaiyiKarmicThresholdEndgameNegative = -500f;
+                /*settings.KaiyiKarmicThresholdEndgamePositive = 500f;
+                settings.KaiyiKarmicThresholdEndgameNegative = -500f;*/
             }
         }
 
@@ -209,12 +214,24 @@ namespace YaomaStorytellers
                 "YS_SettingsDajiCrimsonSeverityGainTooltip".Translate());
             settings.DajiCrimsonSeverityGain = listing.Slider((float)settings.DajiCrimsonSeverityGain, 0.1f, 1f);
 
+            bool orgToggle = settings.DajiBloodyPortrait;
+            listing.CheckboxLabeled("YS_SettingsDajiBloodyPortrait".Translate(settings.DajiBloodyPortrait.ToString()),
+                ref settings.DajiBloodyPortrait, "YS_SettingsDajiBloodyPortraitTooltip".Translate());
+
+            if(orgToggle != settings.DajiBloodyPortrait || !initalizedDaji)
+            {
+                StorytellerDefOf.DeathlessDaji_Yaoma.ResolveReferences();
+                initalizedDaji = true;
+            }
+
             listing.Gap(16f);
             if (listing.ButtonText("Reset to default"))
             {
                 settings.DajiRessurectMechsDisable = false;
                 settings.DajiRetrieveWeaponsDisable = false;
                 settings.DajiCrimsonSeverityGain = 0.3f;
+                settings.DajiBloodyPortrait = false;
+                StorytellerDefOf.DeathlessDaji_Yaoma.ResolveReferences();
             }
         }
 
@@ -248,5 +265,7 @@ namespace YaomaStorytellers
             KaiyiKarmic,
             DeathlessDaji
         }
+
+        private bool initalizedDaji = false;
     }
 }
