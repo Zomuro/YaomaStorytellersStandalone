@@ -27,7 +27,7 @@ Survive their challenges, and you just may seize victory against the archotechs.
 **Kaiyi** also reserves the right to increase incident frequency, influence certain incidents with the weight of karma, and adjust the prevalence of negative events; otherwise, he lets fate run its chaotic, random course.
 
 ### Deathless Daji
-![Deathless Daji](Textures/UI/Storytellers/DeathlessDaji.png?raw=true "Deathless Daji")
+![Deathless Daji](Textures/UI/Storytellers/DeathlessDajiClean.png?raw=true "Deathless Daji")
 
 *“Courting death? I married her!”*
 
