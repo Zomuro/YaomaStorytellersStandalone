@@ -11,9 +11,10 @@ namespace YaomaStorytellers
         public static bool FarseerFanUtility(Storyteller storyteller)
         {
             // check if there's nothing in the incident queue every 1000 ticks
-            if (storyteller.incidentQueue.Count == 0 && Find.TickManager.TicksGame % 1000 == 0)
+            if (Find.TickManager.TicksGame % 1000 == 0 && storyteller.incidentQueue.Count == 0)
             {
                 // if the gameticks <= minDaysPassed in StorytellerCompProperties_RandomMain, don't predict events at all
+                // simulate grace period
                 StorytellerCompProperties_RandomMain r = (StorytellerCompProperties_RandomMain)storyteller.def.comps.
                     FirstOrDefault(x => x.GetType() == typeof(StorytellerCompProperties_RandomMain));
                 if (Find.TickManager.TicksGame <= r.minDaysPassed * 60000 * settings.FarseerFanGracePeriodFactor) return false;
@@ -23,7 +24,7 @@ namespace YaomaStorytellers
                 FarseerFanSimulate(storyteller, ref fi_sim, ref counter);
 
                 // if the counted cycles > (the number of cycles in mtbDays * max period factor), retry next cycle
-                if (counter > r.mtbDays * 60 * settings.FarseerFanMaxPeriodFactor) return false;
+                //if (counter > r.mtbDays * 60 * settings.FarseerFanMaxPeriodFactor) return false;
 
                 // properly set the incident time
                 FarseerFanQueue(storyteller, fi_sim, counter);

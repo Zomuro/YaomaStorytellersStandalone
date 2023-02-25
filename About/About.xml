@@ -13,11 +13,24 @@ Of these immortals, at least three of them have more than a passing interest in 
 Survive their challenges, and you just may seize victory against the archotechs.
 
 My warmest thanks go to:
-Vex, for the incredible storyteller art;
+Vex, for the incredible storyteller art of Farseer Fan as well as Kaiyi the Karmic;
+Visandar_the_Unliving, for his heart-stopping depiction of Deathless Daji;
 Gouda quiche, for his storyteller balance discussions and mod setting advice;
 Feldoh, for his aid in optimizing this mod and polishing storyteller design;
 Fraudecon, Argon, and Sovereign, for listening to my ramblings;
 Elseud and TheCatLover366, for aiding in editing descriptions and lore;
 And many others within the RimWorld community for your support!
 	</description>
+	
+	<modDependencies>
+		<li>
+			<packageId>brrainz.harmony</packageId>
+			<displayName>Harmony</displayName>
+			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases</downloadUrl>
+			<steamWorkshopUrl>https://steamcommunity.com/workshop/filedetails/?id=2009463077</steamWorkshopUrl>
+		</li>
+
+	</modDependencies>
+
+	
 </ModMetaData>
