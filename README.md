@@ -27,6 +27,8 @@ Survive their challenges, and you just may seize victory against the archotechs.
 **Kaiyi** also reserves the right to increase incident frequency, influence certain incidents with the weight of karma, and adjust the prevalence of negative events; otherwise, he lets fate run its chaotic, random course.
 
 ### Deathless Daji
+![Deathless Daji](Textures/UI/Storytellers/DeathlessDaji.png?raw=true "Deathless Daji")
+
 *“Courting death? I married her!”*
 
 **Deathless Daji** will resurrect all corpses at the end of the day- why should death be the end of all things? That doesn’t mean no risks, though: every resurrection she performs rots revived pawns with the dreaded **Crimson Psychosis**, maiming their mental stability. At full mind-blight, they’ll become berserk husks for eternity. 
@@ -37,7 +39,8 @@ Beyond that, he is a fervent believer of living in the moment, throwing in whate
 
 ## Credits
 My warmest thanks go to:
-* **Vex**, for the incredible storyteller art;
+* **Vex**, for the incredible storyteller art of Farseer Fan as well as Kaiyi the Karmic;
+* **Visandar_the_Unliving**, for his heart-stopping depiction of Deathless Daji;
 * **Gouda quiche**, for his storyteller balance discussions and mod setting advice;
 * **Feldoh**, for his aid in optimizing this mod and polishing storyteller design;
 * **Fraudecon, Argon, and Sovereign**, for listening to my ramblings;
