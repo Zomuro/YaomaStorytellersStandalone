@@ -282,9 +282,9 @@
     <StorytellerDef ParentName="BaseStoryteller"> <!-- Deathless Daji: resurrects all dead pawns, and afflicts them with Crimson Psychosis -->
 		<defName>DeathlessDaji_Yaoma</defName>
 		<label>Deathless Daji</label>
-		<description>Deathless Daji will resurrect all corpses at the end of the day- why should death be the end of all things? That doesn’t mean no risks, though: every resurrection she performs rots revived pawns with the dreaded Crimson Psychosis, maiming their consciousness. At full mind-blight, they’ll become a berserk husk for eternity.\n\nBeyond that, he is a fervent believer of living in the moment, throwing in whatever event catches her fancy.</description>
-		<portraitLarge>UI/Storytellers/FarseerFan</portraitLarge>
-		<portraitTiny>UI/Storytellers/FarseerFan_Tiny</portraitTiny>
+		<description>Deathless Daji will resurrect all corpses at the end of the day- why should death be the end of all things? That doesn’t mean no risks, though: every resurrection she performs rots revived pawns with the dreaded Crimson Psychosis, maiming their mental stability. At full mind-blight, they’ll become a berserk husk for eternity.\n\nBeyond that, he is a fervent believer of living in the moment, throwing in whatever event catches her fancy.</description>
+		<portraitLarge>UI/Storytellers/DeathlessDaji</portraitLarge>
+		<portraitTiny>UI/Storytellers/DeathlessDaji_Tiny</portraitTiny>
 		<listOrder>40</listOrder>
 		<comps>		
 		  <!-- Home all -->

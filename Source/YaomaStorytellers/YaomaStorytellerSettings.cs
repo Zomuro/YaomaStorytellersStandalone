@@ -82,15 +82,15 @@ namespace YaomaStorytellers
             switch (this.tab)
             {
                 case Tab.FarseerFan:
-                    Widgets.DrawTextureFitted(otherTwoThird, ContentFinder<Texture2D>.Get("UI/Storytellers/FarseerFan", true), 0.9f);
+                    Widgets.DrawTextureFitted(otherTwoThird, StorytellerDefOf.FarseerFan_Yaoma.portraitLargeTex, 0.9f);
                     break;
 
                 case Tab.KaiyiKarmic:
-                    Widgets.DrawTextureFitted(otherTwoThird, ContentFinder<Texture2D>.Get("UI/Storytellers/KaiyiKarmic", true), 0.9f);
+                    Widgets.DrawTextureFitted(otherTwoThird, StorytellerDefOf.KaiyiKarmic_Yaoma.portraitLargeTex, 0.9f);
                     break;
 
                 case Tab.DeathlessDaji:
-                    //DeathlessDajiSettings(ref listing);
+                    Widgets.DrawTextureFitted(otherTwoThird, StorytellerDefOf.DeathlessDaji_Yaoma.portraitLargeTex, 0.9f);
                     break;
 
                 default: break;
