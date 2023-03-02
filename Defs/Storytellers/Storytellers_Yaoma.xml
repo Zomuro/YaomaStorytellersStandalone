@@ -134,6 +134,8 @@
 				<incident>StrangerInBlackJoin</incident>
 				<delayTicks>180</delayTicks>
 			</li>
+			<!-- custom storyteller comps  -->
+			<li Class="YaomaStorytellers.StorytellerCompProperties_OnDemand"/>
 		</comps>
 	</StorytellerDef>
 	

@@ -19,6 +19,10 @@ namespace YaomaStorytellers
 
         public bool FarseerFanPredictionDetail = false;
 
+        public bool FarseerFanPredictAlt = false;
+
+        public bool FarseerFanPredictDefer = false;
+
         public float KaiyiKarmicKarma = 0f;
 
         public float KaiyiKarmicBasePriceFactor = 1f;
@@ -39,6 +43,8 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref DajiBloodyPortrait, "DajiBloodyPortrait", false);
             Scribe_Values.Look(ref FarseerFanGracePeriodFactor, "FarseerFanGracePeriodFactor", 1f);
             Scribe_Values.Look(ref FarseerFanPredictionDetail, "FarseerFanPredictionDetail", false);
+            Scribe_Values.Look(ref FarseerFanPredictAlt, "FarseerFanPredictAlt", false);
+            Scribe_Values.Look(ref FarseerFanPredictDefer, "FarseerFanPredictDefer", false);
             Scribe_Values.Look(ref KaiyiKarmicKarma, "KaiyiKarmicKarma", 0f);
             Scribe_Values.Look(ref KaiyiKarmicBasePriceFactor, "KaiyiKarmicBasePriceFactor", 1f);
             Scribe_Values.Look(ref KaiyiKarmicScalingPositive, "KaiyiKarmicPointScalingPositive", 0.25f);
@@ -132,6 +138,8 @@ namespace YaomaStorytellers
                 StorytellerDefOf.DeathlessDaji_Yaoma.ResolveReferences();
                 settings.FarseerFanGracePeriodFactor = 1f;
                 settings.FarseerFanPredictionDetail = false;
+                settings.FarseerFanPredictAlt = false;
+                settings.FarseerFanPredictDefer = false;
                 settings.KaiyiKarmicKarma = 0f;
                 settings.KaiyiKarmicBasePriceFactor = 1f;
                 settings.KaiyiKarmicScalingPositive = 0.25f;
@@ -159,11 +167,19 @@ namespace YaomaStorytellers
             listing.CheckboxLabeled("YS_SettingsFanPredictDetail".Translate(settings.FarseerFanPredictionDetail.ToString()),
                 ref settings.FarseerFanPredictionDetail, "YS_SettingsFanPredictDetailTooltip".Translate());
 
+            listing.GapLine();
+            listing.CheckboxLabeled("YS_SettingsFanPredictAlt".Translate(settings.FarseerFanPredictAlt.ToString()),
+                ref settings.FarseerFanPredictAlt, "YS_SettingsFanPredictAltTooltip".Translate());
+            listing.CheckboxLabeled("YS_SettingsFanPredictDefer".Translate(settings.FarseerFanPredictDefer.ToString()),
+                ref settings.FarseerFanPredictDefer, "YS_SettingsFanPredictDeferTooltip".Translate());
+
             listing.Gap(16f);
             if (listing.ButtonText("Reset to default"))
             {
                 settings.FarseerFanGracePeriodFactor = 1f;
                 settings.FarseerFanPredictionDetail = false;
+                settings.FarseerFanPredictAlt = false;
+                settings.FarseerFanPredictDefer = false;
             }
         }
 

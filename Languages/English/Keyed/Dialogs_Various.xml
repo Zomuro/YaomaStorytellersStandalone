@@ -14,6 +14,19 @@
 	
 	<KarmaTradeMakeOffer>Make offer</KarmaTradeMakeOffer>
 	
+	<!-- Dialog_MessageBox (Farseer Fan Alternative Incidents)-->
+	<YS_FarseerFanAltOffer>The stars foretell a divergence in fate- and so Farseer Fan calls upon you to make a choice.</YS_FarseerFanAltOffer>
+	<YS_FarseerFanOrgIncidText>Original incident(s):</YS_FarseerFanOrgIncidText>
+	<YS_FarseerFanAltIncidText>Alternative incident(s):</YS_FarseerFanAltIncidText>
+	<YS_FarseerFanOrgIncidSelect>Keep original incident(s)</YS_FarseerFanOrgIncidSelect>
+	<YS_FarseerFanAltIncidSelect>Take alternative incident(s)</YS_FarseerFanAltIncidSelect>
+	
+	<!-- Dialog_MessageBox (Farseer Fan Deferred Incidents)-->
+	<YS_FarseerFanDeferOffer>Fate approaches, but it may be diverted yet. Should you call upon Farseer Fan to intercede, she will defer this destiny for a time.\n\nBe forewarned though: fortune does not like to be cheated.</YS_FarseerFanDeferOffer>
+	<YS_FarseerFanDeferText>Incident(s):</YS_FarseerFanDeferText>
+	<YS_FarseerFanDeferSelect>Defer incident(s)</YS_FarseerFanDeferSelect>
+	<YS_FarseerFanDeferContinueSelect>Continue</YS_FarseerFanDeferContinueSelect>
+	
 	<!--
 	<KarmaTradeNoFatesSelected>No fate selected.\n\nCurrent karma: {0}</KarmaTradeNoFatesSelected>
 	<KarmaTradeCurrentKarma>Current karma: {0}</KarmaTradeCurrentKarma>

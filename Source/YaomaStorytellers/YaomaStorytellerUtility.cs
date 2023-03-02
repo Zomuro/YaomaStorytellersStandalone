@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using RimWorld;
 using Verse;
 using UnityEngine;
@@ -14,8 +15,7 @@ namespace YaomaStorytellers
             // check if there's nothing in the incident queue every 1000 ticks
             if (Find.TickManager.TicksGame % 1000 == 0 && storyteller.incidentQueue.Count == 0)
             {
-                // if the gameticks <= minDaysPassed in StorytellerCompProperties_RandomMain, don't predict events at all
-                // simulate grace period
+                // if the gameticks <= minDaysPassed, don't predict events at all; simulate grace period
                 StorytellerCompProperties_RandomMain r = (StorytellerCompProperties_RandomMain)storyteller.def.comps.
                     FirstOrDefault(x => x.GetType() == typeof(StorytellerCompProperties_RandomMain));
                 if (Find.TickManager.TicksGame <= r.minDaysPassed * 60000 * settings.FarseerFanGracePeriodFactor) return false;
@@ -24,11 +24,27 @@ namespace YaomaStorytellers
                 int counter = 0; List<FiringIncident> fi_sim = null;
                 FarseerFanSimulate(storyteller, ref fi_sim, ref counter);
 
-                // if the counted cycles > (the number of cycles in mtbDays * max period factor), retry next cycle
-                //if (counter > r.mtbDays * 60 * settings.FarseerFanMaxPeriodFactor) return false;
+                //switch case
+                switch (FarseerFanRandomCase())
+                {
+                    case 1: // original case- don't do much
+                        FarseerFanQueue(storyteller, fi_sim, counter);
+                        break;
+                    case 2:
+                        List<FiringIncident> alt_fi_sim = null;
+                        FarseerFanAltSim(storyteller, ref alt_fi_sim);
+                        FarseerFanOfferAlt(storyteller, fi_sim, alt_fi_sim, counter);
+                        break;
+                    case 3:
+                        StorytellerComp_OnDemand c = (StorytellerComp_OnDemand)storyteller.storytellerComps.
+                            FirstOrDefault(x => x.GetType() == typeof(StorytellerComp_OnDemand));
+                        FarseerFanOfferDefer(storyteller, fi_sim, counter, c);
+                        //FarseerFanQueue(storyteller, fi_sim, counter);
+                        break;
+                }
 
                 // properly set the incident time
-                FarseerFanQueue(storyteller, fi_sim, counter);
+                //FarseerFanQueue(storyteller, fi_sim, counter);
             }
             // ticks the incident queue- will automatically fire an incident at the right tick
             storyteller.incidentQueue.IncidentQueueTick();
@@ -48,6 +64,109 @@ namespace YaomaStorytellers
             }
         }
 
+        private static int FarseerFanRandomCase()
+        {
+            List<int> behavior = new List<int>() {1};
+            if (settings.FarseerFanPredictAlt) behavior.Add(2); // only if alterate incidents are enabled
+            if (settings.FarseerFanPredictDefer) behavior.Add(3); // only if deferred incidents are enabled
+
+            return behavior[rand.Next(behavior.Count)]; // return random case
+        }
+
+        private static void FarseerFanAltSim(Storyteller storyteller, ref List<FiringIncident> alt_fi_sim)
+        {
+            while (alt_fi_sim.EnumerableNullOrEmpty())
+            {
+                alt_fi_sim = storyteller.MakeIncidentsForInterval().ToList();
+                if (alt_fi_sim.Any()) break;
+            }
+        }
+
+        private static TaggedString FarseerFanAltText(List<FiringIncident> fi_sim, List<FiringIncident> alt_fi_sim)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("YS_FarseerFanAltOffer".Translate());
+
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine("YS_FarseerFanOrgIncidText".Translate());
+            foreach(var fi in fi_sim)
+            {
+                stringBuilder.AppendLine("\t-" + fi.def.LabelCap.ToString());
+            }
+
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine("YS_FarseerFanAltIncidText".Translate());
+            foreach (var fi in alt_fi_sim)
+            {
+                stringBuilder.AppendLine("\t-" + fi.def.LabelCap.ToString());
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        private static void FarseerFanOfferAlt(Storyteller storyteller, List<FiringIncident> fi_sim,
+            List<FiringIncident> alt_fi_sim, int counter)
+        {
+            Action original = delegate ()
+            {
+                FarseerFanQueue(storyteller, fi_sim, counter);
+            };
+
+            Action alternate = delegate () {
+                FarseerFanQueue(storyteller, alt_fi_sim, counter);
+            };
+
+            Find.WindowStack.Add(new Dialog_MessageBox(FarseerFanAltText(fi_sim, alt_fi_sim),
+                "YS_FarseerFanAltIncidSelect".Translate(), alternate,
+                "YS_FarseerFanOrgIncidSelect".Translate(), original)
+            { doCloseX = false, closeOnClickedOutside = false });
+        }
+
+        private static TaggedString FarseerFanDeferText(List<FiringIncident> fi_sim)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("YS_FarseerFanDeferOffer".Translate());
+
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine("YS_FarseerFanDeferText".Translate());
+            foreach (var fi in fi_sim)
+            {
+                stringBuilder.AppendLine("\t-" + fi.def.LabelCap.ToString());
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        private static FiringIncident FarseerFanThreat(Storyteller storyteller, StorytellerComp_OnDemand c, ref int temp_count)
+        {
+            List<FiringIncident> fi_sim_temp = null;
+            FarseerFanSimulate(storyteller, ref fi_sim_temp, ref temp_count);
+
+            IncidentDef randomDef = DefDatabase<IncidentDef>.AllDefs.Where(x => x.category == IncidentCategoryDefOf.ThreatBig ||
+                x.category == IncidentCategoryDefOf.ThreatSmall).RandomElement();
+            return c.MakeIncident(storyteller.AllIncidentTargets, randomDef);
+        }
+
+        private static void FarseerFanOfferDefer(Storyteller storyteller, List<FiringIncident> fi_sim, int counter, StorytellerComp_OnDemand c)
+        {
+            Action contIncid = delegate ()
+            {
+                FarseerFanQueue(storyteller, fi_sim, counter);
+            };
+
+            Action deferIncid = delegate () {
+                int add_counter = 0;
+                //FarseerFanThreat(storyteller, c, ref add_counter);
+                fi_sim.Add(FarseerFanThreat(storyteller, c, ref add_counter));
+                FarseerFanQueue(storyteller, fi_sim, counter + add_counter);
+            };
+
+            Find.WindowStack.Add(new Dialog_MessageBox(FarseerFanDeferText(fi_sim),
+                "YS_FarseerFanDeferSelect".Translate(), deferIncid,
+                "YS_FarseerFanDeferContinueSelect".Translate(), contIncid)
+            { doCloseX = false, closeOnClickedOutside = false });
+        }
+
         private static void FarseerFanQueue(Storyteller storyteller, List<FiringIncident> fi_sim, int counter)
         {
             int ticks = Find.TickManager.TicksGame + counter * 1000;
@@ -63,10 +182,15 @@ namespace YaomaStorytellers
 
                 // sends the "Stellar augury" letter to the player, letting them know what incident and when
                 Find.LetterStack.ReceiveLetter(LetterMaker.MakeLetter("LetterLabelFarseerFan".Translate(fi.def.label),
-                    "LetterFarseerFan".Translate(FarseerFanDate(ticksAbs, fi.parms.target.Tile), fi.def.label) + 
+                    "LetterFarseerFan".Translate(FarseerFanDate(ticksAbs, FarseerFanTileCheck(fi)), fi.def.label) + 
                         endings.RandomElement().Translate(),
                     LetterDefOf.NeutralEvent, null, null));
             }
+        }
+
+        private static int FarseerFanTileCheck(FiringIncident fi)
+        {
+            return fi.parms.target.Tile < 0 ? Find.CurrentMap.Tile : fi.parms.target.Tile;
         }
 
         private static string FarseerFanDate(long ticksAbs, int tileID)
@@ -231,5 +355,7 @@ namespace YaomaStorytellers
 
         // reference to settings in utility
         public static YaomaStorytellerSettings settings = LoadedModManager.GetMod<YaomaStorytellerMod>().GetSettings<YaomaStorytellerSettings>();
+
+        public static System.Random rand = new System.Random();
     }
 }

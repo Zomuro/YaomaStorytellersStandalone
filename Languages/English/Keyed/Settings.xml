@@ -21,6 +21,11 @@
 	<YS_SettingsFanPredictTooltip>Defines the maximum time Farseer Fan can forecast out.\n\nIncreasing this can cause Farseer Fan to predict incidents that are farther in the future (i.e. from five days to 15 days), while decreasing it limits how far.\n\nWARNING! It is not recommended to set this value too high, as it can cause long periods without any incidents. Likewise, setting this too low can force incidents to occur too frequently.</YS_SettingsFanPredictTooltip>
 	<YS_SettingsFanPredictDetail>Add hours to predictions: {0}</YS_SettingsFanPredictDetail>
 	<YS_SettingsFanPredictDetailTooltip>Make predictions more specific by adding which hour an incident will occur.</YS_SettingsFanPredictDetailTooltip>
+	
+	<YS_SettingsFanPredictAlt>Enable alternative predictions: {0}</YS_SettingsFanPredictAlt>
+	<YS_SettingsFanPredictAltTooltip>Allow Farseer Fan to randomly provide a choice to select an alternative set of incidents.</YS_SettingsFanPredictAltTooltip>
+	<YS_SettingsFanPredictDefer>Enable deferred predictions: {0}</YS_SettingsFanPredictDefer>
+	<YS_SettingsFanPredictDeferTooltip>Allow Farseer Fan to randomly provide a choice to defer incidents to a later time. If said postponement is selected, she will also add a negative incident.</YS_SettingsFanPredictDeferTooltip>
 
 	<YS_SettingsKaiyiStart>Initial karma: {0}</YS_SettingsKaiyiStart>
 	<YS_SettingsKaiyiStartTooltip>The amount of karma a player starts with in a game. Only works when beginning the game with Kaiyi.</YS_SettingsKaiyiStartTooltip>

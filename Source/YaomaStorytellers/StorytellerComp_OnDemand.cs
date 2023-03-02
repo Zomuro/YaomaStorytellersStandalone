@@ -20,7 +20,7 @@ namespace YaomaStorytellers
 			foreach (IIncidentTarget target in targets)
 			{
 				// if the incident type is null or target isn't allowed, continue to next target in list
-				if (this.Props.incident == null || !this.Props.incident.TargetAllowed(target))
+				if (incidentDef == null || !incidentDef.TargetAllowed(target))
 				{
 					continue;
 				}
@@ -29,10 +29,37 @@ namespace YaomaStorytellers
 				parms = this.GenerateParms(incidentDef.category, target);
 
 				// check if this incident can be fired
-				if (this.Props.incident.Worker.CanFireNow(parms))
+				if (incidentDef.Worker.CanFireNow(parms))
 				{
 					// returns a firing incident for later
 					return new FiringIncident(incidentDef, this, parms);
+				}
+
+			}
+			return null;
+		}
+
+		// unused for now
+		public FiringIncident MakeIncident(List<IIncidentTarget> targets)
+		{
+			IncidentParms parms;
+			// for each potential target type
+			foreach (IIncidentTarget target in targets)
+			{
+				// if the incident type is null or target isn't allowed, continue to next target in list
+				if (this.Props.incident == null || !this.Props.incident.TargetAllowed(target))
+				{
+					continue;
+				}
+
+				// create incident paramaters based on incident category
+				parms = this.GenerateParms(this.Props.incident.category, target);
+
+				// check if this incident can be fired
+				if (this.Props.incident.Worker.CanFireNow(parms))
+				{
+					// returns a firing incident for later
+					return new FiringIncident(this.Props.incident, this, parms);
 				}
 
 			}
