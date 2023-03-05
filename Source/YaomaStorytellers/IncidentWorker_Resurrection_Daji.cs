@@ -32,7 +32,8 @@ namespace YaomaStorytellers
 				if (!pawn.RaceProps.IsMechanoid && !YaomaStorytellerUtility.settings.DajiRetrieveWeaponsDisable)
                 {
 					Thing found = FindNearestWeapon(pawn);
-					if(found != null) pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Equip, FindNearestWeapon(found)));
+
+					if (found != null) pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Equip, found));
 				}
 			}
 
