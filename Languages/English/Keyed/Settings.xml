@@ -14,6 +14,11 @@
 	<YS_SettingsDajiCrimsonSeverityGainTooltip>Alter how far a pawn's Crimson Psychosis progresses upon his or her resurrection by Daji.</YS_SettingsDajiCrimsonSeverityGainTooltip>
 	<YS_SettingsDajiBloodyPortrait>View blood: {0}</YS_SettingsDajiBloodyPortrait>
 	<YS_SettingsDajiBloodyPortraitTooltip>Toggle between the clean version and the gory version of Deathless Daji's portrait. This setting will show the clean version by default.</YS_SettingsDajiBloodyPortraitTooltip>
+	<YS_SettingsDajiMurderSanity>Reduce severity on kill: {0}</YS_SettingsDajiMurderSanity>
+	<YS_SettingsDajiMurderSanityTooltip>Allow pawns to reduce the severity of their Crimson Psychosis by killing other pawns.</YS_SettingsDajiMurderSanityTooltip>
+	<YS_SettingsDajiMurderSanitySev>Severity reduction per kill: {0}</YS_SettingsDajiMurderSanitySev>
+	<YS_SettingsDajiMurderSanitySevTooltip>Alter how much each pawn kill reduces Crimson Psychosis severity.</YS_SettingsDajiMurderSanitySevTooltip>
+	
 	
 	<YS_SettingsFanGrace>Grace period: {0}</YS_SettingsFanGrace>
 	<YS_SettingsFanGraceTooltip>The minimum in-game days before Farseer Fan begins to tell the future at the start of the game.\n\nIncreasing this value will cause Farseer Fan to take longer at the start of the game before she starts predicting incidents (i.e. from one day to four days). Decreasing this value will shorten the period of time at the start of the game before she predicts any incidents.\n\nWARNING! It is not recommended to set this value too low- it will force only diseases to be predicted.</YS_SettingsFanGraceTooltip>

@@ -322,6 +322,7 @@ namespace YaomaStorytellers
             }
         }
 
+        // used to enable the storyteller image toggle function; when used, it switches between clean and bloody versions
         public static bool DeathlessDajiDefUtility(StorytellerDef storytellerDef)
         {
             if (settings.DajiBloodyPortrait && storytellerDef == StorytellerDefOf.DeathlessDaji_Yaoma && 
@@ -346,6 +347,15 @@ namespace YaomaStorytellers
             }
 
             return true;
+        }
+
+        // additional mechanic: killing pawns reduces madness
+        public static void DeathlessDajiMurderSanity(Pawn instigator)
+        {
+            if (instigator != null && settings.DajiMurderSanity && Find.Storyteller.def == StorytellerDefOf.DeathlessDaji_Yaoma)
+            {
+                HealthUtility.AdjustSeverity(instigator, HediffDefOf_Yaoma.DeathlessDaji_Hediff_Yaoma, settings.DajiMurderSanitySevReduce * -1f);
+            }
         }
 
         // random ending parts for the "Stellar augury" letter

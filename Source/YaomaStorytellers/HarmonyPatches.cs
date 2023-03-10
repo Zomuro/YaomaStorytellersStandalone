@@ -26,6 +26,11 @@ namespace YaomaStorytellers
             // prefix to enable togglable storyteller portraits (but hardcoded to Deathless Daji)
             harmony.Patch(AccessTools.Method(typeof(StorytellerDef), "ResolveReferences"),
                 new HarmonyMethod(typeof(HarmonyPatches), nameof(StorytellerDefDajiToggle_Prefix)));
+
+            // KillDaji_Post_Yaoma
+            // decrease crimson psychosis severity on pawn kill
+            harmony.Patch(AccessTools.Method(typeof(Pawn), "Kill"),
+                null, new HarmonyMethod(typeof(HarmonyPatches), nameof(KillDaji_Post_Yaoma)));
         }
 
         // POSTFIX: cause incidents to occur each day or week based on conditions for Deathless Daji or Kaiyi the Karmic
@@ -68,6 +73,15 @@ namespace YaomaStorytellers
         public static bool StorytellerDefDajiToggle_Prefix(StorytellerDef __instance)
         {
             return YaomaStorytellerUtility.DeathlessDajiDefUtility(__instance);
+        }
+
+        // POSTFIX: on pawn kill, reduce a pawn's Crimson Psychosis severity (if they have the hediff) based on the setting
+        public static void KillDaji_Post_Yaoma(DamageInfo? __0)
+        {
+            if(__0?.Instigator as Pawn != null)
+            {
+                YaomaStorytellerUtility.DeathlessDajiMurderSanity(__0?.Instigator as Pawn);
+            }
         }
 
     }

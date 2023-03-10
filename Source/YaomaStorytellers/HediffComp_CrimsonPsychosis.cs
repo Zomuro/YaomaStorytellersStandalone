@@ -11,6 +11,24 @@ namespace YaomaStorytellers
             base.CompExposeData();
         }
 
+        public override bool CompShouldRemove
+        {
+            get
+            {
+                return Find.Storyteller.def != StorytellerDefOf.DeathlessDaji_Yaoma;
+            }
+        }
+
+        // shows severity as percentage
+        public override string CompLabelInBracketsExtra
+        {
+            get
+            {
+                return parent.Severity.ToStringPercent("P1");
+            }
+        }
+
+        // every tick, checks severity to see if pawn should be berserked + make any sev adjustments
         public override void CompPostTick(ref float severityAdjustment)
         {
             // if the hediff is at max severity
