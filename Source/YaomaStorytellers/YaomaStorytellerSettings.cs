@@ -7,6 +7,7 @@ namespace YaomaStorytellers
 {
     public class YaomaStorytellerSettings : ModSettings
     {
+        // Deathless Daji Settings
         public bool DajiRessurectMechsDisable = false;
 
         public bool DajiRetrieveWeaponsDisable = false;
@@ -19,6 +20,12 @@ namespace YaomaStorytellers
 
         public float DajiMurderSanitySevReduce = 0.01f;
 
+        public bool DajiLifestealMelee = false;
+
+        public float DajiLifestealMeleePercent = 0.25f;
+
+        // Farseer Fan Settings
+
         public float FarseerFanGracePeriodFactor = 1f;
 
         public bool FarseerFanPredictionDetail = false;
@@ -26,6 +33,8 @@ namespace YaomaStorytellers
         public bool FarseerFanPredictAlt = false;
 
         public bool FarseerFanPredictDefer = false;
+
+        // Kaiyi the Karmic Settings
 
         public float KaiyiKarmicKarma = 0f;
 
@@ -47,6 +56,8 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref DajiBloodyPortrait, "DajiBloodyPortrait", false);
             Scribe_Values.Look(ref DajiMurderSanity, "DajiMurderSanity", false);
             Scribe_Values.Look(ref DajiMurderSanitySevReduce, "DajiMurderSanitySevReduce", 0.01f);
+            Scribe_Values.Look(ref DajiLifestealMelee, "DajiLifestealMelee", false);
+            Scribe_Values.Look(ref DajiLifestealMeleePercent, "DajiLifestealMeleePercent", 0.25f);
 
             Scribe_Values.Look(ref FarseerFanGracePeriodFactor, "FarseerFanGracePeriodFactor", 1f);
             Scribe_Values.Look(ref FarseerFanPredictionDetail, "FarseerFanPredictionDetail", false);
@@ -157,7 +168,9 @@ namespace YaomaStorytellers
             StorytellerDefOf.DeathlessDaji_Yaoma.ResolveReferences();
             settings.DajiMurderSanity = false;
             settings.DajiMurderSanitySevReduce = 0.01f;
-        }
+            settings.DajiLifestealMelee = false;
+            settings.DajiLifestealMeleePercent = 0.25f;
+    }
 
         public void FarseerFanDefault()
         {
@@ -257,6 +270,14 @@ namespace YaomaStorytellers
                 listing.Label("YS_SettingsDajiMurderSanitySev".Translate(settings.DajiMurderSanitySevReduce.ToString("F3")), -1,
                 "YS_SettingsDajiMurderSanitySevTooltip".Translate());
                 settings.DajiMurderSanitySevReduce = listing.Slider((float)settings.DajiMurderSanitySevReduce, 0f, 0.05f);
+            }
+            listing.CheckboxLabeled("YS_SettingsDajiLifestealMelee".Translate(settings.DajiLifestealMelee.ToString()),
+                ref settings.DajiLifestealMelee, "YS_SettingsDajiLifestealMeleeTooltip".Translate());
+            if (settings.DajiLifestealMelee)
+            {
+                listing.Label("YS_SettingsDajiLifestealMeleePercent".Translate(settings.DajiLifestealMeleePercent.ToString("P0")), -1,
+                "YS_SettingsDajiLifestealMeleePercentTooltip".Translate());
+                settings.DajiLifestealMeleePercent = listing.Slider((float)settings.DajiLifestealMeleePercent, 0f, 1f);
             }
 
             if (orgToggle != settings.DajiBloodyPortrait || !initalizedDaji)

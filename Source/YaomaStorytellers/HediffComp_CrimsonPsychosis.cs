@@ -35,9 +35,9 @@ namespace YaomaStorytellers
             if (parent.Severity >= parent.def.maxSeverity)
             {
                 // every ten seconds, if the pawn isn't berserk, force the pawn to become berserk
-                if (Find.TickManager.TicksGame % 600 == 0 && parent.pawn.MentalStateDef != MentalStateDefOf.Berserk)
+                if (Find.TickManager.TicksGame % 1000 == 0 && parent.pawn.MentalStateDef != MentalStateDefOf_Yaoma.YS_BerserkDaji)
                 {
-                    parent.pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, 
+                    parent.pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf_Yaoma.YS_BerserkDaji, 
                         null, true, false, null, false, false, false);
                 }
                 return;

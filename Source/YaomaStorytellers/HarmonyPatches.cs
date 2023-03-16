@@ -31,6 +31,11 @@ namespace YaomaStorytellers
             // decrease crimson psychosis severity on pawn kill
             harmony.Patch(AccessTools.Method(typeof(Pawn), "Kill"),
                 null, new HarmonyMethod(typeof(HarmonyPatches), nameof(KillDaji_Post_Yaoma)));
+
+            // ApplyMeleeDamageToTarget_Post_DajiLifesteal
+            // give melee attacks lifesteal
+            harmony.Patch(AccessTools.Method(typeof(Verb_MeleeAttackDamage), "ApplyMeleeDamageToTarget"),
+                null, new HarmonyMethod(typeof(HarmonyPatches), nameof(ApplyMeleeDamageToTarget_Post_DajiLifesteal)));
         }
 
         // POSTFIX: cause incidents to occur each day or week based on conditions for Deathless Daji or Kaiyi the Karmic
@@ -82,6 +87,13 @@ namespace YaomaStorytellers
             {
                 YaomaStorytellerUtility.DeathlessDajiMurderSanity(__0?.Instigator as Pawn);
             }
+        }
+
+        // POSTFIX: upon dealing melee damage, heal pawn by a proportion of the damage done (Verb_MeleeAttackDamage)
+        public static void ApplyMeleeDamageToTarget_Post_DajiLifesteal(Verb_MeleeAttackDamage __instance, ref DamageWorker.DamageResult __result)
+        {
+            if (__result is null) return;
+            if (__instance.CasterPawn != null) YaomaStorytellerUtility.DeathlessDajiLifestealMelee(__instance.CasterPawn, __result);
         }
 
     }

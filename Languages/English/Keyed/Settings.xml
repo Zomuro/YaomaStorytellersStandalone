@@ -18,6 +18,10 @@
 	<YS_SettingsDajiMurderSanityTooltip>Allow pawns to reduce the severity of their Crimson Psychosis by killing other pawns.</YS_SettingsDajiMurderSanityTooltip>
 	<YS_SettingsDajiMurderSanitySev>Severity reduction per kill: {0}</YS_SettingsDajiMurderSanitySev>
 	<YS_SettingsDajiMurderSanitySevTooltip>Alter how much each pawn kill reduces Crimson Psychosis severity.</YS_SettingsDajiMurderSanitySevTooltip>
+	<YS_SettingsDajiLifestealMelee>Enable lifesteal on melee attacks: {0}</YS_SettingsDajiLifestealMelee>
+	<YS_SettingsDajiLifestealMeleeTooltip>Enable pawns to heal by a percentage of the melee damage that they deal.</YS_SettingsDajiLifestealMeleeTooltip>
+	<YS_SettingsDajiLifestealMeleePercent>Lifesteal proportion: {0}</YS_SettingsDajiLifestealMeleePercent>
+	<YS_SettingsDajiLifestealMeleePercentTooltip>Adjust the percentage of damage dealt pawns heal by when they deal melee damage.</YS_SettingsDajiLifestealMeleePercentTooltip>
 	
 	
 	<YS_SettingsFanGrace>Grace period: {0}</YS_SettingsFanGrace>

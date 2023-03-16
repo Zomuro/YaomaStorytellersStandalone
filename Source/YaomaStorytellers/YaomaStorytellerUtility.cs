@@ -358,6 +358,21 @@ namespace YaomaStorytellers
             }
         }
 
+        // additional mechanic: lifesteal on all melee damage
+        public static void DeathlessDajiLifestealMelee(Pawn attacker, DamageWorker.DamageResult result)
+        {
+            if (!settings.DajiLifestealMelee) return;
+            
+            List<Hediff_Injury> injuries = new List<Hediff_Injury>();
+            attacker.health.hediffSet.GetHediffs<Hediff_Injury>(ref injuries, (Hediff_Injury x) => x.CanHealNaturally() || x.CanHealFromTending());
+            if (injuries.NullOrEmpty()) return;
+
+            if (injuries.TryRandomElement(out Hediff_Injury injury))
+            {
+                injury.Heal(result.totalDamageDealt * settings.DajiLifestealMeleePercent);
+            }
+        }
+
         // random ending parts for the "Stellar augury" letter
         public static List<String> endings = new List<string> { "LetterFarseerFan_Ending1",
                         "LetterFarseerFan_Ending2", "LetterFarseerFan_Ending3",
