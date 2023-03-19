@@ -44,6 +44,16 @@ namespace YaomaStorytellers
 
         public float KaiyiKarmicScalingNegative = 1f;
 
+        
+        // add these new settings for Kaiyi
+        public float KaiyiKarmicMaxSelectable = 10f;
+
+        public bool KaiyiKarmicRerollIncidents = false;
+
+        public float KaiyiKarmicRerollBaseCost = 10f;
+
+        public bool KaiyiKarmicLimitedTimePromo = false;
+
         /*public float KaiyiKarmicThresholdEndgamePositive = 500f;
 
         public float KaiyiKarmicThresholdEndgameNegative = -500f;*/

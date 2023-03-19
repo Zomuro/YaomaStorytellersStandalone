@@ -304,6 +304,45 @@ namespace YaomaStorytellers
             }
         }
 
+        public static void KaiyiKarmicSelectableIncidents(ref List<DebugMenuOption> selectable, StorytellerComp_KarmaTracker karmaTracker)
+        {
+            String labelCost = "";
+
+            foreach (IncidentDef iDef in karmaTracker.selectableIncidentCount.Keys.Where(x => KaiyiKarmicIsSelectable(x))
+                .OrderByDescending(x => karmaTracker.estIncidentCost[x])
+                .ThenBy(x => x.LabelCap.ToString()))
+            {
+                labelCost = iDef.LabelCap.ToString() + " (" + Math.Round(karmaTracker.estIncidentCost[iDef], 2) + ")";
+
+                selectable.Add(new DebugMenuOption(labelCost, DebugMenuOptionMode.Action, delegate ()
+                {
+                    IncidentParms parmSim = StorytellerUtility.DefaultParmsNow(iDef.category, Find.AnyPlayerHomeMap);
+                    if (iDef.pointsScaleable)
+                    {
+                        parmSim = Find.Storyteller.storytellerComps.First((StorytellerComp x) => x is StorytellerComp_OnOffCycle ||
+                            x is StorytellerComp_RandomMain).GenerateParms(iDef.category, parmSim.target);
+                    }
+
+                    List<IncidentDef> incidentsSelected = (Find.WindowStack.currentlyDrawnWindow as Dialog_KarmaTrade).selected;
+
+                    if (incidentsSelected.Count < 5)
+                    {
+                        incidentsSelected.Add(iDef);
+                        Messages.Message("MessageKaiyiKarmicIncidentNum".Translate(incidentsSelected.Count.ToString()), MessageTypeDefOf.SilentInput, false);
+                    }
+                    else Messages.Message("MessageKaiyiKarmicIncidentsFilled".Translate(), MessageTypeDefOf.RejectInput, false);
+                }));
+            }
+        }
+
+        public static bool KaiyiKarmicIsSelectable(IncidentDef incident)
+        {
+            if (incident != IncidentDefOf_Yaoma.Resurrection_Yaoma && incident != IncidentDefOf_Yaoma.KarmaTrade_Yaoma &&
+                incident.TargetAllowed(Find.CurrentMap) &&
+                incident.Worker.CanFireNow(StorytellerUtility.DefaultParmsNow(incident.category, Find.CurrentMap))) return true;
+            return false;
+        }
+
         public static void DeathlessDajiUtility(Storyteller storyteller)
         {
             // at dayTick = 0 (midnight for the map)

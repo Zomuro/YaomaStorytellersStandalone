@@ -27,7 +27,8 @@ namespace YaomaStorytellers
 
 		public Dialog_KarmaTrade(IEnumerable<DebugMenuOption> options) : base(options)
 		{
-			this.options = options.ToList();
+			this.selectableCache = options.ToList();
+			this.options = SelectableIncidents;
 			this.KarmaRing = ContentFinder<Texture2D>.Get("UI/Dialogs/KaiyiKarmicRing", true);
 			this.karmaTracker = Find.Storyteller.storytellerComps.FirstOrDefault(x =>
 						x is StorytellerComp_KarmaTracker) as StorytellerComp_KarmaTracker;
@@ -63,7 +64,10 @@ namespace YaomaStorytellers
 			Widgets.Label(leftHalf, "KarmaTradeFates".Translate());
 
 			// divider between left and right half of the window
+			Color colorTemp = GUI.color;
+			GUI.color = Color.grey;
 			Widgets.DrawLineVertical(this.InitialSize.x * 1 / 2, 0, this.InitialSize.y);
+			GUI.color = colorTemp;
 
 			// create right half
 			Rect rightHalf = new Rect(leftHalf);
@@ -108,9 +112,12 @@ namespace YaomaStorytellers
 			rightHalfBottom.yMin += rightHalf.height * 5/6;
 
 			// divider between top/mid and mid/Bottom in the right half of the window
+			colorTemp = GUI.color;
+			GUI.color = Color.grey;
 			Widgets.DrawLineHorizontal(rightHalf.x, rightHalf.yMin, rightHalf.width); // title/stuff divider
 			Widgets.DrawLineHorizontal(rightHalfMid.x, rightHalfMid.yMin, rightHalfMid.width); // top/mid divider
 			Widgets.DrawLineHorizontal(rightHalfMid.x, rightHalfMid.yMax, rightHalfMid.width); // mid/bottom divider
+			GUI.color = colorTemp;
 
 			// rightHalfMid image
 			Widgets.DrawTextureFitted(rightHalfMid, KarmaRing, 0.5f);
@@ -311,8 +318,27 @@ namespace YaomaStorytellers
 			return output;
 		}
 
+		public void RefreshSelectableIncidents()
+        {
+			selectableCache = null;
+			options = SelectableIncidents;
+		}
+
+		public List<DebugMenuOption> SelectableIncidents
+        {
+            get
+            {
+				if (selectableCache is null)
+                {
+					YaomaStorytellerUtility.KaiyiKarmicSelectableIncidents(ref selectableCache, karmaTracker);
+				}
+				return selectableCache;
+            }
+        }
 
 		private bool focusFilter;
+
+		private List<DebugMenuOption> selectableCache;
 
 		protected Listing_Standard listing_Selected;
 
