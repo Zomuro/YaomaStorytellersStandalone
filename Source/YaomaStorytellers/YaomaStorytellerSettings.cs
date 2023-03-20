@@ -40,19 +40,28 @@ namespace YaomaStorytellers
 
         public float KaiyiKarmicBasePriceFactor = 1f;
 
+        
+
         public float KaiyiKarmicScalingPositive = 0.25f;
 
         public float KaiyiKarmicScalingNegative = 1f;
 
-        
+
         // add these new settings for Kaiyi
-        public float KaiyiKarmicMaxSelectable = 10f;
+        public bool KaiyiKarmicKarmaPointScaling = false;
+
+        public float KaiyiKarmicKarmaPointScalingFactor = 1f;
+
+
+        public int KaiyiKarmicTradeDays = 7;
+
+        public int KaiyiKarmicMaxChoices = 10;
 
         public bool KaiyiKarmicRerollIncidents = false;
 
         public float KaiyiKarmicRerollBaseCost = 10f;
 
-        public bool KaiyiKarmicLimitedTimePromo = false;
+        //public bool KaiyiKarmicLimitedTimePromo = false;
 
         /*public float KaiyiKarmicThresholdEndgamePositive = 500f;
 
@@ -78,6 +87,15 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref KaiyiKarmicBasePriceFactor, "KaiyiKarmicBasePriceFactor", 1f);
             Scribe_Values.Look(ref KaiyiKarmicScalingPositive, "KaiyiKarmicPointScalingPositive", 0.25f);
             Scribe_Values.Look(ref KaiyiKarmicScalingNegative, "KaiyiKarmicPointScalingNegative", 1f);
+
+            Scribe_Values.Look(ref KaiyiKarmicKarmaPointScaling, "KaiyiKarmicKarmaPointScaling", false);
+            Scribe_Values.Look(ref KaiyiKarmicKarmaPointScalingFactor, "KaiyiKarmicKarmaPointScalingFactor", 1f);
+
+            Scribe_Values.Look(ref KaiyiKarmicTradeDays, "KaiyiKarmicTradeDays", 7);
+            Scribe_Values.Look(ref KaiyiKarmicMaxChoices, "KaiyiKarmicMaxChoices", 10);
+            Scribe_Values.Look(ref KaiyiKarmicRerollIncidents, "KaiyiKarmicRerollIncidents", false);
+            Scribe_Values.Look(ref KaiyiKarmicRerollBaseCost, "KaiyiKarmicRerollBaseCost", 10f);
+            //Scribe_Values.Look(ref KaiyiKarmicScalingNegative, "KaiyiKarmicPointScalingNegative", 1f);
             /*Scribe_Values.Look(ref KaiyiKarmicThresholdEndgamePositive, "KaiyiKarmicThresholdEndgamePositive", 500f);
             Scribe_Values.Look(ref KaiyiKarmicThresholdEndgameNegative, "KaiyiKarmicThresholdEndgameNegative", -500f);*/
             base.ExposeData();
@@ -196,6 +214,14 @@ namespace YaomaStorytellers
             settings.KaiyiKarmicBasePriceFactor = 1f;
             settings.KaiyiKarmicScalingPositive = 0.25f;
             settings.KaiyiKarmicScalingNegative = 1f;
+
+            settings.KaiyiKarmicTradeDays = 7;
+            settings.KaiyiKarmicMaxChoices = 10;
+
+            settings.KaiyiKarmicKarmaPointScaling = false;
+            settings.KaiyiKarmicKarmaPointScalingFactor = 1f;
+            settings.KaiyiKarmicRerollIncidents = false;
+            settings.KaiyiKarmicRerollBaseCost = 10f;
         }
 
         public void FarseerFanSettings(ref Listing_Standard listing)
@@ -235,16 +261,47 @@ namespace YaomaStorytellers
             listing.GapLine();
             listing.Label("YS_SettingsKaiyiStart".Translate(settings.KaiyiKarmicKarma.ToString("F2")), -1,
                 "YS_SettingsKaiyiStartTooltip".Translate());
-            settings.KaiyiKarmicKarma = listing.Slider((float)settings.KaiyiKarmicKarma, -200f, 200f);
+            settings.KaiyiKarmicKarma = listing.Slider((float)settings.KaiyiKarmicKarma, -500f, 500f);
             listing.Label("YS_SettingsKaiyiCostFactor".Translate(settings.KaiyiKarmicBasePriceFactor.ToString("F2")), -1,
                 "YS_SettingsKaiyiCostFactorTooltip".Translate());
             settings.KaiyiKarmicBasePriceFactor = listing.Slider((float)settings.KaiyiKarmicBasePriceFactor, 0f, 5f);
-            listing.Label("YS_SettingsKaiyiPointFactorPos".Translate(settings.KaiyiKarmicScalingPositive.ToString("F2")), -1,
+
+
+            /*listing.Label("YS_SettingsKaiyiPointFactorPos".Translate(settings.KaiyiKarmicScalingPositive.ToString("F2")), -1,
                 "YS_SettingsKaiyiPointFactorPosTooltip".Translate());
             settings.KaiyiKarmicScalingPositive = listing.Slider((float)settings.KaiyiKarmicScalingPositive, 0f, 2f);
             listing.Label("YS_SettingsKaiyiPointFactorNeg".Translate(settings.KaiyiKarmicScalingNegative.ToString("F2")), -1,
                 "YS_SettingsKaiyiPointFactorNegTooltip".Translate());
-            settings.KaiyiKarmicScalingNegative = listing.Slider((float)settings.KaiyiKarmicScalingNegative, 0f, 2f);
+            settings.KaiyiKarmicScalingNegative = listing.Slider((float)settings.KaiyiKarmicScalingNegative, 0f, 2f);*/
+
+            listing.Label("YS_SettingsKaiyiTradeDays".Translate(settings.KaiyiKarmicTradeDays.ToString("F0")), -1,
+                "YS_SettingsKaiyiTradeDaysTooltip".Translate());
+            settings.KaiyiKarmicTradeDays = (int) listing.Slider(settings.KaiyiKarmicTradeDays, 0f, 14f);
+
+            listing.Label("YS_SettingsKaiyiMaxSelectable".Translate(settings.KaiyiKarmicMaxChoices.ToString("F0")), -1,
+                "YS_SettingsKaiyiMaxSelectableTooltip".Translate());
+            settings.KaiyiKarmicMaxChoices = (int)listing.Slider(settings.KaiyiKarmicMaxChoices, 5f, 20f);
+
+            listing.GapLine();
+
+            listing.CheckboxLabeled("YS_SettingsKaiyiPointScaling".Translate(settings.KaiyiKarmicKarmaPointScaling.ToString()),
+                ref settings.KaiyiKarmicKarmaPointScaling, "YS_SettingsKaiyiPointScalingTooltip".Translate());
+            if (settings.KaiyiKarmicKarmaPointScaling)
+            {
+                listing.Label("YS_SettingsKaiyiPointFactor".Translate(settings.KaiyiKarmicKarmaPointScalingFactor.ToString("F2")), -1,
+                "YS_SettingsKaiyiPointFactorTooltip".Translate());
+                settings.KaiyiKarmicKarmaPointScalingFactor = listing.Slider((float)settings.KaiyiKarmicKarmaPointScalingFactor, 0f, 5f);
+            }
+
+            listing.CheckboxLabeled("YS_SettingsKaiyiReroll".Translate(settings.KaiyiKarmicRerollIncidents.ToString()),
+                ref settings.KaiyiKarmicRerollIncidents, "YS_SettingsKaiyiRerollTooltip".Translate());
+            if (settings.KaiyiKarmicRerollIncidents)
+            {
+                listing.Label("YS_SettingsKaiyiRerollBaseCost".Translate(settings.KaiyiKarmicRerollBaseCost.ToString("F2")), -1,
+                    "YS_SettingsKaiyiRerollBaseCostTooltip".Translate());
+                settings.KaiyiKarmicRerollBaseCost = listing.Slider((float)settings.KaiyiKarmicRerollBaseCost, 0f, 25f);
+            }
+
 
             listing.Gap(16f);
             if (listing.ButtonText("Reset to default"))

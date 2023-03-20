@@ -72,9 +72,7 @@
     <Compile Include="IncidentDefOf_Yaoma.cs" />
     <Compile Include="IncidentWorker_KarmaTrade_Kaiyi.cs" />
     <Compile Include="IncidentWorker_Resurrection_Daji.cs" />
-    <Compile Include="StorytellerComp_KarmaTracker.cs" />
     <Compile Include="StorytellerComp_OnDemand.cs" />
-    <Compile Include="StorytellerCompProperties_KarmaTracker.cs" />
     <Compile Include="StorytellerCompProperties_OnDemand.cs" />
     <Compile Include="StorytellerDefOf.cs" />
     <Compile Include="HarmonyPatches.cs" />

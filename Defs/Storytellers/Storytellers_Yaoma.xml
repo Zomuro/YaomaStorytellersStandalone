@@ -149,6 +149,7 @@
 		<comps>	
 		  <!-- Home all -->
 			<li Class="StorytellerCompProperties_RandomMain">
+				<compClass>YaomaStorytellers.StorytellerComp_RandomKarmaMain</compClass>
 				<allowedTargetTags>
 				  <li>Map_PlayerHome</li>
 				</allowedTargetTags>
@@ -277,7 +278,7 @@
 			<li Class="YaomaStorytellers.StorytellerCompProperties_OnDemand">
 				<incident>KarmaTrade_Yaoma</incident>
 			</li>
-			<li Class="YaomaStorytellers.StorytellerCompProperties_KarmaTracker"/>
+			<!--<li Class="YaomaStorytellers.StorytellerCompProperties_KarmaTracker"/>-->
 		</comps>
 	</StorytellerDef>
 

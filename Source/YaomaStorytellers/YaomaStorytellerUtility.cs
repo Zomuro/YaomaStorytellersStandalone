@@ -209,14 +209,13 @@ namespace YaomaStorytellers
             if (Find.TickManager.TicksGame % 1000 == 0)
             {
                 // if the storyteller doesn't have a StorytellerComp_KarmaTracker or StorytellerComp_OnDemand, skip
-                if (!(Find.Storyteller.storytellerComps.FirstOrDefault(x =>
-                    x is StorytellerComp_KarmaTracker) is StorytellerComp_KarmaTracker karmaTracker)) return true;
+                if (KarmaTracker is null) return true;
 
                 // if the Karma Tracker has no "selected incidents", roll a random incident
-                if (!karmaTracker.selectedIncidents.Any())
+                if (!KarmaTracker.selectedIncidents.Any())
                 {
                     foreach (FiringIncident fi in storyteller.MakeIncidentsForInterval())
-                        YaomaStorytellerUtility.KaiyiKarmicRandomIncident(storyteller, karmaTracker, fi);
+                        YaomaStorytellerUtility.KaiyiKarmicRandomIncident(storyteller, KarmaTracker, fi);
                 }
                 else // when the Karma Tracker has "selected incidents" left
                 {
@@ -225,15 +224,27 @@ namespace YaomaStorytellers
                                                    typeof(StorytellerComp_OnDemand)) is StorytellerComp_OnDemand c)) return true;
                     // for each incident rolled
                     foreach (FiringIncident fi in storyteller.MakeIncidentsForInterval())
-                        YaomaStorytellerUtility.KaiyiKarmicReplaceIncident(storyteller, karmaTracker, c, fi);
+                        YaomaStorytellerUtility.KaiyiKarmicReplaceIncident(storyteller, KarmaTracker, c, fi);
                 }
             }
             return false;
         }
 
-        public static void KaiyiKarmicRandomIncident(Storyteller storyteller, StorytellerComp_KarmaTracker kt, FiringIncident fi)
+        // Adjust setting karma value with purchases and the such.
+        public static void KaiyiKarmicAdjustKarma(float adjust)
         {
-            fi.parms.points *= kt.karmaPointScaling;
+            settings.KaiyiKarmicKarma = Math.Max(-500f, Math.Min(settings.KaiyiKarmicKarma + adjust, 500f));
+        }
+
+        // Adjust price multiplier on incidents using this.
+        public static void KaiyiKarmicIncreasePriceFactor(float adjust)
+        {
+            settings.KaiyiKarmicBasePriceFactor = Math.Max(0f, Math.Min(settings.KaiyiKarmicBasePriceFactor + adjust, 5f));
+        }
+
+        public static void KaiyiKarmicRandomIncident(Storyteller storyteller, StorytellerComp_RandomKarmaMain kt, FiringIncident fi)
+        {
+            fi.parms.points *= kt.KarmaPointScaling;
 
             // if the incident has a category recognized by the KarmaTracker
             // and has a negative karma cost (i.e. negative events) 
@@ -251,14 +262,14 @@ namespace YaomaStorytellers
             }
         }
 
-        public static void KaiyiKarmicReplaceIncident(Storyteller storyteller, StorytellerComp_KarmaTracker karmaTracker, 
+        public static void KaiyiKarmicReplaceIncident(Storyteller storyteller, StorytellerComp_RandomKarmaMain karmaTracker, 
             StorytellerComp_OnDemand c, FiringIncident fi)
         {
             // if the KarmaTracker's selected incidents are empty or null
             if (karmaTracker.selectedIncidents.NullOrEmpty())
             {
                 // fire the original incident
-                fi.parms.points *= karmaTracker.karmaPointScaling;
+                fi.parms.points *= karmaTracker.KarmaPointScaling;
                 storyteller.TryFire(fi);
                 return;
             }
@@ -270,7 +281,7 @@ namespace YaomaStorytellers
 
             // null check- if the incident can't be fired, or otherwise turns null, skips to next
             if (fiReplace == null) return;
-            fiReplace.parms.points *= karmaTracker.karmaPointScaling;
+            fiReplace.parms.points *= karmaTracker.KarmaPointScaling;
             // if replacement incident gets fired, remove the random incidentDef from selected incidents
             if (storyteller.TryFire(fiReplace)) karmaTracker.selectedIncidents.Remove(randomDef);
         }
@@ -282,14 +293,13 @@ namespace YaomaStorytellers
             {
                 // get KarmaTracker
                 // if it is null or has any "selected incidents", skip
-                if (!(Find.Storyteller.storytellerComps.FirstOrDefault(x =>
-                    x is StorytellerComp_KarmaTracker) is StorytellerComp_KarmaTracker karmaTracker) || 
-                    karmaTracker.selectedIncidents.Any()) return;
+                if (KarmaTracker is null ||
+                    KarmaTracker.selectedIncidents.Any()) return;
 
                 // decrease dayCheck (number of days till Kaiyi's incident fires)
                 // if dayCheck is still > 0 afterwards, wait for tomorrow
-                karmaTracker.daysCheck -= 1;
-                if (karmaTracker.daysCheck > 0) return;
+                KarmaTracker.daysCheck -= 1;
+                if (KarmaTracker.daysCheck > 0) return;
 
                 // get StorytellerComp_OnDemand and nullcheck it
                 if (!(storyteller.storytellerComps.FirstOrDefault(x => x.GetType() ==
@@ -299,12 +309,13 @@ namespace YaomaStorytellers
                 // if fired, set the days time to the KarmaTracker's days values
                 foreach (FiringIncident fi in c.MakeIncidents(storyteller.AllIncidentTargets))
                 {
-                    if (storyteller.TryFire(fi)) karmaTracker.daysCheck = karmaTracker.Props.days;
+                    // later on- set days check to whatever value is in settings
+                    if (storyteller.TryFire(fi)) KarmaTracker.daysCheck = settings.KaiyiKarmicTradeDays;
                 }
             }
         }
 
-        public static void KaiyiKarmicSelectableIncidents(ref List<DebugMenuOption> selectable, StorytellerComp_KarmaTracker karmaTracker)
+        public static void KaiyiKarmicSelectableIncidents(ref List<DebugMenuOption> selectable, StorytellerComp_RandomKarmaMain karmaTracker)
         {
             String labelCost = "";
 
@@ -420,6 +431,21 @@ namespace YaomaStorytellers
         // reference to settings in utility
         public static YaomaStorytellerSettings settings = LoadedModManager.GetMod<YaomaStorytellerMod>().GetSettings<YaomaStorytellerSettings>();
 
+        public static StorytellerComp_RandomKarmaMain KarmaTracker
+        {
+            get
+            {
+                if(cachedKarmaTracker is null)
+                {
+                    StorytellerComp comp = Find.Storyteller.storytellerComps.FirstOrDefault(x => x is StorytellerComp_RandomKarmaMain);
+                    if(comp != null) cachedKarmaTracker = comp as StorytellerComp_RandomKarmaMain;
+                }
+                return cachedKarmaTracker;
+            }
+        }
+
+        private static StorytellerComp_RandomKarmaMain cachedKarmaTracker;
+        
         public static System.Random rand = new System.Random();
     }
 }

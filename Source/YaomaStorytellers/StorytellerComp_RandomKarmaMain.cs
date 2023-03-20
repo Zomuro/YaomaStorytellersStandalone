@@ -15,21 +15,27 @@ namespace YaomaStorytellers
         {
             get
             {
-				if (karma >= 0) return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingPositive;
-				else return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingNegative;
-            }
+				/*if (karma >= 0) return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingPositive;
+				else return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingNegative;*/
+
+				return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
+			}
         }
 
 		public float EstKarmaPointScaling(float change)
 		{
-			if (karma + change >= 0) return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingPositive;
-			else return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingNegative;
+			/*if (karma + change >= 0) return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingPositive;
+			else return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingNegative;*/
+
+			return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
 		}
 
 		public virtual void CompExposeData()
 		{
+			// these two- consider removing them if unused
 			Scribe_Values.Look<float>(ref this.karma, "karma", 0, false);
 			Scribe_Values.Look<float>(ref this.cachedCostFactor, "cachedCostFactor", 1, false);
+
 			Scribe_Collections.Look(ref baseIncidentCost, "baseIncidentCost", LookMode.Def, LookMode.Value);
 			Scribe_Collections.Look(ref selectableIncidentCount, "selectableIncidentCount", LookMode.Def, LookMode.Value);
 			Scribe_Collections.Look(ref estIncidentCost, "estIncidentCost", LookMode.Def, LookMode.Value);
@@ -117,15 +123,22 @@ namespace YaomaStorytellers
 
 		public override string ToString()
 		{
-			return base.ToString() + " " + this.karma;
+			return base.ToString() + " " + YaomaStorytellerUtility.settings.KaiyiKarmicKarma;
 		}
+
+		public float Karma
+        {
+            get
+            {
+				return YaomaStorytellerUtility.settings.KaiyiKarmicKarma;
+			}
+        }
 
 		public float CostFactor
         {
             get
             {
 				return YaomaStorytellerUtility.settings.KaiyiKarmicBasePriceFactor;
-
 			}
         }
 

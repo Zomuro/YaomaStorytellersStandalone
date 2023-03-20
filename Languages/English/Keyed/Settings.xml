@@ -44,5 +44,20 @@
 	<YS_SettingsKaiyiPointFactorPosTooltip>Alters the extent of the effect of positive karma on a incident's points, if it uses it.</YS_SettingsKaiyiPointFactorPosTooltip>
 	<YS_SettingsKaiyiPointFactorNeg>Negative karma scaling factor: {0}x</YS_SettingsKaiyiPointFactorNeg>
 	<YS_SettingsKaiyiPointFactorNegTooltip>Alters the extent of the effect of negative karma on a incident's points, if it uses it.</YS_SettingsKaiyiPointFactorNegTooltip>
+	
+	<YS_SettingsKaiyiPointScaling>Enable karma point scaling: {0}</YS_SettingsKaiyiPointScaling>
+	<YS_SettingsKaiyiPointScalingTooltip>Allow karma to act as a multiplier on incident points.</YS_SettingsKaiyiPointScalingTooltip>
+	<YS_SettingsKaiyiPointFactor>Karma incident point factor: {0}x</YS_SettingsKaiyiPointFactor>
+	<YS_SettingsKaiyiPointFactorTooltip>Alters how much a point of karma away from 0 affects incident points. For example, at 1x, one additional point of karma away from 0 increases incident points by 1%.</YS_SettingsKaiyiPointFactorTooltip>
+	<YS_SettingsKaiyiTradeDays>Days for karmic trade: {0} days</YS_SettingsKaiyiTradeDays>
+	<YS_SettingsKaiyiTradeDaysTooltip>Determines the absolute minimum amount of time it takes Kaiyi to come back after a karmic trade.\n\nIf he still needs to fufill his end of the bargain (giving you all your purchased incidents) or is doing some debt services, he may take longer.</YS_SettingsKaiyiTradeDaysTooltip>
+	<YS_SettingsKaiyiMaxSelectable>Incident choices: {0}</YS_SettingsKaiyiMaxSelectable>
+	<YS_SettingsKaiyiMaxSelectableTooltip>Sets how many incidents the player can chose from. If there are less incidents than the maximum, only those incidents will be displayed.</YS_SettingsKaiyiMaxSelectableTooltip>
+	<YS_SettingsKaiyiReroll>Enable incident rerolls: {0}</YS_SettingsKaiyiReroll>
+	<YS_SettingsKaiyiRerollTooltip>Allow incident choices to be rerolled for a payment of karma. The karma cost is affected by the cost factor.</YS_SettingsKaiyiRerollTooltip>
+	<YS_SettingsKaiyiRerollBaseCost>Reroll base karma cost: {0}</YS_SettingsKaiyiRerollBaseCost>
+	<YS_SettingsKaiyiRerollBaseCostTooltip>Set the base karma cost of rerolling incidents.</YS_SettingsKaiyiRerollBaseCostTooltip>
+	
+	
 
 </LanguageData>

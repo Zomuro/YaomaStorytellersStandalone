@@ -11,11 +11,11 @@ namespace YaomaStorytellers
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			karmaTracker = Find.Storyteller.storytellerComps.FirstOrDefault(x =>
-						x is StorytellerComp_KarmaTracker) as StorytellerComp_KarmaTracker;
+						x is StorytellerComp_RandomKarmaMain) as StorytellerComp_RandomKarmaMain;
 			if (karmaTracker == null) return false;
 			
 			// refresh costs if settings for costFactor was changed in between
-			karmaTracker.refreshCosts();
+			karmaTracker.RefreshIncidentCosts();
 
 			// rework this so that the dialog itself handles this:
 			// allows it to reroll the incidents by itself
@@ -74,6 +74,6 @@ namespace YaomaStorytellers
 			return false;
 		}
 
-		public StorytellerComp_KarmaTracker karmaTracker;
+		public StorytellerComp_RandomKarmaMain karmaTracker;
 	}
 }

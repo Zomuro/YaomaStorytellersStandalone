@@ -31,7 +31,7 @@ namespace YaomaStorytellers
 			this.options = SelectableIncidents;
 			this.KarmaRing = ContentFinder<Texture2D>.Get("UI/Dialogs/KaiyiKarmicRing", true);
 			this.karmaTracker = Find.Storyteller.storytellerComps.FirstOrDefault(x =>
-						x is StorytellerComp_KarmaTracker) as StorytellerComp_KarmaTracker;
+						x is StorytellerComp_RandomKarmaMain) as StorytellerComp_RandomKarmaMain;
 		}
 
 		public override void DoWindowContents(Rect inRect)
@@ -125,8 +125,8 @@ namespace YaomaStorytellers
 			// shows current karma
 			Text.Anchor = TextAnchor.MiddleCenter;
 			Text.Font = GameFont.Medium;
-			Widgets.Label(rightHalfTop, "KarmaTradeOverallKarma".Translate(Math.Round(karmaTracker.karma, 2),
-				Math.Round(karmaTracker.karma + estIncidentCost(karmaTracker), 2)));
+			Widgets.Label(rightHalfTop, "KarmaTradeOverallKarma".Translate(Math.Round(karmaTracker.Karma, 2),
+				Math.Round(karmaTracker.Karma + EstIncidentCost(karmaTracker), 2)));
 
 			// Selection review section
 			Text.Font = GameFont.Tiny;
@@ -174,11 +174,11 @@ namespace YaomaStorytellers
 
 			if (Widgets.ButtonText(offerButton, "KarmaTradeMakeOffer".Translate(), true, true, true))
 			{
-				if(estIncidentCost(karmaTracker) < 0 && karmaTracker.karma < 0)
+				if(EstIncidentCost(karmaTracker) < 0 && karmaTracker.Karma < 0)
                 {
 					action = delegate ()
 					{
-						Tuple<Action, Action> actions = debtResolutionDialogActions(karmaTracker);
+						Tuple<Action, Action> actions = DebtResolutionDialogActions(karmaTracker);
 						Find.WindowStack.Add(new Dialog_MessageBox("KarmaTradeDebtResolution".Translate(),
 							"KarmaTradeDebtResolutionConfirm".Translate(), actions.Item2,
 							"KarmaTradeDebtResolutionReturn".Translate(), actions.Item1, 
@@ -188,10 +188,11 @@ namespace YaomaStorytellers
 
 				else action = delegate ()
 				{
-					this.selectionInform(this.estIncidentCost(karmaTracker), selected);
+					this.SelectionInform(this.EstIncidentCost(karmaTracker), selected);
 					karmaTracker.selectedIncidents = selected;
-					karmaTracker.karma += this.estIncidentCost(karmaTracker);
-					karmaTracker.completeIncidentSelection(selected);
+					//karmaTracker.karma += this.EstIncidentCost(karmaTracker);
+					YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(EstIncidentCost(karmaTracker));
+					karmaTracker.CompleteIncidentSelection(selected);
 					Messages.Message("MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
 					this.Close(true);
 				};
@@ -248,21 +249,21 @@ namespace YaomaStorytellers
 			return result;
 		}
 
-		public float estIncidentCost(StorytellerComp_KarmaTracker kt)
+		public float EstIncidentCost(StorytellerComp_RandomKarmaMain kt)
 		{
 			if (selected.Count == 0) return 0;
 			return (from i in selected select kt.estIncidentCost[i]).Sum();
 		}
 
-		public void debtResolutionAdditions(StorytellerComp_KarmaTracker kt)
+		public void debtResolutionAdditions(StorytellerComp_RandomKarmaMain kt)
 		{
-			if (estIncidentCost(kt) >= 0 || kt.karma >= 0) return;
+			if (EstIncidentCost(kt) >= 0 || kt.karma >= 0) return;
 
 			List<IncidentDef> negOptions = (from x in kt.selectableIncidentCount
 											where kt.baseIncidentCost[x.Key.category] > 0
 											select x.Key).ToList();
 
-			int count = (int)Math.Ceiling(kt.estKarmaPointScaling(estIncidentCost(kt)) - 1);
+			int count = (int)Math.Ceiling(kt.EstKarmaPointScaling(EstIncidentCost(kt)) - 1);
             while (count > 0)
             {
 				IncidentDef randIDef = negOptions.RandomElement();
@@ -271,9 +272,9 @@ namespace YaomaStorytellers
 			}
 		}
 
-		public Tuple<Action, Action> debtResolutionDialogActions(StorytellerComp_KarmaTracker kt)
+		public Tuple<Action, Action> DebtResolutionDialogActions(StorytellerComp_RandomKarmaMain kt)
 		{
-			if (estIncidentCost(kt) >= 0 || kt.karma >= 0) return null;
+			if (EstIncidentCost(kt) >= 0 || kt.karma >= 0) return null;
 
 			Action actionReturn = delegate ()
 			{
@@ -281,9 +282,10 @@ namespace YaomaStorytellers
 
 			Action actionConfirm = delegate ()
 			{
-				this.selectionInform(this.estIncidentCost(karmaTracker), selected);
-				karmaTracker.karma += this.estIncidentCost(karmaTracker);
-				karmaTracker.completeIncidentSelection(selected);
+				this.SelectionInform(this.EstIncidentCost(karmaTracker), selected);
+				YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(EstIncidentCost(karmaTracker));
+				//karmaTracker.karma += this.EstIncidentCost(karmaTracker);
+				karmaTracker.CompleteIncidentSelection(selected);
 				Messages.Message("MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
 				debtResolutionAdditions(kt);
 				karmaTracker.selectedIncidents = selected;
@@ -294,7 +296,7 @@ namespace YaomaStorytellers
 			return new Tuple<Action,Action>(actionReturn, actionConfirm);
 		}
 
-		public void selectionInform(float karmaChange, List<IncidentDef> selection)
+		public void SelectionInform(float karmaChange, List<IncidentDef> selection)
 		{
 			string text = "";
 			if (karmaChange >= 0) text = "LetterKaiyiKarmicDealDonePositive".Translate(Math.Abs(Math.Round(karmaChange, 2)));
@@ -344,7 +346,7 @@ namespace YaomaStorytellers
 
 		public List<IncidentDef> selected = new List<IncidentDef>();
 
-		public StorytellerComp_KarmaTracker karmaTracker;
+		public StorytellerComp_RandomKarmaMain karmaTracker;
 
 		public bool confirmation = false;
 
