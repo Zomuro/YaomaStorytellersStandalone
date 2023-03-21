@@ -11,13 +11,47 @@ namespace YaomaStorytellers
 	// we need to adjust incidentweights anyways
 	public class StorytellerComp_RandomKarmaMain : StorytellerComp_RandomMain
 	{
+		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
+		{
+			if (Rand.MTBEventOccurs(this.Props.mtbDays, 60000f, 1000f))
+			{
+				bool flag = target.IncidentTargetTags().Contains(IncidentTargetTagDefOf.Map_RaidBeacon);
+				List<IncidentCategoryDef> list = new List<IncidentCategoryDef>();
+				IncidentParms parms;
+				IncidentDef incidentDef;
+				for (; ; )
+				{
+					IncidentCategoryDef incidentCategoryDef = this.ChooseRandomCategory(target, list);
+					parms = this.GenerateParms(incidentCategoryDef, target);
+					if (base.TrySelectRandomIncident(base.UsableIncidentsInCategory(incidentCategoryDef, parms), out incidentDef)) break;
+					list.Add(incidentCategoryDef);
+					if (list.Count >= this.Props.categoryWeights.Count) yield break;
+				}
+				if (!this.Props.skipThreatBigIfRaidBeacon || !flag || incidentDef.category != IncidentCategoryDefOf.ThreatBig) yield return new FiringIncident(incidentDef, this, parms);
+
+			}
+			yield break;
+		}
+
+		public virtual IncidentCategoryDef ChooseRandomCategory(IIncidentTarget target, List<IncidentCategoryDef> skipCategories)
+		{
+			if (!skipCategories.Contains(IncidentCategoryDefOf.ThreatBig))
+			{
+				int num = Find.TickManager.TicksGame - target.StoryState.LastThreatBigTick;
+				if (target.StoryState.LastThreatBigTick >= 0 && (float)num > 60000f * this.Props.maxThreatBigIntervalDays) return IncidentCategoryDefOf.ThreatBig;
+			}
+			return (from cw in WeightedIncidentCategories()
+					where !skipCategories.Contains(cw.category)
+					select cw).RandomElementByWeight((IncidentCategoryEntry cw) => cw.weight).category;
+		}
+
 		public float KarmaPointScaling
         {
             get
             {
 				/*if (karma >= 0) return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingPositive;
 				else return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingNegative;*/
-
+				if (!YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScaling) return 1f;
 				return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
 			}
         }
@@ -26,7 +60,7 @@ namespace YaomaStorytellers
 		{
 			/*if (karma + change >= 0) return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingPositive;
 			else return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingNegative;*/
-
+			if (!YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScaling) return 1f;
 			return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
 		}
 
@@ -119,6 +153,26 @@ namespace YaomaStorytellers
 			{
 				weights.Add(id.Key, (float) Math.Pow(id.Value, power));
 			}
+		}
+
+		public List<IncidentCategoryEntry> WeightedIncidentCategories()
+        {
+			List<IncidentCategoryEntry> cats = Props.categoryWeights.ListFullCopy();
+
+			if(Karma < 0) 
+				foreach(var x in cats)
+                {
+					if (x.category == IncidentCategoryDefOf.ThreatBig || x.category == IncidentCategoryDefOf.ThreatSmall) x.weight *= (1 + Math.Abs(Karma) / 100f);
+				}
+            else
+				foreach (var x in cats)
+				{
+					if (x.category == IncidentCategoryDefOf.ShipChunkDrop || x.category == IncidentCategoryDefOf.OrbitalVisitor || 
+						x.category == IncidentCategoryDefOf.Misc) 
+						x.weight *= (1 + Math.Abs(Karma) / 100f);
+				}
+
+			return cats;
 		}
 
 		public override string ToString()

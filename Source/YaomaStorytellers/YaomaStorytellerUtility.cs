@@ -233,7 +233,7 @@ namespace YaomaStorytellers
         // Adjust setting karma value with purchases and the such.
         public static void KaiyiKarmicAdjustKarma(float adjust)
         {
-            settings.KaiyiKarmicKarma = Math.Max(-500f, Math.Min(settings.KaiyiKarmicKarma + adjust, 500f));
+            settings.KaiyiKarmicKarma = Math.Max(settings.KaiyiKarmicKarmaMin, Math.Min(settings.KaiyiKarmicKarma + adjust, settings.KaiyiKarmicKarmaMax));
         }
 
         // Adjust price multiplier on incidents using this.
@@ -318,8 +318,9 @@ namespace YaomaStorytellers
         public static void KaiyiKarmicSelectableIncidents(ref List<DebugMenuOption> selectable, StorytellerComp_RandomKarmaMain karmaTracker)
         {
             String labelCost = "";
+            //karmaTracker.selectableIncidentCount.Keys.Where(x => KaiyiKarmicIsSelectable(x)
 
-            foreach (IncidentDef iDef in karmaTracker.selectableIncidentCount.Keys.Where(x => KaiyiKarmicIsSelectable(x))
+            foreach (IncidentDef iDef in KaiyiKarmicWeightedSelection(karmaTracker, settings.KaiyiKarmicMaxChoices)
                 .OrderByDescending(x => karmaTracker.estIncidentCost[x])
                 .ThenBy(x => x.LabelCap.ToString()))
             {
@@ -346,12 +347,63 @@ namespace YaomaStorytellers
             }
         }
 
+        // check if adding a value will cause karma to increase/decrease beyond limit - unused for the moment
+        public static bool KaiyiKarmicKarmaOOB(float value)
+        {
+            if (value > settings.KaiyiKarmicKarmaMax || value < settings.KaiyiKarmicKarmaMin) return true;
+
+            return false;
+        }
+
         public static bool KaiyiKarmicIsSelectable(IncidentDef incident)
         {
             if (incident != IncidentDefOf_Yaoma.Resurrection_Yaoma && incident != IncidentDefOf_Yaoma.KarmaTrade_Yaoma &&
                 incident.TargetAllowed(Find.CurrentMap) &&
                 incident.Worker.CanFireNow(StorytellerUtility.DefaultParmsNow(incident.category, Find.CurrentMap))) return true;
             return false;
+        }
+
+        public static IEnumerable<IncidentDef> KaiyiKarmicWeightedSelection(StorytellerComp_RandomKarmaMain karmaTracker, int count)
+        {
+            List<IncidentDef> incidents = karmaTracker.selectableIncidentCount.Keys.Where(x => KaiyiKarmicIsSelectable(x)).ToList();
+            List<IncidentCategoryEntry> compWeights = karmaTracker.WeightedIncidentCategories();
+
+            // if we want to select a number of incidents > incidents that are even selectable, just send the whole list
+            if (count > incidents.Count) 
+            {
+                foreach (var i in incidents) yield return i;
+                yield break;
+            } 
+
+            // else we want to go and make a dictionary of weights
+            Dictionary<IncidentDef, float> incidentWeights = new Dictionary<IncidentDef, float>();
+            foreach (var i in incidents)
+            {
+                IncidentCategoryEntry entry = compWeights.FirstOrDefault(x => x.category == i.category);
+                float weight = entry != null ? entry.weight : 1f;
+                incidentWeights.Add(i, weight);
+            }
+
+            // get list of incident choices *count* long using weighted rng
+            float culm = 0;
+            for (int x = 0; x < count; x++)
+            {
+                float total = incidentWeights.Values.Sum();
+                float rand = (float) YaomaStorytellerUtility.rand.NextDouble() * total;
+                for(int y = 0; y < incidentWeights.Count(); y++)
+                {
+                    culm += incidentWeights.ElementAt(y).Value;
+                    if(rand < culm)
+                    {
+                        IncidentDef iDef = incidentWeights.ElementAt(y).Key;
+                        yield return iDef;
+                        incidentWeights.Remove(iDef);
+                        break;
+                    }
+                }
+            }
+
+            yield break;
         }
 
         public static void DeathlessDajiUtility(Storyteller storyteller)

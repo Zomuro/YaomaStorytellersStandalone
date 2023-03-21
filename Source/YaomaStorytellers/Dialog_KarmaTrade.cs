@@ -126,7 +126,9 @@ namespace YaomaStorytellers
 			Text.Anchor = TextAnchor.MiddleCenter;
 			Text.Font = GameFont.Medium;
 			Widgets.Label(rightHalfTop, "KarmaTradeOverallKarma".Translate(Math.Round(karmaTracker.Karma, 2),
-				Math.Round(karmaTracker.Karma + EstIncidentCost(karmaTracker), 2)));
+				Math.Round(
+					KarmaConstrain(karmaTracker.Karma + EstIncidentCost(karmaTracker)
+					), 2)));
 
 			// Selection review section
 			Text.Font = GameFont.Tiny;
@@ -255,7 +257,7 @@ namespace YaomaStorytellers
 			return (from i in selected select kt.estIncidentCost[i]).Sum();
 		}
 
-		public void debtResolutionAdditions(StorytellerComp_RandomKarmaMain kt)
+		public void DebtResolutionAdditions(StorytellerComp_RandomKarmaMain kt)
 		{
 			if (EstIncidentCost(kt) >= 0 || kt.karma >= 0) return;
 
@@ -287,7 +289,7 @@ namespace YaomaStorytellers
 				//karmaTracker.karma += this.EstIncidentCost(karmaTracker);
 				karmaTracker.CompleteIncidentSelection(selected);
 				Messages.Message("MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
-				debtResolutionAdditions(kt);
+				DebtResolutionAdditions(kt);
 				karmaTracker.selectedIncidents = selected;
 				Log.Message(selected.ToStringSafeEnumerable());
 				this.Close(true);
@@ -310,6 +312,11 @@ namespace YaomaStorytellers
 			Find.LetterStack.ReceiveLetter("LetterLabelKaiyiKarmicDealDone".Translate(),
 				text, LetterDefOf.NeutralEvent, null);
 		}
+
+		public float KarmaConstrain(float value)
+        {
+			return Math.Max(YaomaStorytellerUtility.settings.KaiyiKarmicKarmaMin, Math.Min(value, YaomaStorytellerUtility.settings.KaiyiKarmicKarmaMax));
+        }
 
 		public Rect RectRadialPosition(Rect rect , float mag, float angle)
         {

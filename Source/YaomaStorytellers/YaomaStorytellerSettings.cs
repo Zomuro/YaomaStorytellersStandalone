@@ -38,13 +38,16 @@ namespace YaomaStorytellers
 
         public float KaiyiKarmicKarma = 0f;
 
+        public float KaiyiKarmicKarmaMax = 500f; // hidden settings put here for convienence
+
+        public float KaiyiKarmicKarmaMin = -500f; // hidden settings put here for convienence
+
         public float KaiyiKarmicBasePriceFactor = 1f;
 
         
 
-        public float KaiyiKarmicScalingPositive = 0.25f;
-
-        public float KaiyiKarmicScalingNegative = 1f;
+        /*public float KaiyiKarmicScalingPositive = 0.25f;
+        public float KaiyiKarmicScalingNegative = 1f;*/
 
 
         // add these new settings for Kaiyi
@@ -84,9 +87,12 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref FarseerFanPredictDefer, "FarseerFanPredictDefer", false);
 
             Scribe_Values.Look(ref KaiyiKarmicKarma, "KaiyiKarmicKarma", 0f);
+            Scribe_Values.Look(ref KaiyiKarmicKarmaMax, "KaiyiKarmicKarmaMax", 500f);
+            Scribe_Values.Look(ref KaiyiKarmicKarmaMin, "KaiyiKarmicKarmaMin", -500f);
+
             Scribe_Values.Look(ref KaiyiKarmicBasePriceFactor, "KaiyiKarmicBasePriceFactor", 1f);
-            Scribe_Values.Look(ref KaiyiKarmicScalingPositive, "KaiyiKarmicPointScalingPositive", 0.25f);
-            Scribe_Values.Look(ref KaiyiKarmicScalingNegative, "KaiyiKarmicPointScalingNegative", 1f);
+            /*Scribe_Values.Look(ref KaiyiKarmicScalingPositive, "KaiyiKarmicPointScalingPositive", 0.25f);
+            Scribe_Values.Look(ref KaiyiKarmicScalingNegative, "KaiyiKarmicPointScalingNegative", 1f);*/
 
             Scribe_Values.Look(ref KaiyiKarmicKarmaPointScaling, "KaiyiKarmicKarmaPointScaling", false);
             Scribe_Values.Look(ref KaiyiKarmicKarmaPointScalingFactor, "KaiyiKarmicKarmaPointScalingFactor", 1f);
@@ -212,8 +218,8 @@ namespace YaomaStorytellers
         {
             settings.KaiyiKarmicKarma = 0f;
             settings.KaiyiKarmicBasePriceFactor = 1f;
-            settings.KaiyiKarmicScalingPositive = 0.25f;
-            settings.KaiyiKarmicScalingNegative = 1f;
+            /*settings.KaiyiKarmicScalingPositive = 0.25f;
+            settings.KaiyiKarmicScalingNegative = 1f;*/
 
             settings.KaiyiKarmicTradeDays = 7;
             settings.KaiyiKarmicMaxChoices = 10;
@@ -261,7 +267,7 @@ namespace YaomaStorytellers
             listing.GapLine();
             listing.Label("YS_SettingsKaiyiStart".Translate(settings.KaiyiKarmicKarma.ToString("F2")), -1,
                 "YS_SettingsKaiyiStartTooltip".Translate());
-            settings.KaiyiKarmicKarma = listing.Slider((float)settings.KaiyiKarmicKarma, -500f, 500f);
+            settings.KaiyiKarmicKarma = listing.Slider((float)settings.KaiyiKarmicKarma, settings.KaiyiKarmicKarmaMin, settings.KaiyiKarmicKarmaMax);
             listing.Label("YS_SettingsKaiyiCostFactor".Translate(settings.KaiyiKarmicBasePriceFactor.ToString("F2")), -1,
                 "YS_SettingsKaiyiCostFactorTooltip".Translate());
             settings.KaiyiKarmicBasePriceFactor = listing.Slider((float)settings.KaiyiKarmicBasePriceFactor, 0f, 5f);
