@@ -13,6 +13,9 @@
 	<KarmaTradeDebtResolutionConfirm>Confirm</KarmaTradeDebtResolutionConfirm>
 	
 	<KarmaTradeMakeOffer>Make offer</KarmaTradeMakeOffer>
+	<KarmaTradeRejectTrade>Reject trade</KarmaTradeRejectTrade>
+	<KarmaTradeReroll>Reroll fates ({0})</KarmaTradeReroll>
+	<KarmaTradeNoMoreReroll>No rerolls</KarmaTradeNoMoreReroll>
 	
 	<!-- Dialog_MessageBox (Farseer Fan Alternative Incidents)-->
 	<YS_FarseerFanAltOffer>The stars foretell a divergence in fate- and so Farseer Fan calls upon you to make a choice.</YS_FarseerFanAltOffer>

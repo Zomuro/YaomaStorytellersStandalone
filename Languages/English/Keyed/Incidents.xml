@@ -27,6 +27,8 @@
 	<LetterLabelKaiyiKarmicDealDone>Deal summary</LetterLabelKaiyiKarmicDealDone>
 	<LetterKaiyiKarmicDealDonePositive>Gaining {0} karma from this trade, your fate will involve the following:\n</LetterKaiyiKarmicDealDonePositive>
 	<LetterKaiyiKarmicDealDoneNegative>Spending {0} karma in this trade, your fate will involve the following:\n</LetterKaiyiKarmicDealDoneNegative>
+	<LetterLabelKaiyiKarmicNoDeal>No deal</LetterLabelKaiyiKarmicNoDeal>
+	<LetterKaiyiKarmicNoDeal>You have rejected Kaiyi's offer, for now.</LetterKaiyiKarmicNoDeal>
 	<LetterLabelKaiyiKarmicGain>Karma gain</LetterLabelKaiyiKarmicGain>
 	<LetterKaiyiKarmicGain>As your fate makes a turn for the worse, you gain {0} karma.</LetterKaiyiKarmicGain>
 	

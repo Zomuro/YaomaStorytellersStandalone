@@ -27,11 +27,15 @@ namespace YaomaStorytellers
 
 		public Dialog_KarmaTrade(IEnumerable<DebugMenuOption> options) : base(options)
 		{
-			this.selectableCache = options.ToList();
-			this.options = SelectableIncidents;
-			this.KarmaRing = ContentFinder<Texture2D>.Get("UI/Dialogs/KaiyiKarmicRing", true);
-			this.karmaTracker = Find.Storyteller.storytellerComps.FirstOrDefault(x =>
+			selectableCache = options.ToList();
+			options = SelectableIncidents;
+			KarmaRing = ContentFinder<Texture2D>.Get("UI/Dialogs/KaiyiKarmicRing", true);
+			karmaTracker = Find.Storyteller.storytellerComps.FirstOrDefault(x =>
 						x is StorytellerComp_RandomKarmaMain) as StorytellerComp_RandomKarmaMain;
+			closeOnClickedOutside = false;
+			forcePause = true;
+			closeOnCancel = false;
+			doCloseX = false;
 		}
 
 		public override void DoWindowContents(Rect inRect)
@@ -171,37 +175,81 @@ namespace YaomaStorytellers
 			Rect offerButton = new Rect(rightHalfBottom);
 			offerButton.width = 100;
 			offerButton.height = 50;
-			offerButton.x += rightHalfBottom.width / 2 - offerButton.width / 2;
+			offerButton.x += rightHalfBottom.width / 2 - offerButton.width * 3/2;
 			offerButton.y += rightHalfBottom.height / 2 - offerButton.height / 2;
 
-			if (Widgets.ButtonText(offerButton, "KarmaTradeMakeOffer".Translate(), true, true, true))
+			Rect rerollButton = new Rect(offerButton);
+			rerollButton.x += 2*offerButton.width;
+
+			if (karmaTracker.selectedIncidents.Count > 0)
 			{
-				if(EstIncidentCost(karmaTracker) < 0 && karmaTracker.Karma < 0)
-                {
-					action = delegate ()
+				if (Widgets.ButtonText(offerButton, "KarmaTradeMakeOffer".Translate(), true, true, true))
+				{
+					if (EstIncidentCost(karmaTracker) < 0 && karmaTracker.Karma < 0)
 					{
-						Tuple<Action, Action> actions = DebtResolutionDialogActions(karmaTracker);
-						Find.WindowStack.Add(new Dialog_MessageBox("KarmaTradeDebtResolution".Translate(),
-							"KarmaTradeDebtResolutionConfirm".Translate(), actions.Item2,
-							"KarmaTradeDebtResolutionReturn".Translate(), actions.Item1, 
-							null, false, null, null, WindowLayer.Dialog));
+						action = delegate ()
+						{
+							Tuple<Action, Action> actions = DebtResolutionDialogActions(karmaTracker);
+							Find.WindowStack.Add(new Dialog_MessageBox("KarmaTradeDebtResolution".Translate(),
+								"KarmaTradeDebtResolutionConfirm".Translate(), actions.Item2,
+								"KarmaTradeDebtResolutionReturn".Translate(), actions.Item1,
+								null, false, null, null, WindowLayer.Dialog));
+						};
+					}
+
+					else action = delegate ()
+					{
+						SelectionInform(this.EstIncidentCost(karmaTracker), selected);
+						karmaTracker.selectedIncidents = selected;
+						//karmaTracker.karma += this.EstIncidentCost(karmaTracker);
+						YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(EstIncidentCost(karmaTracker));
+						karmaTracker.CompleteIncidentSelection(selected);
+						Messages.Message("MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
+						this.Close(true);
 					};
+					action();
 				}
 
-				else action = delegate ()
-				{
-					this.SelectionInform(this.EstIncidentCost(karmaTracker), selected);
-					karmaTracker.selectedIncidents = selected;
-					//karmaTracker.karma += this.EstIncidentCost(karmaTracker);
-					YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(EstIncidentCost(karmaTracker));
-					karmaTracker.CompleteIncidentSelection(selected);
-					Messages.Message("MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
-					this.Close(true);
-				};
-				action();
-				//this.Close(true);
 			}
 
+			else
+			{
+				if (Widgets.ButtonText(offerButton, "KarmaTradeRejectTrade".Translate(), true, true, true))
+				{
+					SelectionInform(0, selected);
+
+					Messages.Message("MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
+					this.Close(true);
+				}
+			}
+
+			// when rerolling selections
+			float rerollCost = YaomaStorytellerUtility.settings.KaiyiKarmicRerollBaseCost * karmaTracker.CostFactor * rerollMult * -1f; // i.e. -20
+			float karmaTillFloor = YaomaStorytellerUtility.settings.KaiyiKarmicKarmaMin - karmaTracker.Karma; // (-500 - 0 = -500; -500 - (-490) = -10)
+
+			if (karmaTillFloor > rerollCost) // if the amount of karma to reach min karma > reroll cost, prevent rerolls
+            {
+				if (Widgets.ButtonText(rerollButton, "KarmaTradeNoMoreReroll".Translate(), true, true, Color.gray, true))
+				{
+					Messages.Message("MessageKarmaNoMoreReroll".Translate(), MessageTypeDefOf.SilentInput, false);
+				}
+			}
+            else // allow rerolls
+            {
+				if (Widgets.ButtonText(rerollButton, "KarmaTradeReroll".Translate(rerollCost.ToString("F2")), true, true, true))
+				{
+					Log.Message(rerollCost.ToString());
+					Log.Message(karmaTillFloor.ToString());
+
+					// clear selected incidents, then reroll incidents you could select
+					karmaTracker.selectedIncidents.Clear();
+					YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(rerollCost);
+					RefreshSelectableIncidents();
+					
+					rerollMult += 0.5f;
+				}
+			}
+			
 			//Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.UpperLeft;
 
@@ -259,7 +307,7 @@ namespace YaomaStorytellers
 
 		public void DebtResolutionAdditions(StorytellerComp_RandomKarmaMain kt)
 		{
-			if (EstIncidentCost(kt) >= 0 || kt.karma >= 0) return;
+			if (EstIncidentCost(kt) >= 0 || kt.Karma >= 0) return;
 
 			List<IncidentDef> negOptions = (from x in kt.selectableIncidentCount
 											where kt.baseIncidentCost[x.Key.category] > 0
@@ -276,7 +324,7 @@ namespace YaomaStorytellers
 
 		public Tuple<Action, Action> DebtResolutionDialogActions(StorytellerComp_RandomKarmaMain kt)
 		{
-			if (EstIncidentCost(kt) >= 0 || kt.karma >= 0) return null;
+			if (EstIncidentCost(kt) >= 0 || kt.Karma >= 0) return null;
 
 			Action actionReturn = delegate ()
 			{
@@ -301,6 +349,13 @@ namespace YaomaStorytellers
 		public void SelectionInform(float karmaChange, List<IncidentDef> selection)
 		{
 			string text = "";
+            if (selection.NullOrEmpty())
+            {
+				Find.LetterStack.ReceiveLetter("LetterLabelKaiyiKarmicNoDeal".Translate(),
+					"LetterKaiyiKarmicNoDeal".Translate(), LetterDefOf.NeutralEvent, null);
+				return;
+			}
+
 			if (karmaChange >= 0) text = "LetterKaiyiKarmicDealDonePositive".Translate(Math.Abs(Math.Round(karmaChange, 2)));
 			else text = "LetterKaiyiKarmicDealDoneNegative".Translate(Math.Abs(Math.Round(karmaChange, 2)));
 
@@ -329,7 +384,8 @@ namespace YaomaStorytellers
 
 		public void RefreshSelectableIncidents()
         {
-			selectableCache = null;
+			selectableCache = new List<DebugMenuOption>();
+			YaomaStorytellerUtility.KaiyiKarmicSelectableIncidents(ref selectableCache, karmaTracker);
 			options = SelectableIncidents;
 		}
 
@@ -344,6 +400,8 @@ namespace YaomaStorytellers
 				return selectableCache;
             }
         }
+
+		private float rerollMult = 1f;
 
 		private bool focusFilter;
 

@@ -52,7 +52,7 @@ namespace YaomaStorytellers
 				/*if (karma >= 0) return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingPositive;
 				else return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingNegative;*/
 				if (!YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScaling) return 1f;
-				return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
+				return 1 + (Math.Abs(Karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
 			}
         }
 
@@ -61,13 +61,12 @@ namespace YaomaStorytellers
 			/*if (karma + change >= 0) return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingPositive;
 			else return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingNegative;*/
 			if (!YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScaling) return 1f;
-			return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
+			return 1 + (Math.Abs(Karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
 		}
 
 		public virtual void CompExposeData()
 		{
 			// these two- consider removing them if unused
-			Scribe_Values.Look<float>(ref this.karma, "karma", 0, false);
 			Scribe_Values.Look<float>(ref this.cachedCostFactor, "cachedCostFactor", 1, false);
 
 			Scribe_Collections.Look(ref baseIncidentCost, "baseIncidentCost", LookMode.Def, LookMode.Value);
@@ -84,7 +83,7 @@ namespace YaomaStorytellers
 			foreach (IncidentDef i in selectableIncidentCount.Keys)
 				estIncidentCost.Add(i, baseIncidentCost[i.category] * CostFactor);
 			cachedCostFactor = CostFactor;
-			karma = YaomaStorytellerUtility.settings.KaiyiKarmicKarma;
+			//karma = YaomaStorytellerUtility.settings.KaiyiKarmicKarma;
 		}
 
 		public void RefreshIncidentCosts()
@@ -197,7 +196,6 @@ namespace YaomaStorytellers
         }
 
 		// with these two- replace usage of these with setting karma and cost factor
-		public float karma = 0;
 
 		public float cachedCostFactor = 1f;
 

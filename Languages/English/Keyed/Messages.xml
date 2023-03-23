@@ -6,5 +6,6 @@
 	<MessageKaiyiKarmicIncidentsFilled>All incidents slots are filled. Remove an incident or submit your offer.</MessageKaiyiKarmicIncidentsFilled>
 	<MessageKarmaTradeRemoveSelected>Removed incident from selection: {0}</MessageKarmaTradeRemoveSelected>
 	<MessageKarmaTradeEnd>The deal is concluded.</MessageKarmaTradeEnd>
+	<MessageKarmaNoMoreReroll>Cannot reroll fate: too much karmic debt.</MessageKarmaNoMoreReroll>
 
 </LanguageData>

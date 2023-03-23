@@ -222,7 +222,7 @@ namespace YaomaStorytellers
             settings.KaiyiKarmicScalingNegative = 1f;*/
 
             settings.KaiyiKarmicTradeDays = 7;
-            settings.KaiyiKarmicMaxChoices = 10;
+            settings.KaiyiKarmicMaxChoices = 15;
 
             settings.KaiyiKarmicKarmaPointScaling = false;
             settings.KaiyiKarmicKarmaPointScalingFactor = 1f;
@@ -286,7 +286,7 @@ namespace YaomaStorytellers
 
             listing.Label("YS_SettingsKaiyiMaxSelectable".Translate(settings.KaiyiKarmicMaxChoices.ToString("F0")), -1,
                 "YS_SettingsKaiyiMaxSelectableTooltip".Translate());
-            settings.KaiyiKarmicMaxChoices = (int)listing.Slider(settings.KaiyiKarmicMaxChoices, 5f, 20f);
+            settings.KaiyiKarmicMaxChoices = (int)listing.Slider(settings.KaiyiKarmicMaxChoices, 10f, 25f);
 
             listing.GapLine();
 

@@ -253,7 +253,8 @@ namespace YaomaStorytellers
             {
                 //gain 25% karma from negative events if they randomly occur: 
                 //you only get full value from negative events you choose
-                kt.karma += kt.estIncidentCost[fi.def] / 4f;
+                YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(kt.estIncidentCost[fi.def] / 4f);
+                //kt.karma += kt.estIncidentCost[fi.def] / 4f;
 
                 // notifies player of their gain
                 Find.LetterStack.ReceiveLetter("LetterLabelKaiyiKarmicGain".Translate(),
