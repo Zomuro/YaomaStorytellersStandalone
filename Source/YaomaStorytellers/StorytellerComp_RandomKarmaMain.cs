@@ -9,8 +9,16 @@ namespace YaomaStorytellers
 	// may use this instead of having an random main and karmatracker- just combo the two
 
 	// we need to adjust incidentweights anyways
-	public class StorytellerComp_RandomKarmaMain : StorytellerComp_RandomMain
+	public class StorytellerComp_RandomKarmaMain : StorytellerComp_RandomMain //, IExposable
 	{
+		public StorytellerCompProperties_RandomKarmaMain CompProps
+		{
+			get
+			{
+				return (StorytellerCompProperties_RandomKarmaMain)this.props;
+			}
+		}
+
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			if (Rand.MTBEventOccurs(this.Props.mtbDays, 60000f, 1000f))
@@ -49,50 +57,78 @@ namespace YaomaStorytellers
         {
             get
             {
-				/*if (karma >= 0) return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingPositive;
-				else return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingNegative;*/
 				if (!YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScaling) return 1f;
-				return 1 + (Math.Abs(Karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
+				return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
 			}
         }
 
 		public float EstKarmaPointScaling(float change)
 		{
-			/*if (karma + change >= 0) return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingPositive;
-			else return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicScalingNegative;*/
 			if (!YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScaling) return 1f;
-			return 1 + (Math.Abs(Karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
+			return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
 		}
 
-		public virtual void CompExposeData()
+		public void CompExposeData()
 		{
-			// these two- consider removing them if unused
-			Scribe_Values.Look<float>(ref this.cachedCostFactor, "cachedCostFactor", 1, false);
-
-			Scribe_Collections.Look(ref baseIncidentCost, "baseIncidentCost", LookMode.Def, LookMode.Value);
+			Scribe_Values.Look<float>(ref karma, "karma", 0);
+			Scribe_Values.Look<float>(ref cachedCostFactor, "cachedCostFactor", 1, false);
+			Scribe_Collections.Look(ref baseIncidentChange, "baseIncidentCost", LookMode.Def, LookMode.Value);
 			Scribe_Collections.Look(ref selectableIncidentCount, "selectableIncidentCount", LookMode.Def, LookMode.Value);
-			Scribe_Collections.Look(ref estIncidentCost, "estIncidentCost", LookMode.Def, LookMode.Value);
+			Scribe_Collections.Look(ref estIncidentChange, "estIncidentCost", LookMode.Def, LookMode.Value);
 			Scribe_Collections.Look(ref selectedIncidents, "selectedIncidents", LookMode.Def);
-			Scribe_Values.Look<int>(ref this.daysCheck, "daysCheck", 0, false);
+			Scribe_Values.Look<int>(ref daysCheck, "daysCheck", 0, false);
+			Scribe_Values.Look<bool>(ref initKarma, "initKarma", false);
 		}
 
 		public override void Initialize()
 		{
+            if (!initKarma)
+            {
+				initKarma = true;
+				karma = YaomaStorytellerUtility.settings.KaiyiKarmicKarma;
+            }
+
+			// start building baseincidentcost dict with one defined in xml
+			baseIncidentChange = CompProps.baseIncidentCategoryKarmaChange.ToDictionary(x => x.def, x => x.change);
+
+			// if there are new incidentcategorydefs that are not defined in the properties list, add them with base cost 2 (treat like misc)
+			foreach (IncidentCategoryDef i in DefDatabase<IncidentCategoryDef>.AllDefs)
+			{
+				if (!baseIncidentChange.Keys.Contains(i)) baseIncidentChange.Add(i, 2);
+			}
+
+			// for all the incidentdefs, if the incident def indeed has the category in baseincidentcost
+			// AND the incident diff isn't already in the list, we add it to the count list
 			foreach (IncidentDef i in DefDatabase<IncidentDef>.AllDefs)
-				if (baseIncidentCost.Keys.Contains(i.category)) selectableIncidentCount.Add(i, 1);
+            {
+				if (baseIncidentChange.Keys.Contains(i.category) && 
+					!selectableIncidentCount.Keys.Contains(i)) selectableIncidentCount.Add(i, 1);
+			}
+			
+			// we then set the estIncidentCost:
+			// if the incidentdef isn't in there, we add it in as base cost
+			// otherwise, it isn't touched at all
 			foreach (IncidentDef i in selectableIncidentCount.Keys)
-				estIncidentCost.Add(i, baseIncidentCost[i.category] * CostFactor);
+            {
+				if(!estIncidentChange.ContainsKey(i)) estIncidentChange.Add(i, baseIncidentChange[i.category] * CostFactor);
+			}
 			cachedCostFactor = CostFactor;
 			//karma = YaomaStorytellerUtility.settings.KaiyiKarmicKarma;
+
+			Log.Message("karma: " + karma);
+			Log.Message("changefactor: " + CostFactor);
+			Log.Message("basechange: " + baseIncidentChange.Count());
+			Log.Message("selectableCount: " + selectableIncidentCount.Count());
+			Log.Message("estchange: " + estIncidentChange.Count());
 		}
 
-		public void RefreshIncidentCosts()
+		public void RefreshIncidentChange()
         {
 			if (cachedCostFactor == CostFactor) return;
 			Dictionary<IncidentDef, float> temp = new Dictionary<IncidentDef, float>();
-			foreach (IncidentDef key in estIncidentCost.Keys)
-				temp[key] = estIncidentCost[key] * CostFactor / cachedCostFactor;
-			estIncidentCost = temp;
+			foreach (IncidentDef key in estIncidentChange.Keys)
+				temp[key] = estIncidentChange[key] * CostFactor / cachedCostFactor;
+			estIncidentChange = temp;
 			cachedCostFactor = CostFactor;
 		}
 
@@ -133,8 +169,8 @@ namespace YaomaStorytellers
 				{
 					//estimated incident cost becomes (weight in category)/(total sum of weights) 
 					//	* (number of incidents in category) * (base incident cost of that category)
-					estIncidentCost[temp.Key] = (((float)temp.Value) / weights.Values.Sum()) *
-						baseIncidentCost[icd] * weights.Count() * CostFactor;
+					estIncidentChange[temp.Key] = (((float)temp.Value) / weights.Values.Sum()) *
+						baseIncidentChange[icd] * weights.Count() * CostFactor;
 				}
 
 				weights.Clear();
@@ -144,7 +180,7 @@ namespace YaomaStorytellers
 		public void AdaptiveWeighting(ref Dictionary<IncidentDef, float> weights, IncidentCategoryDef icd)
         {
 			// depending on if it costs karma or not, alter weighting
-			double power = baseIncidentCost[icd] >= 0 ? -1f : 1f;
+			double power = baseIncidentChange[icd] >= 0 ? -1f : 1f;
 
 			foreach (var id in from incident in selectableIncidentCount
 							   where incident.Key.category == icd
@@ -158,18 +194,11 @@ namespace YaomaStorytellers
         {
 			List<IncidentCategoryEntry> cats = Props.categoryWeights.ListFullCopy();
 
-			if(Karma < 0) 
-				foreach(var x in cats)
-                {
-					if (x.category == IncidentCategoryDefOf.ThreatBig || x.category == IncidentCategoryDefOf.ThreatSmall) x.weight *= (1 + Math.Abs(Karma) / 100f);
-				}
-            else
-				foreach (var x in cats)
-				{
-					if (x.category == IncidentCategoryDefOf.ShipChunkDrop || x.category == IncidentCategoryDefOf.OrbitalVisitor || 
-						x.category == IncidentCategoryDefOf.Misc) 
-						x.weight *= (1 + Math.Abs(Karma) / 100f);
-				}
+			foreach(var x in cats)
+            {
+				if (karma < 0 && baseIncidentChange[x.category] >= 0) x.weight *= 1 + Math.Abs(karma) / Math.Abs(YaomaStorytellerUtility.settings.KaiyiKarmicKarmaMin);
+				else if (karma > 0 && baseIncidentChange[x.category] < 0) x.weight *= 1 + Math.Abs(karma) / Math.Abs(YaomaStorytellerUtility.settings.KaiyiKarmicKarmaMax);
+			}
 
 			return cats;
 		}
@@ -179,14 +208,6 @@ namespace YaomaStorytellers
 			return base.ToString() + " " + YaomaStorytellerUtility.settings.KaiyiKarmicKarma;
 		}
 
-		public float Karma
-        {
-            get
-            {
-				return YaomaStorytellerUtility.settings.KaiyiKarmicKarma;
-			}
-        }
-
 		public float CostFactor
         {
             get
@@ -195,29 +216,23 @@ namespace YaomaStorytellers
 			}
         }
 
-		// with these two- replace usage of these with setting karma and cost factor
+		public float karma = 0f;
 
 		public float cachedCostFactor = 1f;
 
-		public Dictionary<IncidentCategoryDef, float> baseIncidentCost = new Dictionary<IncidentCategoryDef, float>
-		{
-			{IncidentCategoryDefOf.ThreatBig, 2f},
-			{IncidentCategoryDefOf.ThreatSmall, 1.5f},
-			{IncidentCategoryDefOf.DiseaseAnimal, 1f},
-			{IncidentCategoryDefOf.DiseaseHuman, 1f},
-			{IncidentCategoryDefOf.Misc, -2f},
-			{IncidentCategoryDefOf.ShipChunkDrop, -3f},
-			{IncidentCategoryDefOf.FactionArrival, -4f},
-			{IncidentCategoryDefOf.OrbitalVisitor, -4f},
-			{IncidentCategoryDefOf.AllyAssistance, -6f }
-		};
+		public Dictionary<IncidentCategoryDef, float> baseIncidentChange = new Dictionary<IncidentCategoryDef, float>();
+
 		public Dictionary<IncidentDef, int> selectableIncidentCount = new Dictionary<IncidentDef, int>();
-		public Dictionary<IncidentDef, float> estIncidentCost = new Dictionary<IncidentDef, float>();
+
+		public Dictionary<IncidentDef, float> estIncidentChange = new Dictionary<IncidentDef, float>();
+
 		public List<IncidentDef> selectedIncidents = new List<IncidentDef>();
 
 		public List<IncidentCategoryDef> alteredCats = new List<IncidentCategoryDef>();
 
 		public int daysCheck = 0;
+
+		private bool initKarma = false;
 
 	}
 }

@@ -44,17 +44,9 @@ namespace YaomaStorytellers
 
         public float KaiyiKarmicBasePriceFactor = 1f;
 
-        
-
-        /*public float KaiyiKarmicScalingPositive = 0.25f;
-        public float KaiyiKarmicScalingNegative = 1f;*/
-
-
-        // add these new settings for Kaiyi
         public bool KaiyiKarmicKarmaPointScaling = false;
 
         public float KaiyiKarmicKarmaPointScalingFactor = 1f;
-
 
         public int KaiyiKarmicTradeDays = 7;
 
@@ -64,14 +56,9 @@ namespace YaomaStorytellers
 
         public float KaiyiKarmicRerollBaseCost = 10f;
 
-        //public bool KaiyiKarmicLimitedTimePromo = false;
-
-        /*public float KaiyiKarmicThresholdEndgamePositive = 500f;
-
-        public float KaiyiKarmicThresholdEndgameNegative = -500f;*/
-
         public override void ExposeData()
         {
+            // Deathless Daji Settings
             Scribe_Values.Look(ref DajiRessurectMechsDisable, "DajiRessurectMechsDisable", false);
             Scribe_Values.Look(ref DajiRetrieveWeaponsDisable, "DajiRetrieveWeaponsDisable", false);
             Scribe_Values.Look(ref DajiCrimsonSeverityGain, "DajiCrimsonSeverityGain", 0.3f);
@@ -81,29 +68,24 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref DajiLifestealMelee, "DajiLifestealMelee", false);
             Scribe_Values.Look(ref DajiLifestealMeleePercent, "DajiLifestealMeleePercent", 0.25f);
 
+            // Farseer Fan Settings
             Scribe_Values.Look(ref FarseerFanGracePeriodFactor, "FarseerFanGracePeriodFactor", 1f);
             Scribe_Values.Look(ref FarseerFanPredictionDetail, "FarseerFanPredictionDetail", false);
             Scribe_Values.Look(ref FarseerFanPredictAlt, "FarseerFanPredictAlt", false);
             Scribe_Values.Look(ref FarseerFanPredictDefer, "FarseerFanPredictDefer", false);
 
+            // Kaiyi the Karmic Settings
             Scribe_Values.Look(ref KaiyiKarmicKarma, "KaiyiKarmicKarma", 0f);
             Scribe_Values.Look(ref KaiyiKarmicKarmaMax, "KaiyiKarmicKarmaMax", 500f);
             Scribe_Values.Look(ref KaiyiKarmicKarmaMin, "KaiyiKarmicKarmaMin", -500f);
-
             Scribe_Values.Look(ref KaiyiKarmicBasePriceFactor, "KaiyiKarmicBasePriceFactor", 1f);
-            /*Scribe_Values.Look(ref KaiyiKarmicScalingPositive, "KaiyiKarmicPointScalingPositive", 0.25f);
-            Scribe_Values.Look(ref KaiyiKarmicScalingNegative, "KaiyiKarmicPointScalingNegative", 1f);*/
-
             Scribe_Values.Look(ref KaiyiKarmicKarmaPointScaling, "KaiyiKarmicKarmaPointScaling", false);
             Scribe_Values.Look(ref KaiyiKarmicKarmaPointScalingFactor, "KaiyiKarmicKarmaPointScalingFactor", 1f);
-
             Scribe_Values.Look(ref KaiyiKarmicTradeDays, "KaiyiKarmicTradeDays", 7);
             Scribe_Values.Look(ref KaiyiKarmicMaxChoices, "KaiyiKarmicMaxChoices", 10);
             Scribe_Values.Look(ref KaiyiKarmicRerollIncidents, "KaiyiKarmicRerollIncidents", false);
             Scribe_Values.Look(ref KaiyiKarmicRerollBaseCost, "KaiyiKarmicRerollBaseCost", 10f);
-            //Scribe_Values.Look(ref KaiyiKarmicScalingNegative, "KaiyiKarmicPointScalingNegative", 1f);
-            /*Scribe_Values.Look(ref KaiyiKarmicThresholdEndgamePositive, "KaiyiKarmicThresholdEndgamePositive", 500f);
-            Scribe_Values.Look(ref KaiyiKarmicThresholdEndgameNegative, "KaiyiKarmicThresholdEndgameNegative", -500f);*/
+
             base.ExposeData();
         }
     }
@@ -204,7 +186,7 @@ namespace YaomaStorytellers
             settings.DajiMurderSanitySevReduce = 0.01f;
             settings.DajiLifestealMelee = false;
             settings.DajiLifestealMeleePercent = 0.25f;
-    }
+        }
 
         public void FarseerFanDefault()
         {

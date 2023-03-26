@@ -231,9 +231,9 @@ namespace YaomaStorytellers
         }
 
         // Adjust setting karma value with purchases and the such.
-        public static void KaiyiKarmicAdjustKarma(float adjust)
+        public static void KaiyiKarmicAdjustKarma(StorytellerComp_RandomKarmaMain kt, float adjust)
         {
-            settings.KaiyiKarmicKarma = Math.Max(settings.KaiyiKarmicKarmaMin, Math.Min(settings.KaiyiKarmicKarma + adjust, settings.KaiyiKarmicKarmaMax));
+            kt.karma = Math.Max(settings.KaiyiKarmicKarmaMin, Math.Min(kt.karma + adjust, settings.KaiyiKarmicKarmaMax));
         }
 
         // Adjust price multiplier on incidents using this.
@@ -248,17 +248,17 @@ namespace YaomaStorytellers
 
             // if the incident has a category recognized by the KarmaTracker
             // and has a negative karma cost (i.e. negative events) 
-            if (storyteller.TryFire(fi) && kt.baseIncidentCost.Keys.Contains(fi.def.category) &&
-                kt.baseIncidentCost[fi.def.category] > 0)
+            if (storyteller.TryFire(fi) && kt.baseIncidentChange.Keys.Contains(fi.def.category) &&
+                kt.baseIncidentChange[fi.def.category] > 0)
             {
                 //gain 25% karma from negative events if they randomly occur: 
                 //you only get full value from negative events you choose
-                YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(kt.estIncidentCost[fi.def] / 4f);
+                YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(kt, kt.estIncidentChange[fi.def] / 4f);
                 //kt.karma += kt.estIncidentCost[fi.def] / 4f;
 
                 // notifies player of their gain
                 Find.LetterStack.ReceiveLetter("LetterLabelKaiyiKarmicGain".Translate(),
-                    "LetterKaiyiKarmicGain".Translate(Math.Abs(Math.Round(kt.estIncidentCost[fi.def] / 4f, 2))),
+                    "LetterKaiyiKarmicGain".Translate(Math.Abs(Math.Round(kt.estIncidentChange[fi.def] / 4f, 2))),
                     LetterDefOf.NeutralEvent);
             }
         }
@@ -322,10 +322,10 @@ namespace YaomaStorytellers
             //karmaTracker.selectableIncidentCount.Keys.Where(x => KaiyiKarmicIsSelectable(x)
 
             foreach (IncidentDef iDef in KaiyiKarmicWeightedSelection(karmaTracker, settings.KaiyiKarmicMaxChoices)
-                .OrderByDescending(x => karmaTracker.estIncidentCost[x])
+                .OrderByDescending(x => karmaTracker.estIncidentChange[x])
                 .ThenBy(x => x.LabelCap.ToString()))
             {
-                labelCost = iDef.LabelCap.ToString() + " (" + Math.Round(karmaTracker.estIncidentCost[iDef], 2) + ")";
+                labelCost = iDef.LabelCap.ToString() + " (" + Math.Round(karmaTracker.estIncidentChange[iDef], 2) + ")";
 
                 selectable.Add(new DebugMenuOption(labelCost, DebugMenuOptionMode.Action, delegate ()
                 {
@@ -367,6 +367,13 @@ namespace YaomaStorytellers
         public static IEnumerable<IncidentDef> KaiyiKarmicWeightedSelection(StorytellerComp_RandomKarmaMain karmaTracker, int count)
         {
             List<IncidentDef> incidents = karmaTracker.selectableIncidentCount.Keys.Where(x => KaiyiKarmicIsSelectable(x)).ToList();
+
+            Dictionary<IncidentCategoryDef, int> categoryCount = new Dictionary<IncidentCategoryDef, int>();
+            foreach(var i in incidents)
+            {
+                if (categoryCount.ContainsKey(i.category)) categoryCount[i.category]++;
+                else categoryCount.Add(i.category, 1);
+            }
             List<IncidentCategoryEntry> compWeights = karmaTracker.WeightedIncidentCategories();
 
             // if we want to select a number of incidents > incidents that are even selectable, just send the whole list
@@ -382,7 +389,7 @@ namespace YaomaStorytellers
             {
                 IncidentCategoryEntry entry = compWeights.FirstOrDefault(x => x.category == i.category);
                 float weight = entry != null ? entry.weight : 1f;
-                incidentWeights.Add(i, weight);
+                incidentWeights.Add(i, weight / categoryCount[i.category]);
             }
 
             // get list of incident choices *count* long using weighted rng
@@ -390,11 +397,11 @@ namespace YaomaStorytellers
             for (int x = 0; x < count; x++)
             {
                 float total = incidentWeights.Values.Sum();
-                float rand = (float) YaomaStorytellerUtility.rand.NextDouble() * total;
+                float random = UnityEngine.Random.value;
                 for(int y = 0; y < incidentWeights.Count(); y++)
                 {
                     culm += incidentWeights.ElementAt(y).Value;
-                    if(rand < culm)
+                    if(random * total < culm)
                     {
                         IncidentDef iDef = incidentWeights.ElementAt(y).Key;
                         yield return iDef;

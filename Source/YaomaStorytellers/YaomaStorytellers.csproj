@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="MentalStateDefOf_Yaoma.cs" />
     <Compile Include="HediffDefOf_Yaoma.cs" />
+    <Compile Include="StorytellerCompProperties_RandomKarmaMain.cs" />
     <Compile Include="StorytellerComp_RandomKarmaMain.cs" />
     <Compile Include="StorytellerDajiToggle_ModExtension.cs" />
     <Compile Include="YaomaStorytellerSettings.cs" />

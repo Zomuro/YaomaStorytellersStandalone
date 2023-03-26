@@ -148,7 +148,7 @@
 		<listOrder>40</listOrder>
 		<comps>	
 		  <!-- Home all -->
-			<li Class="StorytellerCompProperties_RandomMain">
+			<li Class="YaomaStorytellers.StorytellerCompProperties_RandomKarmaMain">
 				<compClass>YaomaStorytellers.StorytellerComp_RandomKarmaMain</compClass>
 				<allowedTargetTags>
 				  <li>Map_PlayerHome</li>
@@ -167,6 +167,44 @@
 				  <ThreatSmall>1</ThreatSmall>
 				  <ShipChunkDrop>0.35</ShipChunkDrop>
 				</categoryWeights>
+				<baseIncidentCategoryKarmaChange>
+					<li>
+						<def>ThreatBig</def>
+						<change>2</change>
+					</li>
+					<li>
+						<def>ThreatSmall</def>
+						<change>1.5</change>
+					</li>
+					<li>
+						<def>DiseaseAnimal</def>
+						<change>1</change>
+					</li>
+					<li>
+						<def>DiseaseHuman</def>
+						<change>1</change>
+					</li>
+					<li>
+						<def>Misc</def>
+						<change>-2</change>
+					</li>
+					<li>
+						<def>ShipChunkDrop</def>
+						<change>-3</change>
+					</li>
+					<li>
+						<def>FactionArrival</def>
+						<change>-4</change>
+					</li>
+					<li>
+						<def>OrbitalVisitor</def>
+						<change>-4</change>
+					</li>
+					<li>
+						<def>AllyAssistance</def>
+						<change>-6</change>
+					</li>
+				</baseIncidentCategoryKarmaChange>
 			</li>
 			<li Class="StorytellerCompProperties_Disease">
 				<category>DiseaseHuman</category>

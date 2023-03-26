@@ -27,6 +27,11 @@ namespace YaomaStorytellers
             harmony.Patch(AccessTools.Method(typeof(StorytellerDef), "ResolveReferences"),
                 new HarmonyMethod(typeof(HarmonyPatches), nameof(StorytellerDefDajiToggle_Prefix)));
 
+            // ExposeDataKaiyi_Post_Yaoma
+            // postfix to save comp values for Kaiyi the Karmic
+            harmony.Patch(AccessTools.Method(typeof(Storyteller), "ExposeData"),
+                null, new HarmonyMethod(typeof(HarmonyPatches), nameof(ExposeDataKaiyi_Post_Yaoma)));
+
             // KillDaji_Post_Yaoma
             // decrease crimson psychosis severity on pawn kill
             harmony.Patch(AccessTools.Method(typeof(Pawn), "Kill"),
@@ -86,6 +91,17 @@ namespace YaomaStorytellers
             if(__0?.Instigator as Pawn != null)
             {
                 YaomaStorytellerUtility.DeathlessDajiMurderSanity(__0?.Instigator as Pawn);
+            }
+        }
+
+        // POSTFIX: save values in Kaiyi the Karmic's comp
+        public static void ExposeDataKaiyi_Post_Yaoma(Storyteller __instance)
+        {
+            if (Find.Storyteller.def != StorytellerDefOf.KaiyiKarmic_Yaoma) return;
+            StorytellerComp compKaiyi = __instance.storytellerComps.FirstOrDefault(x => x.GetType() == typeof(StorytellerComp_RandomKarmaMain));
+            if (compKaiyi != null)
+            {
+                (compKaiyi as StorytellerComp_RandomKarmaMain).CompExposeData();
             }
         }
 
