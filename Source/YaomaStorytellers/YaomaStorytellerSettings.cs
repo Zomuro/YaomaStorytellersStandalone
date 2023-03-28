@@ -268,7 +268,7 @@ namespace YaomaStorytellers
 
             listing.Label("YS_SettingsKaiyiMaxSelectable".Translate(settings.KaiyiKarmicMaxChoices.ToString("F0")), -1,
                 "YS_SettingsKaiyiMaxSelectableTooltip".Translate());
-            settings.KaiyiKarmicMaxChoices = (int)listing.Slider(settings.KaiyiKarmicMaxChoices, 10f, 25f);
+            settings.KaiyiKarmicMaxChoices = (int)listing.Slider(settings.KaiyiKarmicMaxChoices, 10f, 30f);
 
             listing.GapLine();
 
