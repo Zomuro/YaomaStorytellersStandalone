@@ -109,8 +109,8 @@ namespace YaomaStorytellers
 				allOptionsHeight = allOptionsRectListing.height;
 			}
 			Rect allOptionsRectView = new Rect(allOptionsRectListing.x, allOptionsRectListing.y, allOptionsRectListing.width - 16f, allOptionsHeight);
-			Widgets.BeginScrollView(allOptionsRectListing, ref this.scrollPosition, allOptionsRectView, true);
-			listing = new Listing_Standard(inRect, () => this.scrollPosition);
+			Widgets.BeginScrollView(allOptionsRectListing, ref scrollPosition, allOptionsRectView, true);
+			listing = new Listing_Standard(inRect, () => scrollPosition);
 			listing.ColumnWidth = (allOptionsRectListing.width - 18f);
 			listing.Begin(allOptionsRectView);
 			DoListingItems();
@@ -127,19 +127,26 @@ namespace YaomaStorytellers
 			// Listing that shows all the pricing breakdown
 			Rect pricingRectListing = new Rect(pricingRect).ContractedBy(10f);
 			pricingRectListing.yMin += 30f;
-			Listing_Standard listing_price = new Listing_Standard();
-			listing.ColumnWidth = (int) (pricingRectListing.width * 1.5f);
-			listing_price.Begin(pricingRectListing);
-			listing_price.LabelDouble("YS_KarmaTradeCurrKarma".Translate(), karmaTracker.karma.ToString("F2"));
+			Rect pricingRectListingView = new Rect(pricingRectListing);
+			pricingRectListingView.width -= 16f;
+			pricingRectListingView.height = pricingListingHeight;
+
+			Widgets.BeginScrollView(pricingRectListing, ref scrollPositionPricing, pricingRectListingView, true);
+			listing_Pricing = new Listing_Standard(inRect, () => scrollPositionPricing);
+			listing_Pricing.ColumnWidth = (int) (pricingRectListingView.width);
+			listing_Pricing.Begin(pricingRectListing);
+			listing_Pricing.LabelDouble("YS_KarmaTradeCurrKarma".Translate(), karmaTracker.karma.ToString("F2"));
 			Text.Font = GameFont.Tiny;
 			foreach (var i in selected)
             {
-				listing_price.LabelDouble(i.LabelCap, ConvertToCurrency(karmaTracker.estIncidentChange[i]));
+				listing_Pricing.LabelDouble(i.LabelCap, ConvertToCurrency(karmaTracker.estIncidentChange[i]));
 			}
 			Text.Font = GameFont.Small;
-			listing_price.GapLine();
-			listing_price.LabelDouble("YS_KarmaTradeFinalKarma".Translate(), KarmaConstrain(karmaTracker.karma + EstIncidentChange(karmaTracker)).ToString("F2"));
-			listing_price.End();
+			listing_Pricing.GapLine();
+			listing_Pricing.LabelDouble("YS_KarmaTradeFinalKarma".Translate(), KarmaConstrain(karmaTracker.karma + EstIncidentChange(karmaTracker)).ToString("F2"));
+			listing_Pricing.End();
+			Widgets.EndScrollView();
+			pricingListingHeight = listing_Pricing.CurHeight;
 
 			// Title for selected incidents
 			Text.Font = GameFont.Medium;
@@ -180,7 +187,7 @@ namespace YaomaStorytellers
 					action = delegate ()
 					{
 						selected.Remove(iDef);
-						Messages.Message("MessageKarmaTradeRemoveSelected".Translate(iDef.label),
+						Messages.Message("YS_MessageKarmaTradeRemoveSelected".Translate(iDef.label),
 							MessageTypeDefOf.SilentInput, false);
 					};
 					action();
@@ -211,7 +218,7 @@ namespace YaomaStorytellers
 			offerButton.width = 100;
 			offerButton.height = 50;
 
-			offerButton.x += tradeRect.width / 2 - offerButton.width / 2;
+			offerButton.x += tradeRect.width / 2 - offerButton.width * 1.25f;
 			offerButton.y += tradeRect.height / 2 - offerButton.height / 2;
 
 			if (YaomaStorytellerUtility.settings.KaiyiKarmicRerollIncidents) offerButton.y -= offerButton.height / 2;
@@ -236,7 +243,7 @@ namespace YaomaStorytellers
 						karmaTracker.selectedIncidents = selected;
 						YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(karmaTracker, EstIncidentChange(karmaTracker));
 						karmaTracker.CompleteIncidentSelection(selected);
-						Messages.Message("MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
+						Messages.Message("YS_MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
 						this.Close(true);
 					};
 					action();
@@ -248,9 +255,18 @@ namespace YaomaStorytellers
 				if (Widgets.ButtonText(offerButton, "YS_KarmaTradeRejectTrade".Translate(), true, true, true, TextAnchor.MiddleCenter))
 				{
 					SelectionInform(0, selected);
-					Messages.Message("MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
+					Messages.Message("YS_MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
 					this.Close(true);
 				}
+			}
+
+			// clear out all selected incidents in Dialog
+			Rect clearButton = new Rect(offerButton);
+			clearButton.x += clearButton.width * 1.5f;
+			if (Widgets.ButtonText(clearButton, "YS_KarmaTradeClearSelections".Translate(), true, true, true, TextAnchor.MiddleCenter))
+			{
+				selected.Clear();
+				Messages.Message("YS_MessageKarmaTradeRemoveAllSelect".Translate(), MessageTypeDefOf.SilentInput, false);
 			}
 
 			if (!YaomaStorytellerUtility.settings.KaiyiKarmicRerollIncidents) // end method early when rerolls aren't allowed
@@ -261,6 +277,7 @@ namespace YaomaStorytellers
 
 			// setup reroll button
 			Rect rerollButton = new Rect(offerButton);
+			rerollButton.x = tradeRect.x + tradeRect.width / 2 - offerButton.width * 0.5f;
 			rerollButton.y += 1.5f * offerButton.height;
 
 			// when rerolling selections
@@ -270,15 +287,15 @@ namespace YaomaStorytellers
 			{
 				if (Widgets.ButtonText(rerollButton, "YS_KarmaTradeNoMoreReroll".Translate(), true, true, Color.gray, true, TextAnchor.MiddleCenter))
 				{
-					Messages.Message("MessageKarmaNoMoreReroll".Translate(), MessageTypeDefOf.SilentInput, false);
+					Messages.Message("YS_MessageKarmaNoMoreReroll".Translate(), MessageTypeDefOf.SilentInput, false);
 				}
 			}
 			else // allow rerolls
 			{
 				if (Widgets.ButtonText(rerollButton, "YS_KarmaTradeReroll".Translate(rerollCost.ToString("F2")), true, true, true, TextAnchor.MiddleCenter))
 				{
-					// clear selected incidents, then reroll incidents you could select
-					karmaTracker.selectedIncidents.Clear();
+					// clear selected incidents in Dialog, then reroll incidents you could select
+					selected.Clear();
 					YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(karmaTracker, rerollCost);
 					RefreshSelectableIncidents();
 					rerollMult += 0.5f;
@@ -445,7 +462,13 @@ namespace YaomaStorytellers
 
 		private List<DebugMenuOption> selectableCache;
 
+		protected Vector2 scrollPositionPricing;
+
+		public float pricingListingHeight;
+
 		protected Listing_Standard listing_Selected;
+
+		protected Listing_Standard listing_Pricing;
 
 		public List<IncidentDef> selected = new List<IncidentDef>();
 

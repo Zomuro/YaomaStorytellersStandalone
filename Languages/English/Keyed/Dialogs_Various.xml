@@ -22,6 +22,7 @@
 	<YS_KarmaTradeRejectTrade>Reject trade</YS_KarmaTradeRejectTrade>
 	<YS_KarmaTradeReroll>Reroll fates ({0})</YS_KarmaTradeReroll>
 	<YS_KarmaTradeNoMoreReroll>No rerolls</YS_KarmaTradeNoMoreReroll>
+	<YS_KarmaTradeClearSelections>Clear selections</YS_KarmaTradeClearSelections>
 	
 	<!-- Dialog_MessageBox (Farseer Fan Alternative Incidents)-->
 	<YS_FarseerFanAltOffer>The stars foretell a divergence in fate- and so Farseer Fan calls upon you to make a choice.</YS_FarseerFanAltOffer>

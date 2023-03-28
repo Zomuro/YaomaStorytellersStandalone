@@ -336,14 +336,30 @@ namespace YaomaStorytellers
                             x is StorytellerComp_RandomMain).GenerateParms(iDef.category, parmSim.target);
                     }
 
-                    List<IncidentDef> incidentsSelected = (Find.WindowStack.currentlyDrawnWindow as Dialog_KarmaTrade).selected;
+                    Dialog_KarmaTrade karmaDialog = (Find.WindowStack.currentlyDrawnWindow as Dialog_KarmaTrade);
+                    List<IncidentDef> incidentsSelected = karmaDialog.selected;
 
                     if (incidentsSelected.Count < 5)
                     {
-                        incidentsSelected.Add(iDef);
-                        Messages.Message("MessageKaiyiKarmicIncidentNum".Translate(incidentsSelected.Count.ToString()), MessageTypeDefOf.SilentInput, false);
+                        float estFinalVal = karmaTracker.karma + karmaDialog.EstIncidentChange(karmaTracker) + karmaTracker.estIncidentChange[iDef];
+                        if (estFinalVal <= settings.KaiyiKarmicKarmaMin)
+                        {
+                            Messages.Message("YS_MessageKaiyiKarmicIncidentDebtFloor".Translate(), MessageTypeDefOf.SilentInput, false);
+                        }
+                        else if(estFinalVal >= settings.KaiyiKarmicKarmaMax)
+                        {
+                            incidentsSelected.Add(iDef);
+                            Messages.Message("YS_MessageKaiyiKarmicIncidentNum".Translate(incidentsSelected.Count.ToString()), MessageTypeDefOf.SilentInput, false);
+                            Messages.Message("YS_MessageKaiyiKarmicIncidentReachedMax".Translate(), MessageTypeDefOf.SilentInput, false);
+                        }
+                        else
+                        {
+                            incidentsSelected.Add(iDef);
+                            Messages.Message("YS_MessageKaiyiKarmicIncidentNum".Translate(incidentsSelected.Count.ToString()), MessageTypeDefOf.SilentInput, false);
+                        }
+                        
                     }
-                    else Messages.Message("MessageKaiyiKarmicIncidentsFilled".Translate(), MessageTypeDefOf.RejectInput, false);
+                    else Messages.Message("YS_MessageKaiyiKarmicIncidentsFilled".Translate(), MessageTypeDefOf.RejectInput, false);
                 }));
             }
         }
