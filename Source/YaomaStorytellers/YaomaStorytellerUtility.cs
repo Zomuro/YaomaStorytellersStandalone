@@ -251,9 +251,8 @@ namespace YaomaStorytellers
             if (storyteller.TryFire(fi) && kt.baseIncidentChange.Keys.Contains(fi.def.category) &&
                 kt.baseIncidentChange[fi.def.category] > 0)
             {
-                //gain 25% karma from negative events if they randomly occur: 
-                //you only get full value from negative events you choose
-                YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(kt, kt.estIncidentChange[fi.def] / 4f);
+                //gain full value of karma from negative events if they randomly occur
+                YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(kt, kt.estIncidentChange[fi.def]);
                 //kt.karma += kt.estIncidentCost[fi.def] / 4f;
 
                 // notifies player of their gain

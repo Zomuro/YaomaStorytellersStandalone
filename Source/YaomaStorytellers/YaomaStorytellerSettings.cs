@@ -200,8 +200,6 @@ namespace YaomaStorytellers
         {
             settings.KaiyiKarmicKarma = 0f;
             settings.KaiyiKarmicBasePriceFactor = 1f;
-            /*settings.KaiyiKarmicScalingPositive = 0.25f;
-            settings.KaiyiKarmicScalingNegative = 1f;*/
 
             settings.KaiyiKarmicTradeDays = 7;
             settings.KaiyiKarmicMaxChoices = 15;
@@ -253,14 +251,6 @@ namespace YaomaStorytellers
             listing.Label("YS_SettingsKaiyiCostFactor".Translate(settings.KaiyiKarmicBasePriceFactor.ToString("F2")), -1,
                 "YS_SettingsKaiyiCostFactorTooltip".Translate());
             settings.KaiyiKarmicBasePriceFactor = listing.Slider((float)settings.KaiyiKarmicBasePriceFactor, 0f, 5f);
-
-
-            /*listing.Label("YS_SettingsKaiyiPointFactorPos".Translate(settings.KaiyiKarmicScalingPositive.ToString("F2")), -1,
-                "YS_SettingsKaiyiPointFactorPosTooltip".Translate());
-            settings.KaiyiKarmicScalingPositive = listing.Slider((float)settings.KaiyiKarmicScalingPositive, 0f, 2f);
-            listing.Label("YS_SettingsKaiyiPointFactorNeg".Translate(settings.KaiyiKarmicScalingNegative.ToString("F2")), -1,
-                "YS_SettingsKaiyiPointFactorNegTooltip".Translate());
-            settings.KaiyiKarmicScalingNegative = listing.Slider((float)settings.KaiyiKarmicScalingNegative, 0f, 2f);*/
 
             listing.Label("YS_SettingsKaiyiTradeDays".Translate(settings.KaiyiKarmicTradeDays.ToString("F0")), -1,
                 "YS_SettingsKaiyiTradeDaysTooltip".Translate());
