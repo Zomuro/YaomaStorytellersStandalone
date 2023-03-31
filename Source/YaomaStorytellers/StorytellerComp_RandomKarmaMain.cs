@@ -113,13 +113,6 @@ namespace YaomaStorytellers
 				if(!estIncidentChange.ContainsKey(i)) estIncidentChange.Add(i, baseIncidentChange[i.category] * CostFactor);
 			}
 			cachedCostFactor = CostFactor;
-			//karma = YaomaStorytellerUtility.settings.KaiyiKarmicKarma;
-
-			Log.Message("karma: " + karma);
-			Log.Message("changefactor: " + CostFactor);
-			Log.Message("basechange: " + baseIncidentChange.Count());
-			Log.Message("selectableCount: " + selectableIncidentCount.Count());
-			Log.Message("estchange: " + estIncidentChange.Count());
 		}
 
 		public void RefreshIncidentChange()

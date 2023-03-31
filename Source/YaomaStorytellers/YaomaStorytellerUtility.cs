@@ -39,12 +39,8 @@ namespace YaomaStorytellers
                         StorytellerComp_OnDemand c = (StorytellerComp_OnDemand)storyteller.storytellerComps.
                             FirstOrDefault(x => x.GetType() == typeof(StorytellerComp_OnDemand));
                         FarseerFanOfferDefer(storyteller, fi_sim, counter, c);
-                        //FarseerFanQueue(storyteller, fi_sim, counter);
                         break;
                 }
-
-                // properly set the incident time
-                //FarseerFanQueue(storyteller, fi_sim, counter);
             }
             // ticks the incident queue- will automatically fire an incident at the right tick
             storyteller.incidentQueue.IncidentQueueTick();
