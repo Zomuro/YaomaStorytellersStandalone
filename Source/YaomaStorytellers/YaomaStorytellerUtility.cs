@@ -15,8 +15,10 @@ namespace YaomaStorytellers
             // check if there's nothing in the incident queue every 1000 ticks
             if (Find.TickManager.TicksGame % 1000 == 0 && storyteller.incidentQueue.Count == 0)
             {
+                if (!DebugSettings.enableStoryteller) return false;
+
                 // if the gameticks <= minDaysPassed, don't predict events at all; simulate grace period
-                StorytellerCompProperties_RandomMain r = (StorytellerCompProperties_RandomMain)storyteller.def.comps.
+                StorytellerCompProperties_RandomMain r = (StorytellerCompProperties_RandomMain) storyteller.def.comps.
                     FirstOrDefault(x => x.GetType() == typeof(StorytellerCompProperties_RandomMain));
                 if (Find.TickManager.TicksGame <= r.minDaysPassed * 60000 * settings.FarseerFanGracePeriodFactor) return false;
 
@@ -47,7 +49,7 @@ namespace YaomaStorytellers
             return false;
         }
 
-        private static void FarseerFanSimulate(Storyteller storyteller, ref List<FiringIncident> fi_sim, ref int counter)
+        public static void FarseerFanSimulate(Storyteller storyteller, ref List<FiringIncident> fi_sim, ref int counter)
         {
             // simulate incidents until an incident exists
             // uses a counter to figure out how many "storyteller cycles" (every 1000 ticks) for an event
@@ -60,7 +62,7 @@ namespace YaomaStorytellers
             }
         }
 
-        private static int FarseerFanRandomCase()
+        public static int FarseerFanRandomCase()
         {
             List<int> behavior = new List<int>() {1};
             if (settings.FarseerFanPredictAlt) behavior.Add(2); // only if alterate incidents are enabled
@@ -69,7 +71,7 @@ namespace YaomaStorytellers
             return behavior[rand.Next(behavior.Count)]; // return random case
         }
 
-        private static void FarseerFanAltSim(Storyteller storyteller, ref List<FiringIncident> alt_fi_sim)
+        public static void FarseerFanAltSim(Storyteller storyteller, ref List<FiringIncident> alt_fi_sim)
         {
             while (alt_fi_sim.EnumerableNullOrEmpty())
             {
@@ -78,7 +80,7 @@ namespace YaomaStorytellers
             }
         }
 
-        private static TaggedString FarseerFanAltText(List<FiringIncident> fi_sim, List<FiringIncident> alt_fi_sim)
+        public static TaggedString FarseerFanAltText(List<FiringIncident> fi_sim, List<FiringIncident> alt_fi_sim)
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("YS_FarseerFanAltOffer".Translate());
@@ -100,7 +102,7 @@ namespace YaomaStorytellers
             return stringBuilder.ToString();
         }
 
-        private static void FarseerFanOfferAlt(Storyteller storyteller, List<FiringIncident> fi_sim,
+        public static void FarseerFanOfferAlt(Storyteller storyteller, List<FiringIncident> fi_sim,
             List<FiringIncident> alt_fi_sim, int counter)
         {
             Action original = delegate ()
@@ -118,7 +120,7 @@ namespace YaomaStorytellers
             { doCloseX = false, closeOnClickedOutside = false });
         }
 
-        private static TaggedString FarseerFanDeferText(List<FiringIncident> fi_sim)
+        public static TaggedString FarseerFanDeferText(List<FiringIncident> fi_sim)
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("YS_FarseerFanDeferOffer".Translate());
@@ -133,7 +135,7 @@ namespace YaomaStorytellers
             return stringBuilder.ToString();
         }
 
-        private static FiringIncident FarseerFanThreat(Storyteller storyteller, StorytellerComp_OnDemand c, ref int temp_count)
+        public static FiringIncident FarseerFanThreat(Storyteller storyteller, StorytellerComp_OnDemand c, ref int temp_count)
         {
             List<FiringIncident> fi_sim_temp = null;
             FarseerFanSimulate(storyteller, ref fi_sim_temp, ref temp_count);
@@ -143,7 +145,7 @@ namespace YaomaStorytellers
             return c.MakeIncident(storyteller.AllIncidentTargets, randomDef);
         }
 
-        private static void FarseerFanOfferDefer(Storyteller storyteller, List<FiringIncident> fi_sim, int counter, StorytellerComp_OnDemand c)
+        public static void FarseerFanOfferDefer(Storyteller storyteller, List<FiringIncident> fi_sim, int counter, StorytellerComp_OnDemand c)
         {
             Action contIncid = delegate ()
             {
@@ -163,7 +165,7 @@ namespace YaomaStorytellers
             { doCloseX = false, closeOnClickedOutside = false });
         }
 
-        private static void FarseerFanQueue(Storyteller storyteller, List<FiringIncident> fi_sim, int counter)
+        public static void FarseerFanQueue(Storyteller storyteller, List<FiringIncident> fi_sim, int counter)
         {
             int ticks = Find.TickManager.TicksGame + counter * 1000;
             int ticksAbs = ticks + Find.TickManager.gameStartAbsTick;
@@ -177,53 +179,24 @@ namespace YaomaStorytellers
                 storyteller.incidentQueue.Add(new QueuedIncident(fi, ticks));
 
                 // sends the "Stellar augury" letter to the player, letting them know what incident and when
-                Find.LetterStack.ReceiveLetter(LetterMaker.MakeLetter("LetterLabelFarseerFan".Translate(fi.def.label),
-                    "LetterFarseerFan".Translate(FarseerFanDate(ticksAbs, FarseerFanTileCheck(fi)), fi.def.label) + 
+                Find.LetterStack.ReceiveLetter(LetterMaker.MakeLetter("YS_LetterLabelFarseerFan".Translate(fi.def.label),
+                    "YS_LetterFarseerFan".Translate(FarseerFanDate(ticksAbs, FarseerFanTileCheck(fi)), fi.def.label) + 
                         endings.RandomElement().Translate(),
                     LetterDefOf.NeutralEvent, null, null));
             }
         }
 
-        private static int FarseerFanTileCheck(FiringIncident fi)
+        public static int FarseerFanTileCheck(FiringIncident fi)
         {
             return fi.parms.target.Tile < 0 ? Find.CurrentMap.Tile : fi.parms.target.Tile;
         }
 
-        private static string FarseerFanDate(long ticksAbs, int tileID)
+        public static string FarseerFanDate(long ticksAbs, int tileID)
         {
             if (settings.FarseerFanPredictionDetail)
                 return GenDate.DateFullStringWithHourAt(ticksAbs, Find.WorldGrid.LongLatOf(tileID));
 
             else return GenDate.DateFullStringAt(ticksAbs, Find.WorldGrid.LongLatOf(tileID));
-        }
-
-
-        public static bool KaiyiKarmicPreUtility(Storyteller storyteller)
-        {
-            storyteller.incidentQueue.IncidentQueueTick();
-
-            if (Find.TickManager.TicksGame % 1000 == 0)
-            {
-                // if the storyteller doesn't have a StorytellerComp_KarmaTracker or StorytellerComp_OnDemand, skip
-                if (KarmaTracker is null) return true;
-
-                // if the Karma Tracker has no "selected incidents", roll a random incident
-                if (!KarmaTracker.selectedIncidents.Any())
-                {
-                    foreach (FiringIncident fi in storyteller.MakeIncidentsForInterval())
-                        YaomaStorytellerUtility.KaiyiKarmicRandomIncident(storyteller, KarmaTracker, fi);
-                }
-                else // when the Karma Tracker has "selected incidents" left
-                {
-                    // gets StorytellerComp_OnDemand for replacing the incident to occur, if null skip everything
-                    if (!(storyteller.storytellerComps.FirstOrDefault(x => x.GetType() ==
-                                                   typeof(StorytellerComp_OnDemand)) is StorytellerComp_OnDemand c)) return true;
-                    // for each incident rolled
-                    foreach (FiringIncident fi in storyteller.MakeIncidentsForInterval())
-                        YaomaStorytellerUtility.KaiyiKarmicReplaceIncident(storyteller, KarmaTracker, c, fi);
-                }
-            }
-            return false;
         }
 
         // Adjust setting karma value with purchases and the such.
@@ -232,70 +205,85 @@ namespace YaomaStorytellers
             kt.karma = Math.Max(settings.KaiyiKarmicKarmaMin, Math.Min(kt.karma + adjust, settings.KaiyiKarmicKarmaMax));
         }
 
-        // Adjust price multiplier on incidents using this.
+        // Adjust price multiplier on incidents using this. UNUSED
         public static void KaiyiKarmicIncreasePriceFactor(float adjust)
         {
             settings.KaiyiKarmicBasePriceFactor = Math.Max(0f, Math.Min(settings.KaiyiKarmicBasePriceFactor + adjust, 5f));
         }
 
-        public static void KaiyiKarmicRandomIncident(Storyteller storyteller, StorytellerComp_RandomKarmaMain kt, FiringIncident fi)
+        public static void KaiyiKarmicRandomIncident(ref FiringIncident fi)
         {
-            fi.parms.points *= kt.KarmaPointScaling;
+            fi.parms.points *= KarmaTracker.KarmaPointScaling; // scale incident by point scaling
 
             // if the incident has a category recognized by the KarmaTracker
             // and has a negative karma cost (i.e. negative events) 
-            if (storyteller.TryFire(fi) && kt.baseIncidentChange.Keys.Contains(fi.def.category) &&
-                kt.baseIncidentChange[fi.def.category] > 0)
+            if (KarmaTracker.baseIncidentChange.Keys.Contains(fi.def.category) &&
+                KarmaTracker.baseIncidentChange[fi.def.category] > 0)
             {
                 //gain full value of karma from negative events if they randomly occur
-                YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(kt, kt.estIncidentChange[fi.def]);
-                //kt.karma += kt.estIncidentCost[fi.def] / 4f;
+                KaiyiKarmicAdjustKarma(KarmaTracker, KarmaTracker.estIncidentChange[fi.def]);
 
                 // notifies player of their gain
-                Find.LetterStack.ReceiveLetter("LetterLabelKaiyiKarmicGain".Translate(),
-                    "LetterKaiyiKarmicGain".Translate(Math.Abs(Math.Round(kt.estIncidentChange[fi.def] / 4f, 2))),
+                Find.LetterStack.ReceiveLetter("YS_LetterLabelKaiyiKarmicGain".Translate(),
+                    "YS_LetterKaiyiKarmicGain".Translate(Math.Abs(Math.Round(KarmaTracker.estIncidentChange[fi.def], 2))),
                     LetterDefOf.NeutralEvent);
             }
         }
 
-        public static void KaiyiKarmicReplaceIncident(Storyteller storyteller, StorytellerComp_RandomKarmaMain karmaTracker, 
-            StorytellerComp_OnDemand c, FiringIncident fi)
+        public static FiringIncident KaiyiKarmicReplaceIncident(Storyteller storyteller, FiringIncident fi)
         {
-            // if the KarmaTracker's selected incidents are empty or null
-            if (karmaTracker.selectedIncidents.NullOrEmpty())
+            if (storyteller.def != StorytellerDefOf.KaiyiKarmic_Yaoma) return fi; // skip prefix if the storyteller isn't Kaiyi
+
+            if (KarmaTracker.selectedIncidents.NullOrEmpty()) // if the KarmaTracker's selected incidents are empty or null
             {
-                // fire the original incident
-                fi.parms.points *= karmaTracker.KarmaPointScaling;
-                storyteller.TryFire(fi);
-                return;
+                KaiyiKarmicRandomIncident(ref fi); // scales points accordingly + allow players to gain karma from negative incidents.
+                return fi;
             }
 
-            // otherwise, select a random incidentDef from KarmaTracker's selected incidentDefs
+            // No OnDemand comp, return original incident (can't replace incident w/o it)
+            if (!(storyteller.storytellerComps.FirstOrDefault(x => x.GetType() ==
+                                                   typeof(StorytellerComp_OnDemand)) is StorytellerComp_OnDemand c)) return fi;
+
+            // select a random incidentDef from KarmaTracker's selected incidentDefs
             // and create a firing incident using StorytellerComp_OnDemand
-            IncidentDef randomDef = karmaTracker.selectedIncidents.RandomElement();
+            IncidentDef randomDef = KarmaTracker.selectedIncidents.RandomElement();
             FiringIncident fiReplace = c.MakeIncident(storyteller.AllIncidentTargets, randomDef);
 
-            // null check- if the incident can't be fired, or otherwise turns null, skips to next
-            if (fiReplace == null) return;
-            fiReplace.parms.points *= karmaTracker.KarmaPointScaling;
-            // if replacement incident gets fired, remove the random incidentDef from selected incidents
-            if (storyteller.TryFire(fiReplace)) karmaTracker.selectedIncidents.Remove(randomDef);
+            if (fiReplace == null) // if the replaced incident can't be fired, fire the original
+            {
+                
+                KaiyiKarmicRandomIncident(ref fi); // scales points accordingly + allow players to gain karma from negative incidents.
+                Messages.Message("YS_MessageKarmaReplaceFail".Translate(),
+                            MessageTypeDefOf.SilentInput, false); // notify incident replacment failed- will try again later
+                return fi;
+            }
+
+            fiReplace.parms.points *= KarmaTracker.KarmaPointScaling; // adjust replaced incident points using scaling
+            KarmaTracker.selectedIncidents.Remove(randomDef); // remove from selected incidents list
+            if(KarmaTracker.selectedIncidents.NullOrEmpty()) // notify if all selected incidents are done
+            {
+                Messages.Message("YS_MessageKarmaReplaceDone".Translate(),
+                            MessageTypeDefOf.SilentInput, false);
+            }
+
+            return fiReplace;
         }
 
         public static void KaiyiKarmicPostUtility(Storyteller storyteller)
         {
-            // at the start of each day (dayTick = 0)
-            if (GenLocalDate.DayTick(Find.AnyPlayerHomeMap) == 0)
+            // at the middle of the day (30000 ticks)
+            if (GenLocalDate.DayTick(Find.AnyPlayerHomeMap) == 60000 / 2)
             {
-                // get KarmaTracker
-                // if it is null or has any "selected incidents", skip
-                if (KarmaTracker is null ||
-                    KarmaTracker.selectedIncidents.Any()) return;
+                // if KarmaTracker is null, skip
+                if (KarmaTracker is null) return;
 
                 // decrease dayCheck (number of days till Kaiyi's incident fires)
                 // if dayCheck is still > 0 afterwards, wait for tomorrow
                 KarmaTracker.daysCheck -= 1;
                 if (KarmaTracker.daysCheck > 0) return;
+
+                // if there are any selected incidents still there, return and wait for all them to be done
+                if (!KarmaTracker.selectedIncidents.NullOrEmpty()) return;
 
                 // get StorytellerComp_OnDemand and nullcheck it
                 if (!(storyteller.storytellerComps.FirstOrDefault(x => x.GetType() ==
@@ -314,7 +302,6 @@ namespace YaomaStorytellers
         public static void KaiyiKarmicSelectableIncidents(ref List<DebugMenuOption> selectable, StorytellerComp_RandomKarmaMain karmaTracker)
         {
             String labelCost = "";
-            //karmaTracker.selectableIncidentCount.Keys.Where(x => KaiyiKarmicIsSelectable(x)
 
             foreach (IncidentDef iDef in KaiyiKarmicWeightedSelection(karmaTracker, settings.KaiyiKarmicMaxChoices)
                 .OrderByDescending(x => karmaTracker.estIncidentChange[x])
@@ -360,6 +347,7 @@ namespace YaomaStorytellers
         }
 
         // check if adding a value will cause karma to increase/decrease beyond limit - unused for the moment
+        [Obsolete]
         public static bool KaiyiKarmicKarmaOOB(float value)
         {
             if (value > settings.KaiyiKarmicKarmaMax || value < settings.KaiyiKarmicKarmaMin) return true;
@@ -473,7 +461,7 @@ namespace YaomaStorytellers
         // additional mechanic: killing pawns reduces madness
         public static void DeathlessDajiMurderSanity(Pawn instigator)
         {
-            if (instigator != null && settings.DajiMurderSanity && Find.Storyteller.def == StorytellerDefOf.DeathlessDaji_Yaoma)
+            if (Find.Storyteller.def == StorytellerDefOf.DeathlessDaji_Yaoma && settings.DajiMurderSanity && instigator != null)
             {
                 HealthUtility.AdjustSeverity(instigator, HediffDefOf_Yaoma.DeathlessDaji_Hediff_Yaoma, settings.DajiMurderSanitySevReduce * -1f);
             }
@@ -482,7 +470,7 @@ namespace YaomaStorytellers
         // additional mechanic: lifesteal on all melee damage
         public static void DeathlessDajiLifestealMelee(Pawn attacker, DamageWorker.DamageResult result)
         {
-            if (!settings.DajiLifestealMelee) return;
+            if (Find.Storyteller.def != StorytellerDefOf.DeathlessDaji_Yaoma || !settings.DajiLifestealMelee) return;
             
             List<Hediff_Injury> injuries = new List<Hediff_Injury>();
             attacker.health.hediffSet.GetHediffs<Hediff_Injury>(ref injuries, (Hediff_Injury x) => x.CanHealNaturally() || x.CanHealFromTending());
@@ -495,9 +483,9 @@ namespace YaomaStorytellers
         }
 
         // random ending parts for the "Stellar augury" letter
-        public static List<String> endings = new List<string> { "LetterFarseerFan_Ending1",
-                        "LetterFarseerFan_Ending2", "LetterFarseerFan_Ending3",
-                        "LetterFarseerFan_Ending4", "LetterFarseerFan_Ending5"};
+        public static List<String> endings = new List<string> { "YS_LetterFarseerFan_Ending1",
+                        "YS_LetterFarseerFan_Ending2", "YS_LetterFarseerFan_Ending3",
+                        "YS_LetterFarseerFan_Ending4", "YS_LetterFarseerFan_Ending5"};
 
         // reference to settings in utility
         public static YaomaStorytellerSettings settings = LoadedModManager.GetMod<YaomaStorytellerMod>().GetSettings<YaomaStorytellerSettings>();

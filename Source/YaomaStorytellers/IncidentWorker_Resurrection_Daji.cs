@@ -37,7 +37,7 @@ namespace YaomaStorytellers
 				}
 			}
 
-			base.SendStandardLetter("LetterLabelDeathlessDaji".Translate(), "LetterDeathlessDaji".Translate(),
+			base.SendStandardLetter("YS_LetterLabelDeathlessDaji".Translate(), "YS_LetterDeathlessDaji".Translate(),
 				LetterDefOf.NegativeEvent, parms, pawns, Array.Empty<NamedArgument>());
 			return true;
 		}

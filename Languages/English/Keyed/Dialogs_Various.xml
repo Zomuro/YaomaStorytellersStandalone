@@ -36,11 +36,5 @@
 	<YS_FarseerFanDeferText>Incident(s):</YS_FarseerFanDeferText>
 	<YS_FarseerFanDeferSelect>Defer incident(s)</YS_FarseerFanDeferSelect>
 	<YS_FarseerFanDeferContinueSelect>Continue</YS_FarseerFanDeferContinueSelect>
-	
-	<!--
-	<KarmaTradeNoFatesSelected>No fate selected.\n\nCurrent karma: {0}</KarmaTradeNoFatesSelected>
-	<KarmaTradeCurrentKarma>Current karma: {0}</KarmaTradeCurrentKarma>
-	<KarmaTradeFinalKarma>Final karma: {0}</KarmaTradeFinalKarma>
-	-->
-	
+		
  </LanguageData>

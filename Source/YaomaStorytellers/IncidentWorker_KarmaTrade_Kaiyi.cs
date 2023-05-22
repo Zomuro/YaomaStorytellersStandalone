@@ -21,12 +21,12 @@ namespace YaomaStorytellers
 			YaomaStorytellerUtility.KaiyiKarmicSelectableIncidents(ref selectables_f, karmaTracker);
 			Find.WindowStack.Add(new Dialog_KarmaTrade(selectables_f));
 
-			String translateString = "KaiyiKarmicDialogueIntro" + Rand.RangeInclusive(1, 5).ToString();
+			String translateString = "YS_KaiyiKarmicDialogueIntro" + Rand.RangeInclusive(1, 5).ToString();
 			Find.WindowStack.Add(new Dialog_MessageBox(translateString.Translate(),
 				null, null, null, null, null, false, null, null, WindowLayer.Dialog));
 
-			base.SendStandardLetter("LetterLabelKaiyiKarmic".Translate(),
-				"LetterKaiyiKarmic".Translate(),
+			base.SendStandardLetter("YS_LetterLabelKaiyiKarmic".Translate(),
+				"YS_LetterKaiyiKarmic".Translate(),
 				LetterDefOf.PositiveEvent, parms, null,
 				Array.Empty<NamedArgument>());
 			

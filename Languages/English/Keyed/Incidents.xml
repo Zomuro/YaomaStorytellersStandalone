@@ -2,34 +2,34 @@
 <LanguageData>
 	
 	<!-- Deathless Daji (letters) -->
-	<LetterLabelDeathlessDaji>Crimson resurrection</LetterLabelDeathlessDaji>
-	<LetterDeathlessDaji>Through Deathless Daji's mandate, the dead rise to fight again. Take care not to let the bloodlust take you...</LetterDeathlessDaji>
+	<YS_LetterLabelDeathlessDaji>Crimson resurrection</YS_LetterLabelDeathlessDaji>
+	<YS_LetterDeathlessDaji>Through Deathless Daji's mandate, the dead rise to fight again. Take care not to let the bloodlust take you...</YS_LetterDeathlessDaji>
 	
 	<!-- Deathless Daji (letters) -->
-	<LetterLabelFarseerFan>Stellar augury: {0}</LetterLabelFarseerFan>
-	<LetterFarseerFan>As Farseer Fan fortells, the following event will occur on the {0}: {1}.</LetterFarseerFan>
-	<LetterFarseerFan_Ending1>\n\nNow that you know your fate, are you prepared to meet it?</LetterFarseerFan_Ending1>
-	<LetterFarseerFan_Ending2>\n\nWith knowledge of your destiny, can you seize your fate?</LetterFarseerFan_Ending2>
-	<LetterFarseerFan_Ending3>\n\nThis is your fortune; make haste to avert a ruinous fate.</LetterFarseerFan_Ending3>
-	<LetterFarseerFan_Ending4>\n\nDestiny calls, and you must answer.</LetterFarseerFan_Ending4>
-	<LetterFarseerFan_Ending5>\n\nGo, for the now is when your future is made.</LetterFarseerFan_Ending5>
+	<YS_LetterLabelFarseerFan>Stellar augury: {0}</YS_LetterLabelFarseerFan>
+	<YS_LetterFarseerFan>As Farseer Fan fortells, the following event will occur on the {0}: {1}.</YS_LetterFarseerFan>
+	<YS_LetterFarseerFan_Ending1>\n\nNow that you know your fate, are you prepared to meet it?</YS_LetterFarseerFan_Ending1>
+	<YS_LetterFarseerFan_Ending2>\n\nWith knowledge of your destiny, can you seize your fate?</YS_LetterFarseerFan_Ending2>
+	<YS_LetterFarseerFan_Ending3>\n\nThis is your fortune; make haste to avert a ruinous fate.</YS_LetterFarseerFan_Ending3>
+	<YS_LetterFarseerFan_Ending4>\n\nDestiny calls, and you must answer.</YS_LetterFarseerFan_Ending4>
+	<YS_LetterFarseerFan_Ending5>\n\nGo, for the now is when your future is made.</YS_LetterFarseerFan_Ending5>
 	
 	<!-- IncidentWorker_KarmaTrade_Kaiyi -->
-	<KaiyiKarmicDialogueIntro1>This is where destiny is made.\n\nMake an offer; fate does not wait forever.</KaiyiKarmicDialogueIntro1>
-	<KaiyiKarmicDialogueIntro2>Here, you may chose your path; it is a rare opportunity to see the future so clearly.\n\nBut foresight alone does not make fate.</KaiyiKarmicDialogueIntro2>
-	<KaiyiKarmicDialogueIntro3>From one root there are a thousand branches. Some grow firm and strong; others are only fit for kindling.\n\nThat is fate.</KaiyiKarmicDialogueIntro3>
-	<KaiyiKarmicDialogueIntro4>What I offer is the opportunity to seize fate.\n\nI await your terms; make a choice.</KaiyiKarmicDialogueIntro4>
-	<KaiyiKarmicDialogueIntro5>All things have a price, fate more so.\n\nSurvive and seize it- that will be your karma.</KaiyiKarmicDialogueIntro5>
+	<YS_KaiyiKarmicDialogueIntro1>This is where destiny is made.\n\nMake an offer; fate does not wait forever.</YS_KaiyiKarmicDialogueIntro1>
+	<YS_KaiyiKarmicDialogueIntro2>Here, you may chose your path; it is a rare opportunity to see the future so clearly.\n\nBut foresight alone does not make fate.</YS_KaiyiKarmicDialogueIntro2>
+	<YS_KaiyiKarmicDialogueIntro3>From one root there are a thousand branches. Some grow firm and strong; others are only fit for kindling.\n\nThat is fate.</YS_KaiyiKarmicDialogueIntro3>
+	<YS_KaiyiKarmicDialogueIntro4>What I offer is the opportunity to seize fate.\n\nI await your terms; make a choice.</YS_KaiyiKarmicDialogueIntro4>
+	<YS_KaiyiKarmicDialogueIntro5>All things have a price, fate more so.\n\nSurvive and seize it- that will be your karma.</YS_KaiyiKarmicDialogueIntro5>
 	
 	<!-- Kaiyi the Karmic (letters) -->
-	<LetterLabelKaiyiKarmic>Karmic deal</LetterLabelKaiyiKarmic>
-	<LetterKaiyiKarmic>Kaiyi has arrived to negotiate. Here is a chance to alter your destiny; make an offer.</LetterKaiyiKarmic>
-	<LetterLabelKaiyiKarmicDealDone>Deal summary</LetterLabelKaiyiKarmicDealDone>
-	<LetterKaiyiKarmicDealDonePositive>Gaining {0} karma from this trade, your fate will involve the following:\n</LetterKaiyiKarmicDealDonePositive>
-	<LetterKaiyiKarmicDealDoneNegative>Spending {0} karma in this trade, your fate will involve the following:\n</LetterKaiyiKarmicDealDoneNegative>
-	<LetterLabelKaiyiKarmicNoDeal>No deal</LetterLabelKaiyiKarmicNoDeal>
-	<LetterKaiyiKarmicNoDeal>You have rejected Kaiyi's offer, for now.</LetterKaiyiKarmicNoDeal>
-	<LetterLabelKaiyiKarmicGain>Karma gain</LetterLabelKaiyiKarmicGain>
-	<LetterKaiyiKarmicGain>As your fate makes a turn for the worse, you gain {0} karma.</LetterKaiyiKarmicGain>
+	<YS_LetterLabelKaiyiKarmic>Karmic deal</YS_LetterLabelKaiyiKarmic>
+	<YS_LetterKaiyiKarmic>Kaiyi has arrived to negotiate. Here is a chance to alter your destiny; make an offer.</YS_LetterKaiyiKarmic>
+	<YS_LetterLabelKaiyiKarmicDealDone>Deal summary</YS_LetterLabelKaiyiKarmicDealDone>
+	<YS_LetterKaiyiKarmicDealDonePositive>Gaining {0} karma from this trade, your fate will involve the following:\n</YS_LetterKaiyiKarmicDealDonePositive>
+	<YS_LetterKaiyiKarmicDealDoneNegative>Spending {0} karma in this trade, your fate will involve the following:\n</YS_LetterKaiyiKarmicDealDoneNegative>
+	<YS_LetterLabelKaiyiKarmicNoDeal>No deal</YS_LetterLabelKaiyiKarmicNoDeal>
+	<YS_LetterKaiyiKarmicNoDeal>You have rejected Kaiyi's offer, for now.</YS_LetterKaiyiKarmicNoDeal>
+	<YS_LetterLabelKaiyiKarmicGain>Karma gain</YS_LetterLabelKaiyiKarmicGain>
+	<YS_LetterKaiyiKarmicGain>As your fate makes a turn for the worse, you gain {0} karma.</YS_LetterKaiyiKarmicGain>
 	
 </LanguageData>

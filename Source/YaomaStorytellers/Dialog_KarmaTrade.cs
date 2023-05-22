@@ -391,7 +391,7 @@ namespace YaomaStorytellers
 				YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(karmaTracker, EstIncidentChange(karmaTracker));
 				//karmaTracker.karma += this.EstIncidentCost(karmaTracker);
 				karmaTracker.CompleteIncidentSelection(selected);
-				Messages.Message("MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
+				Messages.Message("YS_MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
 				DebtResolutionAdditions(kt);
 				karmaTracker.selectedIncidents = selected;
 				Log.Message(selected.ToStringSafeEnumerable());
@@ -406,20 +406,20 @@ namespace YaomaStorytellers
 			string text = "";
             if (selection.NullOrEmpty())
             {
-				Find.LetterStack.ReceiveLetter("LetterLabelKaiyiKarmicNoDeal".Translate(),
-					"LetterKaiyiKarmicNoDeal".Translate(), LetterDefOf.NeutralEvent, null);
+				Find.LetterStack.ReceiveLetter("YS_LetterLabelKaiyiKarmicNoDeal".Translate(),
+					"YS_LetterKaiyiKarmicNoDeal".Translate(), LetterDefOf.NeutralEvent, null);
 				return;
 			}
 
-			if (karmaChange >= 0) text = "LetterKaiyiKarmicDealDonePositive".Translate(Math.Abs(Math.Round(karmaChange, 2)));
-			else text = "LetterKaiyiKarmicDealDoneNegative".Translate(Math.Abs(Math.Round(karmaChange, 2)));
+			if (karmaChange >= 0) text = "YS_LetterKaiyiKarmicDealDonePositive".Translate(Math.Abs(Math.Round(karmaChange, 2)));
+			else text = "YS_LetterKaiyiKarmicDealDoneNegative".Translate(Math.Abs(Math.Round(karmaChange, 2)));
 
 			foreach (IncidentDef iDef in selection)
 			{
 				text += "\n" + iDef.LabelCap.ToString();
 			}
 
-			Find.LetterStack.ReceiveLetter("LetterLabelKaiyiKarmicDealDone".Translate(),
+			Find.LetterStack.ReceiveLetter("YS_LetterLabelKaiyiKarmicDealDone".Translate(),
 				text, LetterDefOf.NeutralEvent, null);
 		}
 
