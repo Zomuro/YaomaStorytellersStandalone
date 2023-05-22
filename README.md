@@ -11,23 +11,33 @@ Survive their challenges, and you just may seize victory against the archotechs.
 
 ## Storytellers
 ### Farseer Fan
-![Farseer Fan](Textures/UI/Storytellers/FarseerFan.png?raw=true "Farseer Fan")
+
+<p align="center">
+  <img width="512" src="Textures/UI/Storytellers/FarseerFan.png">
+</p>
 
 *“Follow, divert, resist your flowing time- let the stars witness your fate.”*
 
 **Farseer Fan** will grant you visions of the future to come: you'll know what incidents will occur in advance. In exchange, she only asks to challenge you, increasing the difficulty of negative events as well as the frequency of incidents in general. Such is the price of knowing capricious fate, as the stars decreed.
 
 ### Kaiyi the Karmic
-![Kaiyi the Karmic](Textures/UI/Storytellers/KaiyiKarmic.png?raw=true "Kaiyi the Karmic")
+
+<p align="center">
+  <img width="512" src="Textures/UI/Storytellers/KaiyiKarmic.png">
+</p>
 
 *“Significant customer lifetime value. Expect new capital.”*
 
-**Kaiyi the Karmic** appreciates a good deal. Random negative events payout karma, which can be spent to purchase beneficial or neutral events when negotiating with Kaiyi. Only negative events you have chosen grant their full karma, though, and event prices follow demand. Take care not to become a debtor, lest he employs some… reconciliation services.
+If he isn’t delivering destiny, **Kaiyi the Karmic** will offer a chance to control your fate. Doing so requires karma, which can be gained from most negative events and spent on neutral as well as positive incidents. After each trade, the event choices are affected by your karma, and their prices by demand. 
 
-**Kaiyi** also reserves the right to increase incident frequency, influence certain incidents with the weight of karma, and adjust the prevalence of negative events; otherwise, he lets fate run its chaotic, random course.
+As part of his agreement with you, **Kaiyi** reserves the right to increase incident frequency and the prevalence of negative events; otherwise, he lets fate run its chaotic, random course. Take care not to become a debtor, lest he employs some… reconciliation services.
+
 
 ### Deathless Daji
-![Deathless Daji](Textures/UI/Storytellers/DeathlessDajiClean.png?raw=true "Deathless Daji")
+
+<p align="center">
+  <img width="512" src="Textures/UI/Storytellers/DeathlessDajiClean.png">
+</p>
 
 *“Courting death? I married her!”*
 
@@ -35,16 +45,34 @@ Survive their challenges, and you just may seize victory against the archotechs.
 
 Beyond that, he is a fervent believer of living in the moment, throwing in whatever event catches her fancy.
 
-### [Additional Lore](https://docs.google.com/document/d/19WIH7BcWehoxbG7uY0EXuX1a2iqLclrPWvmkELolcEk/edit?usp=sharing)
+## Additional Lore
+
+These **immortals** have a history of their own: maybe you'd like to [learn a little more about them][1]?
+
+[1]: https://docs.google.com/document/d/19WIH7BcWehoxbG7uY0EXuX1a2iqLclrPWvmkELolcEk/edit?usp=sharing
+
+## FAQ
+
+* **Can I use the code in here?** Go for it, preferably with credit!
+
+* **I don't like some of the mechanics here. What can I do about them?** You'll want to look in the mod settings- you can alter base mechanics.
+
+* **Look, this is nice and all, but is there anything else to these storytellers?** All storytellers have additional bonus mechanics. By default they are disabled, but can be enabled within mod settings. These additional mechanics include the following:
+   - **Farseer Fan**: alternative and deferred incident predictions.
+   - **Kaiyi the Karmic**: karma incident point scaling and incident catalog rerolls.
+   - **Deathless Daji**: lifesteal on melee attacks and **Crimson Psychosis** severity decrease on kills.
+
+
+* **Is there a race mod associated with this? Am I missing out on something?** No, you aren't missing anything. Originally, the storytellers were meant to accompany a race mod. But because of their level of polish compared to the rest of the mod at the time, I've opted to put the storytellers into their own standalone mod.
 
 ## Credits
 My warmest thanks go to:
-* **Vex**, for the incredible storyteller art of Farseer Fan as well as Kaiyi the Karmic;
-* **Visandar_the_Unliving**, for his heart-stopping depiction of Deathless Daji;
-* **Gouda quiche**, for his storyteller balance discussions and mod setting advice;
-* **Feldoh**, for his aid in optimizing this mod and polishing storyteller design;
-* **Fraudecon, Argon, and Sovereign**, for listening to my ramblings;
-* **Elseud** and **TheCatLover366**, for aiding in editing descriptions and lore;
+* **Vex**, for the incredible art of Farseer Fan and Kaiyi the Karmic.
+* **Visandar_the_Unliving**, for his heart-stopping depiction of Deathless Daji.
+* **Gouda quiche**, for his storyteller balance discussions and mod setting advice.
+* **Feldoh**, for his expertise in C# and help in polishing storyteller design.
+* **Fraudecon, Argon, and Sovereign**, for listening to my ramblings.
+* **Elseud** and **TheCatLover366**, for aiding in editing descriptions and lore.
 
 And many others within the RimWorld community for their support!
  

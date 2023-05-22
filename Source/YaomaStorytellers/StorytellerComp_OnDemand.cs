@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RimWorld;
 
 namespace YaomaStorytellers
@@ -20,16 +21,13 @@ namespace YaomaStorytellers
 			foreach (IIncidentTarget target in targets)
 			{
 				// if the incident type is null or target isn't allowed, continue to next target in list
-				if (this.Props.incident == null || !this.Props.incident.TargetAllowed(target))
-				{
-					continue;
-				}
+				if (incidentDef == null || !incidentDef.TargetAllowed(target)) continue;
 
 				// create incident paramaters based on incident category
-				parms = this.GenerateParms(incidentDef.category, target);
+				parms = GenerateParms(incidentDef.category, target);
 
 				// check if this incident can be fired
-				if (this.Props.incident.Worker.CanFireNow(parms))
+				if (incidentDef.Worker.CanFireNow(parms))
 				{
 					// returns a firing incident for later
 					return new FiringIncident(incidentDef, this, parms);
@@ -39,7 +37,8 @@ namespace YaomaStorytellers
 			return null;
 		}
 
-		public IEnumerable<FiringIncident> MakeIncidents(List<IIncidentTarget> targets)
+		[Obsolete]
+		public FiringIncident MakeIncident(List<IIncidentTarget> targets)
 		{
 			IncidentParms parms;
 			// for each potential target type
@@ -58,7 +57,30 @@ namespace YaomaStorytellers
 				if (this.Props.incident.Worker.CanFireNow(parms))
 				{
 					// returns a firing incident for later
-					yield return new FiringIncident(this.Props.incident, this, parms);
+					return new FiringIncident(this.Props.incident, this, parms);
+				}
+
+			}
+			return null;
+		}
+
+		public IEnumerable<FiringIncident> MakeIncidents(List<IIncidentTarget> targets)
+		{
+			IncidentParms parms;
+			// for each potential target type
+			foreach (IIncidentTarget target in targets)
+			{
+				// if the incident type is null or target isn't allowed, continue to next target in list
+				if (Props.incident == null || !Props.incident.TargetAllowed(target)) continue;
+
+				// create incident paramaters based on incident category
+				parms = GenerateParms(Props.incident.category, target);
+
+				// check if this incident can be fired
+				if (Props.incident.Worker.CanFireNow(parms))
+				{
+					// returns a firing incident for later
+					yield return new FiringIncident(Props.incident, this, parms);
 				}
 			}
 			yield break;
@@ -66,7 +88,7 @@ namespace YaomaStorytellers
 
 		public override string ToString()
 		{
-			return base.ToString() + " " + this.Props.incident;
+			return base.ToString() + " " + Props.incident;
 		}
 
 	}

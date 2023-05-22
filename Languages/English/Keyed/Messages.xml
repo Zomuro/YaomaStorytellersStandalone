@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   
-	<KaiyiKarmicIncidentNum>{0}/5 incidents selected.</KaiyiKarmicIncidentNum>
-	<MessageKaiyiKarmicIncidentNum>{0}/5 incidents selected.</MessageKaiyiKarmicIncidentNum>
-	<MessageKaiyiKarmicIncidentsFilled>All incidents slots are filled. Remove an incident or submit your offer.</MessageKaiyiKarmicIncidentsFilled>
-	<MessageKarmaTradeRemoveSelected>Removed incident from selection: {0}</MessageKarmaTradeRemoveSelected>
-	<MessageKarmaTradeEnd>The deal is concluded.</MessageKarmaTradeEnd>
+	<YS_MessageKaiyiKarmicIncidentNum>{0}/5 incidents selected.</YS_MessageKaiyiKarmicIncidentNum>
+	<YS_MessageKaiyiKarmicIncidentsFilled>All incidents slots are filled. Remove an incident or submit your offer.</YS_MessageKaiyiKarmicIncidentsFilled>
+	<YS_MessageKaiyiKarmicIncidentDebtFloor>Cannot add incident due to karmic debt floor.</YS_MessageKaiyiKarmicIncidentDebtFloor>
+	<YS_MessageKaiyiKarmicIncidentReachedMax>You've reached maximum karma.</YS_MessageKaiyiKarmicIncidentReachedMax>
+	<YS_MessageKarmaTradeRemoveSelected>Removed incident from selection: {0}</YS_MessageKarmaTradeRemoveSelected>
+	<YS_MessageKarmaTradeRemoveAllSelect>Selections cleared.</YS_MessageKarmaTradeRemoveAllSelect>
+	<YS_MessageKarmaTradeEnd>The deal is concluded.</YS_MessageKarmaTradeEnd>
+	<YS_MessageKarmaNoMoreReroll>Cannot reroll fate: too much karmic debt.</YS_MessageKarmaNoMoreReroll>
+	<YS_MessageKarmaReplaceFail>Your fate resists manipulation. Kaiyi will try again later.</YS_MessageKarmaReplaceFail>
+	<YS_MessageKarmaReplaceDone>Kaiyi has fufilled his end of the bargain.</YS_MessageKarmaReplaceDone>
 
 </LanguageData>

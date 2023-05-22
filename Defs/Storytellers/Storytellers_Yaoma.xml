@@ -134,19 +134,22 @@
 				<incident>StrangerInBlackJoin</incident>
 				<delayTicks>180</delayTicks>
 			</li>
+			<!-- custom storyteller comps  -->
+			<li Class="YaomaStorytellers.StorytellerCompProperties_OnDemand"/>
 		</comps>
 	</StorytellerDef>
 	
 	<StorytellerDef ParentName="BaseStoryteller"> <!-- Kaiyi the Karmic: allows players to select incidents they want to occur in the future. -->
 		<defName>KaiyiKarmic_Yaoma</defName>
 		<label>Kaiyi the Karmic</label>
-		<description>Kaiyi the Karmic appreciates a good deal. Random negative events payout karma, which can be spent to purchase beneficial or neutral events when negotiating with Kaiyi. Only negative events you have chosen grant their full karma, though, and event prices follow demand. Take care not to become a debtor, lest he employs some… reconciliation services.\n\nKaiyi also reserves the right to increase incident frequency, influence certain incidents with the weight of karma, and adjust the prevalence of negative events; otherwise, he lets fate run its chaotic, random course.</description>
+		<description>If he isn’t delivering destiny, Kaiyi the Karmic will offer a chance to control your fate. Doing so requires karma, which can be gained from most negative events and spent on neutral as well as positive incidents. After each trade, the event choices are affected by your karma, and their prices by demand.\n\nAs part of his agreement with you, Kaiyi reserves the right to increase incident frequency and the prevalence of negative events; otherwise, he lets fate run its chaotic, random course. Take care not to become a debtor, lest he employs some… reconciliation services.</description>
 		<portraitLarge>UI/Storytellers/KaiyiKarmic</portraitLarge>
 		<portraitTiny>UI/Storytellers/KaiyiKarmic_Tiny</portraitTiny>
 		<listOrder>40</listOrder>
 		<comps>	
 		  <!-- Home all -->
-			<li Class="StorytellerCompProperties_RandomMain">
+			<li Class="YaomaStorytellers.StorytellerCompProperties_RandomKarmaMain">
+				<compClass>YaomaStorytellers.StorytellerComp_RandomKarmaMain</compClass>
 				<allowedTargetTags>
 				  <li>Map_PlayerHome</li>
 				</allowedTargetTags>
@@ -164,6 +167,44 @@
 				  <ThreatSmall>1</ThreatSmall>
 				  <ShipChunkDrop>0.35</ShipChunkDrop>
 				</categoryWeights>
+				<baseIncidentCategoryKarmaChange>
+					<li>
+						<def>ThreatBig</def>
+						<change>2</change>
+					</li>
+					<li>
+						<def>ThreatSmall</def>
+						<change>1.5</change>
+					</li>
+					<li>
+						<def>DiseaseAnimal</def>
+						<change>1</change>
+					</li>
+					<li>
+						<def>DiseaseHuman</def>
+						<change>1</change>
+					</li>
+					<li>
+						<def>Misc</def>
+						<change>-2</change>
+					</li>
+					<li>
+						<def>ShipChunkDrop</def>
+						<change>-3</change>
+					</li>
+					<li>
+						<def>FactionArrival</def>
+						<change>-4</change>
+					</li>
+					<li>
+						<def>OrbitalVisitor</def>
+						<change>-4</change>
+					</li>
+					<li>
+						<def>AllyAssistance</def>
+						<change>-6</change>
+					</li>
+				</baseIncidentCategoryKarmaChange>
 			</li>
 			<li Class="StorytellerCompProperties_Disease">
 				<category>DiseaseHuman</category>
@@ -275,7 +316,7 @@
 			<li Class="YaomaStorytellers.StorytellerCompProperties_OnDemand">
 				<incident>KarmaTrade_Yaoma</incident>
 			</li>
-			<li Class="YaomaStorytellers.StorytellerCompProperties_KarmaTracker"/>
+			<!--<li Class="YaomaStorytellers.StorytellerCompProperties_KarmaTracker"/>-->
 		</comps>
 	</StorytellerDef>
 

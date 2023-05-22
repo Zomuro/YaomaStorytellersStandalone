@@ -62,6 +62,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MentalStateDefOf_Yaoma.cs" />
+    <Compile Include="HediffDefOf_Yaoma.cs" />
+    <Compile Include="StorytellerCompProperties_RandomKarmaMain.cs" />
+    <Compile Include="StorytellerComp_RandomKarmaMain.cs" />
     <Compile Include="StorytellerDajiToggle_ModExtension.cs" />
     <Compile Include="YaomaStorytellerSettings.cs" />
     <Compile Include="Dialog_KarmaTrade.cs" />
@@ -69,9 +73,7 @@
     <Compile Include="IncidentDefOf_Yaoma.cs" />
     <Compile Include="IncidentWorker_KarmaTrade_Kaiyi.cs" />
     <Compile Include="IncidentWorker_Resurrection_Daji.cs" />
-    <Compile Include="StorytellerComp_KarmaTracker.cs" />
     <Compile Include="StorytellerComp_OnDemand.cs" />
-    <Compile Include="StorytellerCompProperties_KarmaTracker.cs" />
     <Compile Include="StorytellerCompProperties_OnDemand.cs" />
     <Compile Include="StorytellerDefOf.cs" />
     <Compile Include="HarmonyPatches.cs" />

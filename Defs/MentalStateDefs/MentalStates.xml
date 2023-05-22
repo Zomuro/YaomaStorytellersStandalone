@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<MentalStateDef ParentName="BaseMentalState">
+		<defName>YS_BerserkDaji</defName>
+		<stateClass>MentalState_Berserk</stateClass>
+		<label>crimson madness</label>
+		<category>Aggro</category>
+		<nameColor>(0.863,0.078,0.235)</nameColor>
+		<minTicksBeforeRecovery>99999999</minTicksBeforeRecovery>
+		<inCaravanCanDo>true</inCaravanCanDo>
+		<recoverFromSleep>false</recoverFromSleep>
+		<recoverFromDowned>false</recoverFromDowned>
+		<recoverFromCollapsingExhausted>false</recoverFromCollapsingExhausted>
+		<baseInspectLine>Terminally afflicted with crimson psychosis</baseInspectLine>
+		<stateEffecter>Berserk</stateEffecter>
+	</MentalStateDef>
+
+</Defs>

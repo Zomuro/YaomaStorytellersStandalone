@@ -7,6 +7,7 @@ namespace YaomaStorytellers
 {
     public class YaomaStorytellerSettings : ModSettings
     {
+        // Deathless Daji Settings
         public bool DajiRessurectMechsDisable = false;
 
         public bool DajiRetrieveWeaponsDisable = false;
@@ -15,36 +16,76 @@ namespace YaomaStorytellers
 
         public bool DajiBloodyPortrait = false;
 
+        public bool DajiMurderSanity = false;
+
+        public float DajiMurderSanitySevReduce = 0.01f;
+
+        public bool DajiLifestealMelee = false;
+
+        public float DajiLifestealMeleePercent = 0.25f;
+
+        // Farseer Fan Settings
+
         public float FarseerFanGracePeriodFactor = 1f;
 
         public bool FarseerFanPredictionDetail = false;
 
+        public bool FarseerFanPredictAlt = false;
+
+        public bool FarseerFanPredictDefer = false;
+
+        // Kaiyi the Karmic Settings
+
         public float KaiyiKarmicKarma = 0f;
+
+        public float KaiyiKarmicKarmaMax = 500f; // hidden settings put here for convienence
+
+        public float KaiyiKarmicKarmaMin = -500f; // hidden settings put here for convienence
 
         public float KaiyiKarmicBasePriceFactor = 1f;
 
-        public float KaiyiKarmicScalingPositive = 0.25f;
+        public bool KaiyiKarmicKarmaPointScaling = false;
 
-        public float KaiyiKarmicScalingNegative = 1f;
+        public float KaiyiKarmicKarmaPointScalingFactor = 1f;
 
-        /*public float KaiyiKarmicThresholdEndgamePositive = 500f;
+        public int KaiyiKarmicTradeDays = 7;
 
-        public float KaiyiKarmicThresholdEndgameNegative = -500f;*/
+        public int KaiyiKarmicMaxChoices = 10;
+
+        public bool KaiyiKarmicRerollIncidents = false;
+
+        public float KaiyiKarmicRerollBaseCost = 10f;
 
         public override void ExposeData()
         {
+            // Deathless Daji Settings
             Scribe_Values.Look(ref DajiRessurectMechsDisable, "DajiRessurectMechsDisable", false);
             Scribe_Values.Look(ref DajiRetrieveWeaponsDisable, "DajiRetrieveWeaponsDisable", false);
             Scribe_Values.Look(ref DajiCrimsonSeverityGain, "DajiCrimsonSeverityGain", 0.3f);
             Scribe_Values.Look(ref DajiBloodyPortrait, "DajiBloodyPortrait", false);
+            Scribe_Values.Look(ref DajiMurderSanity, "DajiMurderSanity", false);
+            Scribe_Values.Look(ref DajiMurderSanitySevReduce, "DajiMurderSanitySevReduce", 0.01f);
+            Scribe_Values.Look(ref DajiLifestealMelee, "DajiLifestealMelee", false);
+            Scribe_Values.Look(ref DajiLifestealMeleePercent, "DajiLifestealMeleePercent", 0.25f);
+
+            // Farseer Fan Settings
             Scribe_Values.Look(ref FarseerFanGracePeriodFactor, "FarseerFanGracePeriodFactor", 1f);
             Scribe_Values.Look(ref FarseerFanPredictionDetail, "FarseerFanPredictionDetail", false);
+            Scribe_Values.Look(ref FarseerFanPredictAlt, "FarseerFanPredictAlt", false);
+            Scribe_Values.Look(ref FarseerFanPredictDefer, "FarseerFanPredictDefer", false);
+
+            // Kaiyi the Karmic Settings
             Scribe_Values.Look(ref KaiyiKarmicKarma, "KaiyiKarmicKarma", 0f);
+            Scribe_Values.Look(ref KaiyiKarmicKarmaMax, "KaiyiKarmicKarmaMax", 500f);
+            Scribe_Values.Look(ref KaiyiKarmicKarmaMin, "KaiyiKarmicKarmaMin", -500f);
             Scribe_Values.Look(ref KaiyiKarmicBasePriceFactor, "KaiyiKarmicBasePriceFactor", 1f);
-            Scribe_Values.Look(ref KaiyiKarmicScalingPositive, "KaiyiKarmicPointScalingPositive", 0.25f);
-            Scribe_Values.Look(ref KaiyiKarmicScalingNegative, "KaiyiKarmicPointScalingNegative", 1f);
-            /*Scribe_Values.Look(ref KaiyiKarmicThresholdEndgamePositive, "KaiyiKarmicThresholdEndgamePositive", 500f);
-            Scribe_Values.Look(ref KaiyiKarmicThresholdEndgameNegative, "KaiyiKarmicThresholdEndgameNegative", -500f);*/
+            Scribe_Values.Look(ref KaiyiKarmicKarmaPointScaling, "KaiyiKarmicKarmaPointScaling", false);
+            Scribe_Values.Look(ref KaiyiKarmicKarmaPointScalingFactor, "KaiyiKarmicKarmaPointScalingFactor", 1f);
+            Scribe_Values.Look(ref KaiyiKarmicTradeDays, "KaiyiKarmicTradeDays", 7);
+            Scribe_Values.Look(ref KaiyiKarmicMaxChoices, "KaiyiKarmicMaxChoices", 10);
+            Scribe_Values.Look(ref KaiyiKarmicRerollIncidents, "KaiyiKarmicRerollIncidents", false);
+            Scribe_Values.Look(ref KaiyiKarmicRerollBaseCost, "KaiyiKarmicRerollBaseCost", 10f);
+
             base.ExposeData();
         }
     }
@@ -125,23 +166,48 @@ namespace YaomaStorytellers
             listing.Gap(16f);
             if(listing.ButtonText("Reset to global default"))
             {
-                settings.DajiRessurectMechsDisable = false;
-                settings.DajiRetrieveWeaponsDisable = false;
-                settings.DajiCrimsonSeverityGain = 0.3f;
-                settings.DajiBloodyPortrait = false;
-                StorytellerDefOf.DeathlessDaji_Yaoma.ResolveReferences();
-                settings.FarseerFanGracePeriodFactor = 1f;
-                settings.FarseerFanPredictionDetail = false;
-                settings.KaiyiKarmicKarma = 0f;
-                settings.KaiyiKarmicBasePriceFactor = 1f;
-                settings.KaiyiKarmicScalingPositive = 0.25f;
-                settings.KaiyiKarmicScalingNegative = 1f;
-                /*settings.KaiyiKarmicThresholdEndgamePositive = 500f;
-                settings.KaiyiKarmicThresholdEndgameNegative = -500f;*/
+                DeathlessDajiDefault();
+                FarseerFanDefault();
+                KaiyiKarmicDefault();
             }
             listing.End();
             
             base.DoSettingsWindowContents(inRect);
+        }
+
+        public void DeathlessDajiDefault()
+        {
+            settings.DajiRessurectMechsDisable = false;
+            settings.DajiRetrieveWeaponsDisable = false;
+            settings.DajiCrimsonSeverityGain = 0.3f;
+            settings.DajiBloodyPortrait = false;
+            StorytellerDefOf.DeathlessDaji_Yaoma.ResolveReferences();
+            settings.DajiMurderSanity = false;
+            settings.DajiMurderSanitySevReduce = 0.01f;
+            settings.DajiLifestealMelee = false;
+            settings.DajiLifestealMeleePercent = 0.25f;
+        }
+
+        public void FarseerFanDefault()
+        {
+            settings.FarseerFanGracePeriodFactor = 1f;
+            settings.FarseerFanPredictionDetail = false;
+            settings.FarseerFanPredictAlt = false;
+            settings.FarseerFanPredictDefer = false;
+        }
+
+        public void KaiyiKarmicDefault()
+        {
+            settings.KaiyiKarmicKarma = 0f;
+            settings.KaiyiKarmicBasePriceFactor = 1f;
+
+            settings.KaiyiKarmicTradeDays = 7;
+            settings.KaiyiKarmicMaxChoices = 15;
+
+            settings.KaiyiKarmicKarmaPointScaling = false;
+            settings.KaiyiKarmicKarmaPointScalingFactor = 1f;
+            settings.KaiyiKarmicRerollIncidents = false;
+            settings.KaiyiKarmicRerollBaseCost = 10f;
         }
 
         public void FarseerFanSettings(ref Listing_Standard listing)
@@ -159,11 +225,16 @@ namespace YaomaStorytellers
             listing.CheckboxLabeled("YS_SettingsFanPredictDetail".Translate(settings.FarseerFanPredictionDetail.ToString()),
                 ref settings.FarseerFanPredictionDetail, "YS_SettingsFanPredictDetailTooltip".Translate());
 
+            listing.GapLine();
+            listing.CheckboxLabeled("YS_SettingsFanPredictAlt".Translate(settings.FarseerFanPredictAlt.ToString()),
+                ref settings.FarseerFanPredictAlt, "YS_SettingsFanPredictAltTooltip".Translate());
+            listing.CheckboxLabeled("YS_SettingsFanPredictDefer".Translate(settings.FarseerFanPredictDefer.ToString()),
+                ref settings.FarseerFanPredictDefer, "YS_SettingsFanPredictDeferTooltip".Translate());
+
             listing.Gap(16f);
             if (listing.ButtonText("Reset to default"))
             {
-                settings.FarseerFanGracePeriodFactor = 1f;
-                settings.FarseerFanPredictionDetail = false;
+                FarseerFanDefault();
             }
         }
 
@@ -176,26 +247,44 @@ namespace YaomaStorytellers
             listing.GapLine();
             listing.Label("YS_SettingsKaiyiStart".Translate(settings.KaiyiKarmicKarma.ToString("F2")), -1,
                 "YS_SettingsKaiyiStartTooltip".Translate());
-            settings.KaiyiKarmicKarma = listing.Slider((float)settings.KaiyiKarmicKarma, -200f, 200f);
+            settings.KaiyiKarmicKarma = listing.Slider((float)settings.KaiyiKarmicKarma, settings.KaiyiKarmicKarmaMin, settings.KaiyiKarmicKarmaMax);
             listing.Label("YS_SettingsKaiyiCostFactor".Translate(settings.KaiyiKarmicBasePriceFactor.ToString("F2")), -1,
                 "YS_SettingsKaiyiCostFactorTooltip".Translate());
             settings.KaiyiKarmicBasePriceFactor = listing.Slider((float)settings.KaiyiKarmicBasePriceFactor, 0f, 5f);
-            listing.Label("YS_SettingsKaiyiPointFactorPos".Translate(settings.KaiyiKarmicScalingPositive.ToString("F2")), -1,
-                "YS_SettingsKaiyiPointFactorPosTooltip".Translate());
-            settings.KaiyiKarmicScalingPositive = listing.Slider((float)settings.KaiyiKarmicScalingPositive, 0f, 2f);
-            listing.Label("YS_SettingsKaiyiPointFactorNeg".Translate(settings.KaiyiKarmicScalingNegative.ToString("F2")), -1,
-                "YS_SettingsKaiyiPointFactorNegTooltip".Translate());
-            settings.KaiyiKarmicScalingNegative = listing.Slider((float)settings.KaiyiKarmicScalingNegative, 0f, 2f);
+
+            listing.Label("YS_SettingsKaiyiTradeDays".Translate(settings.KaiyiKarmicTradeDays.ToString("F0")), -1,
+                "YS_SettingsKaiyiTradeDaysTooltip".Translate());
+            settings.KaiyiKarmicTradeDays = (int) listing.Slider(settings.KaiyiKarmicTradeDays, 0f, 14f);
+
+            listing.Label("YS_SettingsKaiyiMaxSelectable".Translate(settings.KaiyiKarmicMaxChoices.ToString("F0")), -1,
+                "YS_SettingsKaiyiMaxSelectableTooltip".Translate());
+            settings.KaiyiKarmicMaxChoices = (int)listing.Slider(settings.KaiyiKarmicMaxChoices, 10f, 30f);
+
+            listing.GapLine();
+
+            listing.CheckboxLabeled("YS_SettingsKaiyiPointScaling".Translate(settings.KaiyiKarmicKarmaPointScaling.ToString()),
+                ref settings.KaiyiKarmicKarmaPointScaling, "YS_SettingsKaiyiPointScalingTooltip".Translate());
+            if (settings.KaiyiKarmicKarmaPointScaling)
+            {
+                listing.Label("YS_SettingsKaiyiPointFactor".Translate(settings.KaiyiKarmicKarmaPointScalingFactor.ToString("F2")), -1,
+                "YS_SettingsKaiyiPointFactorTooltip".Translate());
+                settings.KaiyiKarmicKarmaPointScalingFactor = listing.Slider((float)settings.KaiyiKarmicKarmaPointScalingFactor, 0f, 5f);
+            }
+
+            listing.CheckboxLabeled("YS_SettingsKaiyiReroll".Translate(settings.KaiyiKarmicRerollIncidents.ToString()),
+                ref settings.KaiyiKarmicRerollIncidents, "YS_SettingsKaiyiRerollTooltip".Translate());
+            if (settings.KaiyiKarmicRerollIncidents)
+            {
+                listing.Label("YS_SettingsKaiyiRerollBaseCost".Translate(settings.KaiyiKarmicRerollBaseCost.ToString("F2")), -1,
+                    "YS_SettingsKaiyiRerollBaseCostTooltip".Translate());
+                settings.KaiyiKarmicRerollBaseCost = listing.Slider((float)settings.KaiyiKarmicRerollBaseCost, 0f, 25f);
+            }
+
 
             listing.Gap(16f);
             if (listing.ButtonText("Reset to default"))
             {
-                settings.KaiyiKarmicKarma = 0f;
-                settings.KaiyiKarmicBasePriceFactor = 1f;
-                settings.KaiyiKarmicScalingPositive = 0.25f;
-                settings.KaiyiKarmicScalingNegative = 1f;
-                /*settings.KaiyiKarmicThresholdEndgamePositive = 500f;
-                settings.KaiyiKarmicThresholdEndgameNegative = -500f;*/
+                KaiyiKarmicDefault();
             }
         }
 
@@ -218,7 +307,25 @@ namespace YaomaStorytellers
             listing.CheckboxLabeled("YS_SettingsDajiBloodyPortrait".Translate(settings.DajiBloodyPortrait.ToString()),
                 ref settings.DajiBloodyPortrait, "YS_SettingsDajiBloodyPortraitTooltip".Translate());
 
-            if(orgToggle != settings.DajiBloodyPortrait || !initalizedDaji)
+            listing.GapLine();
+            listing.CheckboxLabeled("YS_SettingsDajiMurderSanity".Translate(settings.DajiMurderSanity.ToString()),
+                ref settings.DajiMurderSanity, "YS_SettingsDajiMurderSanityTooltip".Translate());
+            if (settings.DajiMurderSanity)
+            {
+                listing.Label("YS_SettingsDajiMurderSanitySev".Translate(settings.DajiMurderSanitySevReduce.ToString("F3")), -1,
+                "YS_SettingsDajiMurderSanitySevTooltip".Translate());
+                settings.DajiMurderSanitySevReduce = listing.Slider((float)settings.DajiMurderSanitySevReduce, 0f, 0.05f);
+            }
+            listing.CheckboxLabeled("YS_SettingsDajiLifestealMelee".Translate(settings.DajiLifestealMelee.ToString()),
+                ref settings.DajiLifestealMelee, "YS_SettingsDajiLifestealMeleeTooltip".Translate());
+            if (settings.DajiLifestealMelee)
+            {
+                listing.Label("YS_SettingsDajiLifestealMeleePercent".Translate(settings.DajiLifestealMeleePercent.ToString("P0")), -1,
+                "YS_SettingsDajiLifestealMeleePercentTooltip".Translate());
+                settings.DajiLifestealMeleePercent = listing.Slider((float)settings.DajiLifestealMeleePercent, 0f, 1f);
+            }
+
+            if (orgToggle != settings.DajiBloodyPortrait || !initalizedDaji)
             {
                 StorytellerDefOf.DeathlessDaji_Yaoma.ResolveReferences();
                 initalizedDaji = true;
@@ -227,11 +334,7 @@ namespace YaomaStorytellers
             listing.Gap(16f);
             if (listing.ButtonText("Reset to default"))
             {
-                settings.DajiRessurectMechsDisable = false;
-                settings.DajiRetrieveWeaponsDisable = false;
-                settings.DajiCrimsonSeverityGain = 0.3f;
-                settings.DajiBloodyPortrait = false;
-                StorytellerDefOf.DeathlessDaji_Yaoma.ResolveReferences();
+                DeathlessDajiDefault();
             }
         }
 

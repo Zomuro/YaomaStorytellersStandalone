@@ -1,23 +1,40 @@
 <LanguageData> 
 	
 	<!-- Dialog_KarmaTrade -->
-	<KarmaTradeFates>Fates</KarmaTradeFates>
-	<KarmaTradeFatesSelected>Selection</KarmaTradeFatesSelected>
-	<KarmaTradeOverallKarma>Current karma: {0}\n\nFinal karma: {1}</KarmaTradeOverallKarma>
+	<YS_KarmaTradeFates>Fates</YS_KarmaTradeFates>
+	<YS_KarmaTradePricing>Pricing</YS_KarmaTradePricing>
+	<YS_KarmaTradeActions>Trade</YS_KarmaTradeActions>
+	<YS_KarmaTradeCurrentDeal>Current Deal</YS_KarmaTradeCurrentDeal>
 	
-	<KarmaTradeIncidentCount>{0}/5</KarmaTradeIncidentCount>
+	<YS_KarmaTradeCurrKarma>Current karma</YS_KarmaTradeCurrKarma>
+	<YS_KarmaTradeFinalKarma>Final karma</YS_KarmaTradeFinalKarma>
+	
+	<!--<KarmaTradeOverallKarma>Current karma: {0}\n\nFinal karma: {1}</KarmaTradeOverallKarma>-->
+	
+	<YS_KarmaTradeIncidentCount>{0}/5</YS_KarmaTradeIncidentCount>
 	
 	
-	<KarmaTradeDebtResolution>With your negative karma balance, you could trigger Kaiyi's "debt resolution" service. In that scenario, terrible events would occur beyond your control.\n\nDo you still wish to gamble your fate?</KarmaTradeDebtResolution>
-	<KarmaTradeDebtResolutionReturn>Return</KarmaTradeDebtResolutionReturn>
-	<KarmaTradeDebtResolutionConfirm>Confirm</KarmaTradeDebtResolutionConfirm>
+	<YS_KarmaTradeDebtResolution>With your negative karma balance, you could trigger Kaiyi's "debt resolution" service. In that scenario, terrible events would occur beyond your control.\n\nDo you still wish to gamble your fate?</YS_KarmaTradeDebtResolution>
+	<YS_KarmaTradeDebtResolutionReturn>Return</YS_KarmaTradeDebtResolutionReturn>
+	<YS_KarmaTradeDebtResolutionConfirm>Confirm</YS_KarmaTradeDebtResolutionConfirm>
 	
-	<KarmaTradeMakeOffer>Make offer</KarmaTradeMakeOffer>
+	<YS_KarmaTradeMakeOffer>Make offer</YS_KarmaTradeMakeOffer>
+	<YS_KarmaTradeRejectTrade>Reject trade</YS_KarmaTradeRejectTrade>
+	<YS_KarmaTradeReroll>Reroll fates ({0})</YS_KarmaTradeReroll>
+	<YS_KarmaTradeNoMoreReroll>No rerolls</YS_KarmaTradeNoMoreReroll>
+	<YS_KarmaTradeClearSelections>Clear selections</YS_KarmaTradeClearSelections>
 	
-	<!--
-	<KarmaTradeNoFatesSelected>No fate selected.\n\nCurrent karma: {0}</KarmaTradeNoFatesSelected>
-	<KarmaTradeCurrentKarma>Current karma: {0}</KarmaTradeCurrentKarma>
-	<KarmaTradeFinalKarma>Final karma: {0}</KarmaTradeFinalKarma>
-	-->
+	<!-- Dialog_MessageBox (Farseer Fan Alternative Incidents)-->
+	<YS_FarseerFanAltOffer>The stars foretell a divergence in fate- and so Farseer Fan calls upon you to make a choice.</YS_FarseerFanAltOffer>
+	<YS_FarseerFanOrgIncidText>Original incident(s):</YS_FarseerFanOrgIncidText>
+	<YS_FarseerFanAltIncidText>Alternative incident(s):</YS_FarseerFanAltIncidText>
+	<YS_FarseerFanOrgIncidSelect>Keep original incident(s)</YS_FarseerFanOrgIncidSelect>
+	<YS_FarseerFanAltIncidSelect>Take alternative incident(s)</YS_FarseerFanAltIncidSelect>
 	
+	<!-- Dialog_MessageBox (Farseer Fan Deferred Incidents)-->
+	<YS_FarseerFanDeferOffer>Fate approaches, but it may be diverted yet. Should you call upon Farseer Fan to intercede, she will defer this destiny for a time.\n\nBe forewarned though: fortune does not like to be cheated.</YS_FarseerFanDeferOffer>
+	<YS_FarseerFanDeferText>Incident(s):</YS_FarseerFanDeferText>
+	<YS_FarseerFanDeferSelect>Defer incident(s)</YS_FarseerFanDeferSelect>
+	<YS_FarseerFanDeferContinueSelect>Continue</YS_FarseerFanDeferContinueSelect>
+		
  </LanguageData>

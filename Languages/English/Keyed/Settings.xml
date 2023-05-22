@@ -14,6 +14,15 @@
 	<YS_SettingsDajiCrimsonSeverityGainTooltip>Alter how far a pawn's Crimson Psychosis progresses upon his or her resurrection by Daji.</YS_SettingsDajiCrimsonSeverityGainTooltip>
 	<YS_SettingsDajiBloodyPortrait>View blood: {0}</YS_SettingsDajiBloodyPortrait>
 	<YS_SettingsDajiBloodyPortraitTooltip>Toggle between the clean version and the gory version of Deathless Daji's portrait. This setting will show the clean version by default.</YS_SettingsDajiBloodyPortraitTooltip>
+	<YS_SettingsDajiMurderSanity>Reduce severity on kill: {0}</YS_SettingsDajiMurderSanity>
+	<YS_SettingsDajiMurderSanityTooltip>Allow pawns to reduce the severity of their Crimson Psychosis by killing other pawns.</YS_SettingsDajiMurderSanityTooltip>
+	<YS_SettingsDajiMurderSanitySev>Severity reduction per kill: {0}</YS_SettingsDajiMurderSanitySev>
+	<YS_SettingsDajiMurderSanitySevTooltip>Alter how much each pawn kill reduces Crimson Psychosis severity.</YS_SettingsDajiMurderSanitySevTooltip>
+	<YS_SettingsDajiLifestealMelee>Enable lifesteal on melee attacks: {0}</YS_SettingsDajiLifestealMelee>
+	<YS_SettingsDajiLifestealMeleeTooltip>Enable pawns to heal by a percentage of the melee damage that they deal.</YS_SettingsDajiLifestealMeleeTooltip>
+	<YS_SettingsDajiLifestealMeleePercent>Lifesteal proportion: {0}</YS_SettingsDajiLifestealMeleePercent>
+	<YS_SettingsDajiLifestealMeleePercentTooltip>Adjust the percentage of damage dealt pawns heal by when they deal melee damage.</YS_SettingsDajiLifestealMeleePercentTooltip>
+	
 	
 	<YS_SettingsFanGrace>Grace period: {0}</YS_SettingsFanGrace>
 	<YS_SettingsFanGraceTooltip>The minimum in-game days before Farseer Fan begins to tell the future at the start of the game.\n\nIncreasing this value will cause Farseer Fan to take longer at the start of the game before she starts predicting incidents (i.e. from one day to four days). Decreasing this value will shorten the period of time at the start of the game before she predicts any incidents.\n\nWARNING! It is not recommended to set this value too low- it will force only diseases to be predicted.</YS_SettingsFanGraceTooltip>
@@ -21,14 +30,34 @@
 	<YS_SettingsFanPredictTooltip>Defines the maximum time Farseer Fan can forecast out.\n\nIncreasing this can cause Farseer Fan to predict incidents that are farther in the future (i.e. from five days to 15 days), while decreasing it limits how far.\n\nWARNING! It is not recommended to set this value too high, as it can cause long periods without any incidents. Likewise, setting this too low can force incidents to occur too frequently.</YS_SettingsFanPredictTooltip>
 	<YS_SettingsFanPredictDetail>Add hours to predictions: {0}</YS_SettingsFanPredictDetail>
 	<YS_SettingsFanPredictDetailTooltip>Make predictions more specific by adding which hour an incident will occur.</YS_SettingsFanPredictDetailTooltip>
+	
+	<YS_SettingsFanPredictAlt>Enable alternative predictions: {0}</YS_SettingsFanPredictAlt>
+	<YS_SettingsFanPredictAltTooltip>Allow Farseer Fan to randomly provide a choice to select an alternative set of incidents.</YS_SettingsFanPredictAltTooltip>
+	<YS_SettingsFanPredictDefer>Enable deferred predictions: {0}</YS_SettingsFanPredictDefer>
+	<YS_SettingsFanPredictDeferTooltip>Allow Farseer Fan to randomly provide a choice to defer incidents to a later time. If said postponement is selected, she will also add a negative incident.</YS_SettingsFanPredictDeferTooltip>
 
-	<YS_SettingsKaiyiStart>Initial karma: {0}</YS_SettingsKaiyiStart>
-	<YS_SettingsKaiyiStartTooltip>The amount of karma a player starts with in a game. Only works when beginning the game with Kaiyi.</YS_SettingsKaiyiStartTooltip>
+	<YS_SettingsKaiyiStart>Starting karma: {0}</YS_SettingsKaiyiStart>
+	<YS_SettingsKaiyiStartTooltip>The amount of karma you start with.</YS_SettingsKaiyiStartTooltip>
 	<YS_SettingsKaiyiCostFactor>Fate cost factor: {0}x</YS_SettingsKaiyiCostFactor>
 	<YS_SettingsKaiyiCostFactorTooltip>A multiplier on incident prices.</YS_SettingsKaiyiCostFactorTooltip>
 	<YS_SettingsKaiyiPointFactorPos>Positive karma scaling factor: {0}x</YS_SettingsKaiyiPointFactorPos>
 	<YS_SettingsKaiyiPointFactorPosTooltip>Alters the extent of the effect of positive karma on a incident's points, if it uses it.</YS_SettingsKaiyiPointFactorPosTooltip>
 	<YS_SettingsKaiyiPointFactorNeg>Negative karma scaling factor: {0}x</YS_SettingsKaiyiPointFactorNeg>
 	<YS_SettingsKaiyiPointFactorNegTooltip>Alters the extent of the effect of negative karma on a incident's points, if it uses it.</YS_SettingsKaiyiPointFactorNegTooltip>
+	
+	<YS_SettingsKaiyiPointScaling>Enable karma point scaling: {0}</YS_SettingsKaiyiPointScaling>
+	<YS_SettingsKaiyiPointScalingTooltip>Allow karma to act as a multiplier on incident points.</YS_SettingsKaiyiPointScalingTooltip>
+	<YS_SettingsKaiyiPointFactor>Karma incident point factor: {0}x</YS_SettingsKaiyiPointFactor>
+	<YS_SettingsKaiyiPointFactorTooltip>Alters how much a point of karma away from 0 affects incident points. For example, at 1x, one additional point of karma away from 0 increases incident points by 1%.</YS_SettingsKaiyiPointFactorTooltip>
+	<YS_SettingsKaiyiTradeDays>Days for karmic trade: {0} days</YS_SettingsKaiyiTradeDays>
+	<YS_SettingsKaiyiTradeDaysTooltip>Determines the absolute minimum amount of time it takes Kaiyi to come back after a karmic trade.\n\nIf he still needs to fufill his end of the bargain (giving you all your purchased incidents) or is doing some debt services, he may take longer.</YS_SettingsKaiyiTradeDaysTooltip>
+	<YS_SettingsKaiyiMaxSelectable>Incident choices: {0}</YS_SettingsKaiyiMaxSelectable>
+	<YS_SettingsKaiyiMaxSelectableTooltip>Sets how many incidents the player can chose from. If there are less incidents than the maximum, only those incidents will be displayed.</YS_SettingsKaiyiMaxSelectableTooltip>
+	<YS_SettingsKaiyiReroll>Enable incident rerolls: {0}</YS_SettingsKaiyiReroll>
+	<YS_SettingsKaiyiRerollTooltip>Allow incident choices to be rerolled for a payment of karma. The karma cost is affected by the cost factor.</YS_SettingsKaiyiRerollTooltip>
+	<YS_SettingsKaiyiRerollBaseCost>Reroll base karma cost: {0}</YS_SettingsKaiyiRerollBaseCost>
+	<YS_SettingsKaiyiRerollBaseCostTooltip>Set the base karma cost of rerolling incidents.</YS_SettingsKaiyiRerollBaseCostTooltip>
+	
+	
 
 </LanguageData>
