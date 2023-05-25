@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<MapGeneratorDef>
+		<defName>YS_JianghuJin_RefreshTerrain</defName>
+		<genSteps>
+			<li>YS_JianghuJin_Setup</li>
+			<li>YS_JianghuJin_Sequence</li>
+			<li>Terrain</li>
+			<li>CavesTerrain</li>
+			<li>Roads</li>
+			<li>YS_JianghuJin_Cleanup</li>
+			<li>RockChunks</li>
+			<li>SteamGeysers</li>
+			<li>FindPlayerStartSpot</li>
+			<li>Plants</li>
+			<li>Snow</li>
+			<li>Animals</li>
+			<li>Fog</li>
+			<li>RocksFromGrid</li>
+			<li>ScatterShrines</li>
+			<li>CaveHives</li>
+			<li MayRequire="Ludeon.RimWorld.Royalty">YS_JianghuJin_AnimaTrees</li>
+			<!--<li MayRequire="Ludeon.Rimworld.Biotech">AncientExostriderRemains</li>
+			<li MayRequire="Ludeon.Rimworld.Biotech">PoluxTrees</li>
+			<li>YS_JianghuJin_Finalize</li>-->
+		</genSteps>
+	</MapGeneratorDef>
+	
+	<GenStepDef>
+		<defName>YS_JianghuJin_Setup</defName>
+		<order>1</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_Setup"/>
+	</GenStepDef>
+	
+	<GenStepDef>
+		<defName>YS_JianghuJin_Sequence</defName>
+		<order>10</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_Sequence">
+			<genStepDefs>
+				<li>ElevationFertility</li>
+				<li>Caves</li>
+			</genStepDefs>
+			<probability>0.3</probability>
+			<!--<genStepProbs>
+				<li><genStepDef>ElevationFertility</genStepDef><probability>0.5</probability></li>
+				<li><genStepDef>Caves</genStepDef><probability>0.5</probability></li>
+			</genStepProbs>-->
+		</genStep>
+	</GenStepDef>
+	
+	<GenStepDef>
+		<defName>YS_JianghuJin_Cleanup</defName>
+		<order>251</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_Cleanup"/>
+	</GenStepDef>
+
+	
+	<GenStepDef MayRequire="Ludeon.RimWorld.Royalty">
+		<defName>YS_JianghuJin_AnimaTrees</defName>
+		<order>1200</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_AnimaTrees">
+			<treeDef>Plant_TreeAnima</treeDef>
+		</genStep>
+	</GenStepDef>
+	
+	<GenStepDef>
+		<defName>YS_JianghuJin_Terrain</defName>
+		<order>210</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_Terrain"/>
+	</GenStepDef>
+
+
+</Defs>

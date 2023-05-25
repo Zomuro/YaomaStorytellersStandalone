@@ -62,6 +62,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenStep_Jin_AnimaTrees.cs" />
+    <Compile Include="GenStep_Jin_Terrain.cs" />
+    <Compile Include="GenStep_Jin_Sequence.cs" />
+    <Compile Include="GenStep_Jin_Setup.cs" />
+    <Compile Include="GenStep_Jin_Cleanup.cs" />
+    <Compile Include="MapGeneratorDefOf_Yaoma.cs" />
+    <Compile Include="TileGenerationTestUtil.cs" />
+    <Compile Include="IncidentWorker_Terraform_Jin.cs" />
     <Compile Include="MentalStateDefOf_Yaoma.cs" />
     <Compile Include="HediffDefOf_Yaoma.cs" />
     <Compile Include="StorytellerCompProperties_RandomKarmaMain.cs" />

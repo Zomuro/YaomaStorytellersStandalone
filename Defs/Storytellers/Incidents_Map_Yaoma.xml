@@ -26,6 +26,17 @@
 		</targetTags>
 		<workerClass>YaomaStorytellers.IncidentWorker_KarmaTrade_Kaiyi</workerClass>
 	</IncidentDef>
+	
+	<!-- Jianghu Jin's exlusive incident -->
+	<IncidentDef> 
+		<defName>Terraform_Yaoma</defName>
+		<label>terraform</label>
+		<category>Special</category>
+		<targetTags>
+			<li>Map_PlayerHome</li>
+		</targetTags>
+		<workerClass>YaomaStorytellers.IncidentWorker_Terraform_Jin</workerClass>
+	</IncidentDef>
 
   
 </Defs>
