@@ -24,7 +24,11 @@ namespace YaomaStorytellers
 		public override void Generate(Map map, GenStepParams parms)
 		{
 			CleanupRockChunks(map);
-			CleanupAnimals(map);
+			CleanupPawns(map);
+			CleanupPlants(map);
+			//CleanupAnimals(map);
+			CleanupSteamGesyers(map);
+			
 		}
 
 		public void CleanupRockChunks(Map map)
@@ -43,6 +47,23 @@ namespace YaomaStorytellers
 			mineables.Clear();
 		}
 
+		public void CleanupPawns(Map map)
+        {
+			HashSet<Pawn> pawns = map.mapPawns.AllPawnsSpawned.ToHashSet();
+			foreach(var pawn in pawns)
+            {
+				// if pawn is animal or wild man with no faction, kill them all when terraforming - reduce them to ashes
+				if (pawn.AnimalOrWildMan() && pawn.Faction is null)
+                {
+					pawn.Destroy();
+					continue;
+				}
+
+				// prevent pathfinding error from coming up
+				pawn.jobs.StopAll(); 
+            }
+		}
+
 		public void CleanupAnimals(Map map)
 		{
 			HashSet<Pawn> animals = map.mapPawns.AllPawnsSpawned.Where(x => x.AnimalOrWildMan()).ToHashSet();
@@ -54,6 +75,43 @@ namespace YaomaStorytellers
 
 			animals.Clear();
 		}
+
+		public void CleanupSteamGesyers(Map map)
+		{
+			HashSet<Thing> gesyers = map.listerThings.ThingsOfDef(ThingDefOf.SteamGeyser).ToHashSet();
+			foreach (var gesyer in gesyers)
+			{
+				List<Thing> thingList = gesyer.Position.GetThingList(map);
+				if (thingList.FirstOrDefault(x => x.def == ThingDefOf.GeothermalGenerator) is null) gesyer.DeSpawn();
+			}
+
+		}
+
+		public void CleanupPlants(Map map)
+		{
+			// grab all plants
+			HashSet<Thing> plants = map.listerThings.ThingsMatching(ThingRequest.ForGroup(ThingRequestGroup.Plant)).ToHashSet();
+			foreach (var plant in plants)
+			{
+				// plants in growing zones are not culled
+				if (map.zoneManager.ZoneAt(plant.Position) as Zone_Growing != null) continue;
+
+				// plants that are not in the biome they are supposed to be in
+				if (!map.Biome.AllWildPlants.Contains(plant.def))
+				{
+					// if def in forbidCleanPlants, skip
+					if (!forbidCleanPlants.NullOrEmpty() && 
+						forbidCleanPlants.Contains(plant.def)) continue;
+
+					//else destroy plants
+					plant.Destroy();
+				}
+				
+			}
+
+		}
+
+		public List<ThingDef> forbidCleanPlants;
 
 	}
 }

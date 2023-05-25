@@ -15,67 +15,25 @@ namespace YaomaStorytellers
 {
 	public class GenStep_Jin_Terrain : GenStep_Terrain
 	{
+		// maintains the cells of the home area when altering terrain- useful for housing
 		public override void Generate(Map map, GenStepParams parms)
 		{
-			Traverse terrainGenStep = Traverse.Create<GenStep_Terrain>();
-			Log.Message("genstep: " + (terrainGenStep is null).ToString());
-			BeachMaker.Init(map);
-			Log.Message("test");
-			RiverMaker riverMaker = terrainGenStep.Method("GenerateRiver", map).GetValue<RiverMaker>();
-			Log.Message("riverMaker: " + (riverMaker is null).ToString());
-
-			List<IntVec3> list = new List<IntVec3>();
-			MapGenFloatGrid elevation = MapGenerator.Elevation;
-			MapGenFloatGrid fertility = MapGenerator.Fertility;
-			MapGenFloatGrid caves = MapGenerator.Caves;
-			TerrainGrid terrainGrid = map.terrainGrid;
-
-			foreach (IntVec3 c in map.AllCells)
-			{
-				if (!map.areaManager.Home.ActiveCells.Contains(c)) continue;
-
-				Building edifice = c.GetEdifice(map);
-				TerrainDef terrainDef;
-				if ((edifice != null && edifice.def.Fillage == FillCategory.Full) || caves[c] > 0f)
-				{
-					Log.Message("test");
-					//terrainDef = this.TerrainFrom(c, map, elevation[c], fertility[c], riverMaker, true);
-					terrainDef = terrainGenStep.Method(name:  "TerrainFrom", c, map, elevation[c], fertility[c], riverMaker, true).GetValue<TerrainDef>();
-				}
-				else
-				{
-					Log.Message("test");
-					//terrainDef = this.TerrainFrom(c, map, elevation[c], fertility[c], riverMaker, false);
-					terrainDef = terrainGenStep.Method(name: "TerrainFrom", c, map, elevation[c], fertility[c], riverMaker, false).GetValue<TerrainDef>();
-				}
-				if (terrainDef.IsRiver && edifice != null)
-				{
-					list.Add(edifice.Position);
-					edifice.Destroy(DestroyMode.Vanish);
-				}
-				terrainGrid.SetTerrain(c, terrainDef);
-			}
-			if (riverMaker != null)
-			{
-				riverMaker.ValidatePassage(map);
+			// get a record of the cells of the home area + their terrain
+			HashSet<Tuple<IntVec3, TerrainDef>> homeCells = new HashSet<Tuple<IntVec3, TerrainDef>>();
+			foreach(var cell in map.areaManager.Home.ActiveCells)
+            {
+				homeCells.Add(new Tuple<IntVec3, TerrainDef>(cell, cell.GetTerrain(map)));
 			}
 
-			//this.RemoveIslands(map);
-			Log.Message("islandremove");
-			terrainGenStep.Method("RemoveIslands", map).GetValue();
+			// perform terrain change as part of genstep_terrain
+			base.Generate(map, parms);
 
-			RoofCollapseCellsFinder.RemoveBulkCollapsingRoofs(list, map);
-			BeachMaker.Cleanup();
-			foreach (TerrainPatchMaker terrainPatchMaker in map.Biome.terrainPatchMakers)
-			{
-				terrainPatchMaker.Cleanup();
+			// replace the home area's terrain from homeCells
+			foreach(var homeCell in homeCells)
+            {
+				map.terrainGrid.SetTerrain(homeCell.Item1, homeCell.Item2);
 			}
+
 		}
-
-		public static RiverMaker TraverseRiverMaker(Traverse traverse, Map map)
-        {
-			return traverse.Method(name: "GenerateRiver", map).GetValue<RiverMaker>();
-		}
-
 	}
 }

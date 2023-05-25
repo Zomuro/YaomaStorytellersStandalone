@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GenStep_Jin_AnimaTrees.cs" />
+    <Compile Include="GenStep_Jin_ScatterThings.cs" />
+    <Compile Include="GenStep_Jin_CavesTerrain.cs" />
     <Compile Include="GenStep_Jin_Terrain.cs" />
     <Compile Include="GenStep_Jin_Sequence.cs" />
     <Compile Include="GenStep_Jin_Setup.cs" />
