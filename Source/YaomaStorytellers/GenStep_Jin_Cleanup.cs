@@ -26,9 +26,7 @@ namespace YaomaStorytellers
 			CleanupRockChunks(map);
 			CleanupPawns(map);
 			CleanupPlants(map);
-			//CleanupAnimals(map);
 			CleanupSteamGesyers(map);
-			
 		}
 
 		public void CleanupRockChunks(Map map)
@@ -41,10 +39,6 @@ namespace YaomaStorytellers
 				if (chunk.IsInAnyStorage()) continue;
 				chunk.Destroy();
 			}
-
-			chunks.Clear();
-			chunks.Clear();
-			mineables.Clear();
 		}
 
 		public void CleanupPawns(Map map)
@@ -72,8 +66,6 @@ namespace YaomaStorytellers
 				if (animal.Faction != null) continue;
 				animal.Destroy();
 			}
-
-			animals.Clear();
 		}
 
 		public void CleanupSteamGesyers(Map map)
@@ -93,20 +85,16 @@ namespace YaomaStorytellers
 			HashSet<Thing> plants = map.listerThings.ThingsMatching(ThingRequest.ForGroup(ThingRequestGroup.Plant)).ToHashSet();
 			foreach (var plant in plants)
 			{
-				// plants in growing zones are not culled
-				if (map.zoneManager.ZoneAt(plant.Position) as Zone_Growing != null) continue;
+				// plants in growing zones OR in home area are not culled
+				if (map.zoneManager.ZoneAt(plant.Position) as Zone_Growing != null || 
+					map.areaManager.Home[plant.Position]) continue;
 
-				// plants that are not in the biome they are supposed to be in
-				if (!map.Biome.AllWildPlants.Contains(plant.def))
-				{
-					// if def in forbidCleanPlants, skip
-					if (!forbidCleanPlants.NullOrEmpty() && 
-						forbidCleanPlants.Contains(plant.def)) continue;
+				// if def in forbidCleanPlants, skip
+				if (!forbidCleanPlants.NullOrEmpty() &&
+					forbidCleanPlants.Contains(plant.def)) continue;
 
-					//else destroy plants
-					plant.Destroy();
-				}
-				
+				//else destroy plants
+				plant.Destroy();
 			}
 
 		}

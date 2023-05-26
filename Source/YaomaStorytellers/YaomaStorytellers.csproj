@@ -62,7 +62,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenStep_Jin_Fog.cs" />
+    <Compile Include="YaomaMapUtility.cs" />
     <Compile Include="GenStep_Jin_AnimaTrees.cs" />
+    <Compile Include="GenStep_Jin_RocksFromGrid.cs" />
     <Compile Include="GenStep_Jin_ScatterThings.cs" />
     <Compile Include="GenStep_Jin_CavesTerrain.cs" />
     <Compile Include="GenStep_Jin_Terrain.cs" />

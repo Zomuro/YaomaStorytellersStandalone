@@ -6,24 +6,26 @@
 		<genSteps>
 			<li>YS_JianghuJin_Setup</li>
 			<li>YS_JianghuJin_Sequence</li>
+			<!--<li>ElevationFertility</li>
+			<li>Caves</li>-->
 			<li>YS_JianghuJin_Terrain</li>
-			<li>YS_JianghuJin_CavesTerrain</li>
+			<!--<li>YS_JianghuJin_CavesTerrain</li>-->
+			<li>CavesTerrain</li>
 			<li>Roads</li>
 			<li>YS_JianghuJin_Cleanup</li>
 			<li>RockChunks</li>
 			<li>SteamGeysers</li>
 			<li>FindPlayerStartSpot</li>
+			<li MayRequire="Ludeon.Rimworld.Biotech">Pollution</li>
 			<li>Plants</li>
 			<li>Snow</li>
 			<li>Animals</li>
-			<li>Fog</li>
-			<li>RocksFromGrid</li>
-			<li>ScatterShrines</li>
+			<li>YS_JianghuJin_Fog</li>
+			<li>YS_JianghuJin_RocksFromGrid</li>
+			<!--<li>ScatterShrines</li>-->
 			<li>CaveHives</li>
 			<li MayRequire="Ludeon.RimWorld.Royalty">YS_JianghuJin_AnimaTrees</li>
-			<!--<li MayRequire="Ludeon.Rimworld.Biotech">AncientExostriderRemains</li>
 			<li MayRequire="Ludeon.Rimworld.Biotech">PoluxTrees</li>
-			<li>YS_JianghuJin_Finalize</li>-->
 		</genSteps>
 	</MapGeneratorDef>
 	
@@ -70,6 +72,12 @@
 	</GenStepDef>
 	
 	<GenStepDef>
+		<defName>YS_JianghuJin_RocksFromGrid</defName>
+		<order>200</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_RocksFromGrid"/>
+	</GenStepDef>
+
+	<GenStepDef>
 		<defName>YS_JianghuJin_Terrain</defName>
 		<order>210</order>
 		<genStep Class="YaomaStorytellers.GenStep_Jin_Terrain"/>
@@ -107,6 +115,11 @@
 		</genStep>
 	</GenStepDef>
 
+	<GenStepDef>
+		<defName>YS_JianghuJin_Fog</defName>
+		<order>1500</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_Fog"/>
+	</GenStepDef>
 
 
 </Defs>

@@ -24,16 +24,11 @@ namespace YaomaStorytellers
 		public override void Generate(Map map, GenStepParams parms)
 		{
 			MapGenerator.mapBeingGenerated = map;
-			
 			RockNoises.Init(map);
+			map.TileInfo.biome = AvailBiomeScoring(map.TileInfo, map.Tile)?.RandomElementByWeight(x => x.Item2).Item1 ?? BiomeDefOf.TemperateForest;
 
-			foreach (var score in BiomeScoring(map.TileInfo, map.Tile).OrderByDescending(x => x.Item2))
-            {
-				Log.Message("Biome: " + score.Item1.LabelCap + "; Score: " + score.Item2);
-            }
-
-			BiomeDef randBiome = AvailBiomeScoring(map.TileInfo, map.Tile)?.RandomElementByWeight(x => x.Item2).Item1 ?? BiomeDefOf.TemperateForest;
-			map.TileInfo.biome = randBiome;
+			YaomaMapUtility.ClearCache();
+			YaomaMapUtility.JianghuJinAllRoomCells(map);
 		}
 
 		public IEnumerable<Tuple<BiomeDef, float>> BiomeScoring(Tile ws, int tileID)

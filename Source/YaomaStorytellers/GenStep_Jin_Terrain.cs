@@ -18,10 +18,16 @@ namespace YaomaStorytellers
 		// maintains the cells of the home area when altering terrain- useful for housing
 		public override void Generate(Map map, GenStepParams parms)
 		{
-			// get a record of the cells of the home area + their terrain
+			// get a record of the cells of the rooms + their terrain
 			HashSet<Tuple<IntVec3, TerrainDef>> homeCells = new HashSet<Tuple<IntVec3, TerrainDef>>();
-			foreach(var cell in map.areaManager.Home.ActiveCells)
+			/*foreach (var cell in map.areaManager.Home.ActiveCells)
             {
+				homeCells.Add(new Tuple<IntVec3, TerrainDef>(cell, cell.GetTerrain(map)));
+			}*/
+
+			HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 0.25f);
+			foreach (var cell in roomCells)
+			{
 				homeCells.Add(new Tuple<IntVec3, TerrainDef>(cell, cell.GetTerrain(map)));
 			}
 
@@ -33,6 +39,7 @@ namespace YaomaStorytellers
             {
 				map.terrainGrid.SetTerrain(homeCell.Item1, homeCell.Item2);
 			}
+
 
 		}
 	}

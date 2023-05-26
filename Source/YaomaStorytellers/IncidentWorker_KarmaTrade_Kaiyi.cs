@@ -8,6 +8,12 @@ namespace YaomaStorytellers
 {
 	public class IncidentWorker_KarmaTrade_Kaiyi : IncidentWorker
 	{
+		protected override bool CanFireNowSub(IncidentParms parms)
+		{
+			if (Find.Storyteller.def != StorytellerDefOf.KaiyiKarmic_Yaoma) return false;
+			return true;
+		}
+
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			karmaTracker = Find.Storyteller.storytellerComps.FirstOrDefault(x =>

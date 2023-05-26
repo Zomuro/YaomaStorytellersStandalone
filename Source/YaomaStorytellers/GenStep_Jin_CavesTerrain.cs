@@ -22,11 +22,13 @@ namespace YaomaStorytellers
 			Perlin perlin = new Perlin(0.079999998211860657, 2.0, 0.5, 6, Rand.Int, QualityMode.Medium);
 			Perlin perlin2 = new Perlin(0.15999999642372131, 2.0, 0.5, 6, Rand.Int, QualityMode.Medium);
 			MapGenFloatGrid caves = MapGenerator.Caves;
+			HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 0.25f);
 			foreach (IntVec3 intVec in map.AllCells)
 			{
-                if (map.areaManager.Home[intVec])
+                if (roomCells.Contains(intVec))
                 {
 					map.terrainGrid.SetTerrain(intVec, intVec.GetTerrain(map));
+					continue;
 				}
 
 				if (caves[intVec] > 0f && !intVec.GetTerrain(map).IsRiver)
