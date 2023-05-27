@@ -16,7 +16,6 @@ namespace YaomaStorytellers
 		public override void Generate(Map map, GenStepParams parms)
 		{
 			HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 0.3f);
-
 			if (map.TileInfo.WaterCovered) return;
 			map.regionAndRoomUpdater.Enabled = false;
 			

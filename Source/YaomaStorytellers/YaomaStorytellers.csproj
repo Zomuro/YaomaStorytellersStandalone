@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RoomDecaySetting.cs" />
     <Compile Include="GenStep_Jin_Fog.cs" />
     <Compile Include="YaomaMapUtility.cs" />
     <Compile Include="GenStep_Jin_AnimaTrees.cs" />

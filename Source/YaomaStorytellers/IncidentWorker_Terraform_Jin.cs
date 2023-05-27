@@ -19,29 +19,30 @@ namespace YaomaStorytellers
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
-			DeepProfiler.Start("IncidentWorker_Terraform");
+			
 			Map map = Find.AnyPlayerHomeMap;
 			if (map is null)
 			{
-				DeepProfiler.End();
+				
 				return false;
 			}
 			string seed = Find.World.info.seedString;
 			Log.Message("original seed: " + seed);
 
-			Find.World.info.seedString = RandomString(rand.Next(4, 10));
+			/*Find.World.info.seedString = RandomString(rand.Next(4, 10));
 			Log.Message("new seed: " + Find.World.info.seedString);
 			foreach (var step in MapGeneratorDefOf_Yaoma.YS_JianghuJin_RefreshTerrain.genSteps.OrderBy(x => x.order))
 			{
 				Log.Message(step.genStep.def.defName);
+				DeepProfiler.Start(step.genStep.def.defName);
 				step.genStep.Generate(map, default(GenStepParams));
+				DeepProfiler.End();
 			}
 			map.FinalizeInit();
 			Find.World.info.seedString = seed;
-			DeepProfiler.End();
 			return true;
-
-			/*
+			*/
+			
 			try
             {
 				Find.World.info.seedString = RandomString(rand.Next(4, 10));
@@ -53,16 +54,16 @@ namespace YaomaStorytellers
 				}
 				map.FinalizeInit();
 				Find.World.info.seedString = seed;
-				DeepProfiler.End();
+				//DeepProfiler.End();
 				return true;
 			}
 
             catch
 			{
 				Find.World.info.seedString = seed;
-				DeepProfiler.End();
+				//DeepProfiler.End();
 				return false;
-            }*/
+            }
 		}
 
 		public string RandomString(int length)

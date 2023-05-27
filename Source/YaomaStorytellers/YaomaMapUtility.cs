@@ -20,10 +20,12 @@ namespace YaomaStorytellers
             List<Room> rooms = map.regionGrid.allRooms;
             if (rooms.NullOrEmpty()) return null;
 
+            HashSet<Room> colonyRooms = map.listerBuildings.allBuildingsColonist.Select(x => x.GetRoom()).ToHashSet();
+
             HashSet<IntVec3> cells = new HashSet<IntVec3>();
             foreach(var room in rooms)
             {
-                if (room.PsychologicallyOutdoors) continue;
+                if (room.PsychologicallyOutdoors || !colonyRooms.Contains(room)) continue;
                 cells.AddRange(room.Cells);
             }
 
@@ -32,56 +34,72 @@ namespace YaomaStorytellers
         }
 
         // decays the cells to simulate rock infiltration
-        public static void JianghuJinSimDecay(ref HashSet<IntVec3> cells, float baseProb)
+        public static void JianghuJinSimDecay(ref HashSet<IntVec3> cells, float baseProb, RoomDecaySetting decaySetting = RoomDecaySetting.StableAdj)
         {
             if (cells is null) 
+            {
+                cells = new HashSet<IntVec3>();
+                return;
+            }
+
+            float keepProb = Mathf.Clamp(baseProb, 0f, 1f);
+            if (keepProb <= 0)
             {
                 cells.Clear();
                 return;
             }
 
-            // sets the base chance of the cell not being thrown out
-            // for each cardinal adjacent cell, increases chance by 25% of base
-            float keepProb = Mathf.Clamp(baseProb, 0f, 0.5f); 
             HashSet<IntVec3> removeCells = new HashSet<IntVec3>();
-            
-            if(keepProb <= 0)
-            {
-                cells.Clear();
-                return;
-            }
             foreach (var cell in cells)
             {
-                HashSet<IntVec3> adj = GenAdjFast.AdjacentCellsCardinal(cell).ToHashSet();
-                float keepFactor = 1f + cells.Except(removeCells).Union(adj).Count() / 4f;
+                float keepFactor = 1f;
+                if (decaySetting != RoomDecaySetting.Absolute)
+                {
+                    IEnumerable<IntVec3> adj = GenAdjFast.AdjacentCellsCardinal(cell);
+                    keepFactor += DecaySettingMult(decaySetting) * cells.Except(removeCells).Union(adj).Count() / 8f;
+                }
                 if (UnityEngine.Random.Range(0f, 1f) > keepProb * keepFactor) removeCells.Add(cell);
             }
 
             cells.ExceptWith(removeCells);
         }
 
-        public static HashSet<IntVec3> JianghuJinSimDecay(HashSet<IntVec3> cells, float baseProb)
+        public static HashSet<IntVec3> JianghuJinSimDecay(HashSet<IntVec3> cells, float baseProb, RoomDecaySetting decaySetting = RoomDecaySetting.StableAdj)
         {
             if (cells is null) return new HashSet<IntVec3>();
 
-            // sets the base chance of the cell not being thrown out
-            // for each cardinal adjacent cell, increases chance by 25% of base
-            float keepProb = Mathf.Clamp(baseProb, 0f, 0.5f);
+            float keepProb = Mathf.Clamp(baseProb, 0f, 1f);
             if (keepProb <= 0) return new HashSet<IntVec3>();
 
             HashSet<IntVec3> removeCells = new HashSet<IntVec3>();
 
             foreach (var cell in cells)
             {
-                HashSet<IntVec3> adj = GenAdjFast.AdjacentCellsCardinal(cell).ToHashSet();
-                float keepFactor = 1f + cells.Except(removeCells).Union(adj).Count() / 4f;
+                float keepFactor = 1f;
+                if(decaySetting != RoomDecaySetting.Absolute)
+                {
+                    IEnumerable<IntVec3> adj = GenAdjFast.AdjacentCellsCardinal(cell);
+                    keepFactor += DecaySettingMult(decaySetting) * cells.Except(removeCells).Union(adj).Count() / 8f;
+                }
                 if (UnityEngine.Random.Range(0f, 1f) > keepProb * keepFactor) removeCells.Add(cell);
             }
-
             return cells.Except(removeCells).ToHashSet();
         }
 
-        public static void JianghuJinSimDecay(ref HashSet<IntVec3> cells)
+        public static float DecaySettingMult(RoomDecaySetting decaySetting = RoomDecaySetting.StableAdj)
+        {
+            switch (decaySetting)
+            {
+                case RoomDecaySetting.StableAdj:
+                    return 1f;
+                case RoomDecaySetting.UnstableAdj:
+                    return -1f;
+                default:
+                    return 0f;
+            }
+        }
+
+        /*public static void JianghuJinSimDecay(ref HashSet<IntVec3> cells)
         {
             if (cells is null) return;
 
@@ -92,20 +110,20 @@ namespace YaomaStorytellers
 
             foreach (var cell in cells)
             {
-                HashSet<IntVec3> adj = GenAdjFast.AdjacentCellsCardinal(cell).ToHashSet();
-                float keepFactor = 1f + cells.Except(removeCells).Union(adj).Count() / 4f;
+                IEnumerable<IntVec3> adj = GenAdjFast.AdjacentCellsCardinal(cell);
+                float keepFactor = 1f + cells.Except(removeCells).Intersect(adj).Count() / 4f;
                 if (UnityEngine.Random.Range(0f, 1f) > keepProb * keepFactor) removeCells.Add(cell);
             }
 
             cells.ExceptWith(removeCells);
-        }
+        }*/
 
-        public static HashSet<IntVec3> JianghuJinDecayedRoomCells(Map map, float baseProb)
+        /*public static HashSet<IntVec3> JianghuJinDecayedRoomCells(Map map, float baseProb)
         {
-            HashSet<IntVec3> cells = JianghuJinAllRoomCells(map);
+            HashSet<IntVec3> cells = cachedRoomCells ?? JianghuJinAllRoomCells(map);
             JianghuJinSimDecay(ref cells, baseProb);
             return cells;
-        }
+        }*/
 
         public static void ClearCache()
         {
@@ -114,7 +132,7 @@ namespace YaomaStorytellers
 
         public static HashSet<IntVec3> cachedRoomCells;
 
-
+        public static System.Random rand = new System.Random();
 
     }
 }

@@ -43,7 +43,7 @@
 				<li>ElevationFertility</li>
 				<li>Caves</li>
 			</genStepDefs>
-			<probability>0.3</probability>
+			<probability>1</probability>
 			<!--<genStepProbs>
 				<li><genStepDef>ElevationFertility</genStepDef><probability>0.5</probability></li>
 				<li><genStepDef>Caves</genStepDef><probability>0.5</probability></li>

@@ -24,9 +24,9 @@ namespace YaomaStorytellers
             {
 				homeCells.Add(new Tuple<IntVec3, TerrainDef>(cell, cell.GetTerrain(map)));
 			}*/
-
-			HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 0.25f);
-			foreach (var cell in roomCells)
+			// HashSet<IntVec3> roomCells = 
+			YaomaMapUtility.JianghuJinSimDecay(ref YaomaMapUtility.cachedRoomCells, 0.5f);
+			foreach (var cell in YaomaMapUtility.cachedRoomCells)
 			{
 				homeCells.Add(new Tuple<IntVec3, TerrainDef>(cell, cell.GetTerrain(map)));
 			}
