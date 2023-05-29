@@ -26,24 +26,24 @@ namespace YaomaStorytellers
 				
 				return false;
 			}
-			string seed = Find.World.info.seedString;
+			/*string seed = Find.World.info.seedString;
 			Log.Message("original seed: " + seed);
 
-			/*Find.World.info.seedString = RandomString(rand.Next(4, 10));
-			Log.Message("new seed: " + Find.World.info.seedString);
+			Find.World.info.seedString = RandomString(rand.Next(4, 10));
+			Log.Message("new seed: " + Find.World.info.seedString);*/
 			foreach (var step in MapGeneratorDefOf_Yaoma.YS_JianghuJin_RefreshTerrain.genSteps.OrderBy(x => x.order))
 			{
-				Log.Message(step.genStep.def.defName);
+				//Log.Message(step.genStep.def.defName);
 				DeepProfiler.Start(step.genStep.def.defName);
 				step.genStep.Generate(map, default(GenStepParams));
 				DeepProfiler.End();
 			}
 			map.FinalizeInit();
-			Find.World.info.seedString = seed;
+			//Find.World.info.seedString = seed;
 			return true;
-			*/
-			
-			try
+
+
+			/*try
             {
 				Find.World.info.seedString = RandomString(rand.Next(4, 10));
 				Log.Message("new seed: " + Find.World.info.seedString);
@@ -63,7 +63,7 @@ namespace YaomaStorytellers
 				Find.World.info.seedString = seed;
 				//DeepProfiler.End();
 				return false;
-            }
+            }*/
 		}
 
 		public string RandomString(int length)

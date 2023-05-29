@@ -8,8 +8,8 @@ namespace YaomaStorytellers
 {
     public enum RoomDecaySetting
     {
-        Absolute,
-        StableAdj,
-        UnstableAdj
+        Absolute, // use the probability (later in settings) to randomly select cells
+        Adjacent, 
+        Augmented
     }
 }

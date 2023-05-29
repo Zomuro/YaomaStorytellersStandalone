@@ -25,7 +25,7 @@ namespace YaomaStorytellers
             HashSet<IntVec3> cells = new HashSet<IntVec3>();
             foreach(var room in rooms)
             {
-                if (room.PsychologicallyOutdoors || !colonyRooms.Contains(room)) continue;
+                if (room.PsychologicallyOutdoors) continue;
                 cells.AddRange(room.Cells);
             }
 
@@ -33,8 +33,7 @@ namespace YaomaStorytellers
             return cells;
         }
 
-        // decays the cells to simulate rock infiltration
-        public static void JianghuJinSimDecay(ref HashSet<IntVec3> cells, float baseProb, RoomDecaySetting decaySetting = RoomDecaySetting.StableAdj)
+        public static void JianghuJinSimDecay(ref HashSet<IntVec3> cells, float keepProb, RoomDecaySetting decaySetting = RoomDecaySetting.Absolute)
         {
             if (cells is null) 
             {
@@ -42,7 +41,7 @@ namespace YaomaStorytellers
                 return;
             }
 
-            float keepProb = Mathf.Clamp(baseProb, 0f, 1f);
+            keepProb = Mathf.Clamp(keepProb, 0f, 1f);
             if (keepProb <= 0)
             {
                 cells.Clear();
@@ -50,52 +49,80 @@ namespace YaomaStorytellers
             }
 
             HashSet<IntVec3> removeCells = new HashSet<IntVec3>();
-            foreach (var cell in cells)
-            {
-                float keepFactor = 1f;
-                if (decaySetting != RoomDecaySetting.Absolute)
-                {
-                    IEnumerable<IntVec3> adj = GenAdjFast.AdjacentCellsCardinal(cell);
-                    keepFactor += DecaySettingMult(decaySetting) * cells.Except(removeCells).Union(adj).Count() / 8f;
-                }
-                if (UnityEngine.Random.Range(0f, 1f) > keepProb * keepFactor) removeCells.Add(cell);
-            }
+            DecaySettingResult(keepProb, cells, ref removeCells, decaySetting);
 
             cells.ExceptWith(removeCells);
         }
 
-        public static HashSet<IntVec3> JianghuJinSimDecay(HashSet<IntVec3> cells, float baseProb, RoomDecaySetting decaySetting = RoomDecaySetting.StableAdj)
+        public static HashSet<IntVec3> JianghuJinSimDecay(HashSet<IntVec3> cells, float keepProb, RoomDecaySetting decaySetting = RoomDecaySetting.Absolute)
         {
             if (cells is null) return new HashSet<IntVec3>();
 
-            float keepProb = Mathf.Clamp(baseProb, 0f, 1f);
+            keepProb = Mathf.Clamp(keepProb, 0f, 1f);
             if (keepProb <= 0) return new HashSet<IntVec3>();
 
+            HashSet<IntVec3> roomCells = new HashSet<IntVec3>();
+            roomCells.AddRange(cells);
             HashSet<IntVec3> removeCells = new HashSet<IntVec3>();
 
-            foreach (var cell in cells)
-            {
-                float keepFactor = 1f;
-                if(decaySetting != RoomDecaySetting.Absolute)
-                {
-                    IEnumerable<IntVec3> adj = GenAdjFast.AdjacentCellsCardinal(cell);
-                    keepFactor += DecaySettingMult(decaySetting) * cells.Except(removeCells).Union(adj).Count() / 8f;
-                }
-                if (UnityEngine.Random.Range(0f, 1f) > keepProb * keepFactor) removeCells.Add(cell);
-            }
-            return cells.Except(removeCells).ToHashSet();
+            DecaySettingResult(keepProb, roomCells, ref removeCells, decaySetting);
+            roomCells.ExceptWith(removeCells);
+            return roomCells;
         }
 
-        public static float DecaySettingMult(RoomDecaySetting decaySetting = RoomDecaySetting.StableAdj)
+        public static void DecaySettingResult(float keepProb, HashSet<IntVec3> roomCells, ref HashSet<IntVec3> removeCells, RoomDecaySetting decaySetting)
         {
             switch (decaySetting)
             {
-                case RoomDecaySetting.StableAdj:
-                    return 1f;
-                case RoomDecaySetting.UnstableAdj:
-                    return -1f;
+                // uses only one random check to determine if a cell should be removed
+                case RoomDecaySetting.Absolute:
+                    foreach (var cell in roomCells)
+                        if (UnityEngine.Random.Range(0f, 1f) > keepProb) removeCells.Add(cell);
+                    return;
+
+                // randomly gets a "base cell", and adds adjacent cells as possible
+                case RoomDecaySetting.Adjacent:
+                    HashSet<IntVec3> cells = new HashSet<IntVec3>();
+                    cells.AddRange(roomCells);
+                    int count = (int) ((1 - keepProb) * cells.Count);
+                    while(count > 0)
+                    {
+                        IntVec3 baseCell = cells.RandomElement();
+                        cells.Remove(baseCell);
+                        removeCells.Add(baseCell);
+                        count--;
+                        bool end = false;
+                        while (!end)
+                        {
+                            baseCell = baseCell.RandomAdjacentCellCardinal();
+                            if (cells.Contains(baseCell))
+                            {
+                                cells.Remove(baseCell);
+                                removeCells.Add(baseCell);
+                                count--;
+                            }
+                            else end = true;
+                        }
+                    }
+                    return;
+
+                // takes into account surrounding room cells to determine if the cell should be removed
+                case RoomDecaySetting.Augmented:
+                    HashSet<IntVec3> cellsTwo = new HashSet<IntVec3>();
+                    cellsTwo.AddRange(roomCells);
+                    foreach (var cell in roomCells)
+                    {
+                        IEnumerable<IntVec3> adj = GenAdjFast.AdjacentCellsCardinal(cell);
+                        float keepFactor = 1 + cellsTwo.Intersect(adj).Count() / 4f;
+                        if (UnityEngine.Random.Range(0f, 1f) > keepProb * keepFactor)
+                        {
+                            cellsTwo.Remove(cell);
+                            removeCells.Add(cell);
+                        }
+                    }
+                    return;
                 default:
-                    return 0f;
+                    return;
             }
         }
 

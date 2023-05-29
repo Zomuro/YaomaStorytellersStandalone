@@ -20,12 +20,10 @@ namespace YaomaStorytellers
 		{
 			// get a record of the cells of the rooms + their terrain
 			HashSet<Tuple<IntVec3, TerrainDef>> homeCells = new HashSet<Tuple<IntVec3, TerrainDef>>();
-			/*foreach (var cell in map.areaManager.Home.ActiveCells)
-            {
-				homeCells.Add(new Tuple<IntVec3, TerrainDef>(cell, cell.GetTerrain(map)));
-			}*/
-			// HashSet<IntVec3> roomCells = 
-			YaomaMapUtility.JianghuJinSimDecay(ref YaomaMapUtility.cachedRoomCells, 0.5f);
+
+			// reminder to adjust when adding settings later
+			// decays cells in the cached room cells (doesn't matter at this stage)
+			YaomaMapUtility.JianghuJinSimDecay(ref YaomaMapUtility.cachedRoomCells, 0.95f, RoomDecaySetting.Adjacent);
 			foreach (var cell in YaomaMapUtility.cachedRoomCells)
 			{
 				homeCells.Add(new Tuple<IntVec3, TerrainDef>(cell, cell.GetTerrain(map)));

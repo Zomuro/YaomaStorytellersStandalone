@@ -23,6 +23,9 @@ namespace YaomaStorytellers
 			Perlin perlin2 = new Perlin(0.15999999642372131, 2.0, 0.5, 6, Rand.Int, QualityMode.Medium);
 			MapGenFloatGrid caves = MapGenerator.Caves;
 			//HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 0.25f);
+
+			Log.Message("est cells:" + YaomaMapUtility.cachedRoomCells.Count());
+			Log.Message("est taken: " + 0.99f * YaomaMapUtility.cachedRoomCells.Count());
 			foreach (IntVec3 intVec in map.AllCells)
 			{
                 if (YaomaMapUtility.cachedRoomCells.Contains(intVec))
