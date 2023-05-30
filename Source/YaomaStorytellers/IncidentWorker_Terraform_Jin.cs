@@ -73,6 +73,8 @@ namespace YaomaStorytellers
 				.Select(s => s[rand.Next(s.Length)]).ToArray());
 		}
 
+
+
 		public System.Random rand = new System.Random();
 
 	}

@@ -56,6 +56,31 @@ namespace YaomaStorytellers
 
         public float KaiyiKarmicRerollBaseCost = 10f;
 
+        // Jianghu Jin Settings
+
+        public bool JianghuJinDefaultProb = true;
+
+        public float JianghuJinDecayProbRocks = 0.5f;
+
+        public RoomDecaySetting JianghuJinDecayRock = RoomDecaySetting.Augmented;
+
+        public float JianghuJinDecayProbTerrain = 0.5f;
+
+        public RoomDecaySetting JianghuJinDecayTerrain = RoomDecaySetting.Adjacent;
+
+        public float JianghuJinCleanupRocksProb = 0.3f;
+
+        public bool JianghuJinBiomeChange = false;
+
+        public bool JianghuJinBiomeChangeUnlocked = false;
+
+        public bool JianghuJinHillinessChange = false;
+
+        public float JianghuJinConstructBoost = 1.25f;
+
+        public float JianghuJinMiningBoost = 1.25f;
+
+
         public override void ExposeData()
         {
             // Deathless Daji Settings

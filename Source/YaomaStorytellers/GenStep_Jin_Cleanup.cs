@@ -27,6 +27,7 @@ namespace YaomaStorytellers
 			CleanupPawns(map);
 			CleanupPlants(map);
 			CleanupSteamGesyers(map);
+			CleanupRockGrid(map);
 		}
 
 		public void CleanupRockChunks(Map map)
@@ -97,6 +98,23 @@ namespace YaomaStorytellers
 				plant.Destroy();
 			}
 
+		}
+
+		public void CleanupRockGrid(Map map)
+		{
+			// grab all plants
+			HashSet<Thing> removeRocks = new HashSet<Thing>();
+			HashSet<Thing> natRocks = map.listerThings.AllThings.Where(x => x.def.thingClass == typeof(Mineable)).ToHashSet();
+			foreach (var natRock in natRocks)
+            {
+				if (YaomaMapUtility.cachedRoomCells.Contains(natRock.Position)) continue;
+				map.roofGrid.SetRoof(natRock.Position, null);
+				//natRock.Destroy();
+				removeRocks.Add(natRock);
+			}
+			foreach (var rock in removeRocks) rock.Destroy();
+
+			
 		}
 
 		public List<ThingDef> forbidCleanPlants;

@@ -27,13 +27,13 @@ namespace YaomaStorytellers
             {
                 if (room.PsychologicallyOutdoors) continue;
                 cells.AddRange(room.Cells);
+                cells.AddRange(room.BorderCells);
             }
-
             cachedRoomCells = cells;
             return cells;
         }
 
-        public static void JianghuJinSimDecay(ref HashSet<IntVec3> cells, float keepProb, RoomDecaySetting decaySetting = RoomDecaySetting.Absolute)
+        public static void JianghuJinSimDecay(ref HashSet<IntVec3> cells, float decayProb, RoomDecaySetting decaySetting = RoomDecaySetting.Absolute)
         {
             if (cells is null) 
             {
@@ -41,50 +41,51 @@ namespace YaomaStorytellers
                 return;
             }
 
-            keepProb = Mathf.Clamp(keepProb, 0f, 1f);
-            if (keepProb <= 0)
+            decayProb = Mathf.Clamp(decayProb, 0f, 1f);
+            if (decayProb >= 1)
             {
                 cells.Clear();
                 return;
             }
+            if (decayProb <= 0) return;
 
             HashSet<IntVec3> removeCells = new HashSet<IntVec3>();
-            DecaySettingResult(keepProb, cells, ref removeCells, decaySetting);
-
+            DecaySettingResult(decayProb, cells, ref removeCells, decaySetting);
             cells.ExceptWith(removeCells);
         }
 
-        public static HashSet<IntVec3> JianghuJinSimDecay(HashSet<IntVec3> cells, float keepProb, RoomDecaySetting decaySetting = RoomDecaySetting.Absolute)
+        public static HashSet<IntVec3> JianghuJinSimDecay(HashSet<IntVec3> cells, float decayProb, RoomDecaySetting decaySetting = RoomDecaySetting.Absolute)
         {
             if (cells is null) return new HashSet<IntVec3>();
 
-            keepProb = Mathf.Clamp(keepProb, 0f, 1f);
-            if (keepProb <= 0) return new HashSet<IntVec3>();
+            decayProb = Mathf.Clamp(decayProb, 0f, 1f);
+            if (decayProb >= 1) return new HashSet<IntVec3>();
+            if (decayProb <= 0) return cells;
 
             HashSet<IntVec3> roomCells = new HashSet<IntVec3>();
             roomCells.AddRange(cells);
             HashSet<IntVec3> removeCells = new HashSet<IntVec3>();
 
-            DecaySettingResult(keepProb, roomCells, ref removeCells, decaySetting);
+            DecaySettingResult(decayProb, roomCells, ref removeCells, decaySetting);
             roomCells.ExceptWith(removeCells);
             return roomCells;
         }
 
-        public static void DecaySettingResult(float keepProb, HashSet<IntVec3> roomCells, ref HashSet<IntVec3> removeCells, RoomDecaySetting decaySetting)
+        public static void DecaySettingResult(float decayProb, HashSet<IntVec3> roomCells, ref HashSet<IntVec3> removeCells, RoomDecaySetting decaySetting)
         {
             switch (decaySetting)
             {
                 // uses only one random check to determine if a cell should be removed
                 case RoomDecaySetting.Absolute:
                     foreach (var cell in roomCells)
-                        if (UnityEngine.Random.Range(0f, 1f) > keepProb) removeCells.Add(cell);
+                        if (UnityEngine.Random.Range(0f, 1f) <= decayProb) removeCells.Add(cell);
                     return;
 
-                // randomly gets a "base cell", and adds adjacent cells as possible
+                // randomly gets a "base cell", and adds adjacent cells (8 way) if possible
                 case RoomDecaySetting.Adjacent:
                     HashSet<IntVec3> cells = new HashSet<IntVec3>();
                     cells.AddRange(roomCells);
-                    int count = (int) ((1 - keepProb) * cells.Count);
+                    int count = (int) (decayProb * cells.Count);
                     while(count > 0)
                     {
                         IntVec3 baseCell = cells.RandomElement();
@@ -94,7 +95,7 @@ namespace YaomaStorytellers
                         bool end = false;
                         while (!end)
                         {
-                            baseCell = baseCell.RandomAdjacentCellCardinal();
+                            baseCell = baseCell.RandomAdjacentCell8Way();
                             if (cells.Contains(baseCell))
                             {
                                 cells.Remove(baseCell);
@@ -114,7 +115,7 @@ namespace YaomaStorytellers
                     {
                         IEnumerable<IntVec3> adj = GenAdjFast.AdjacentCellsCardinal(cell);
                         float keepFactor = 1 + cellsTwo.Intersect(adj).Count() / 4f;
-                        if (UnityEngine.Random.Range(0f, 1f) > keepProb * keepFactor)
+                        if (UnityEngine.Random.Range(0f, 1f) <= decayProb / keepFactor)
                         {
                             cellsTwo.Remove(cell);
                             removeCells.Add(cell);

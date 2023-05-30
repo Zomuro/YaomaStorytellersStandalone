@@ -18,7 +18,7 @@ namespace YaomaStorytellers
 			//HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 0.7f);
 
 			// reminder to adjust when adding settings later
-			HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 0.7f, RoomDecaySetting.Augmented);
+			HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 0.3f, RoomDecaySetting.Augmented);
 			if (map.TileInfo.WaterCovered) return;
 			map.regionAndRoomUpdater.Enabled = false;
 			

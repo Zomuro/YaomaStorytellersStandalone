@@ -53,7 +53,7 @@
 	
 	<GenStepDef>
 		<defName>YS_JianghuJin_Cleanup</defName>
-		<order>251</order>
+		<order>190</order>
 		<genStep Class="YaomaStorytellers.GenStep_Jin_Cleanup">
 			<forbidCleanPlants>
 				<li MayRequire="Ludeon.RimWorld.Royalty">Plant_TreeAnima</li>
@@ -89,7 +89,7 @@
 		<genStep Class="YaomaStorytellers.GenStep_Jin_CavesTerrain"/>
 	</GenStepDef>
 	
-	<GenStepDef>
+	<!--<GenStepDef>
 		<defName>YS_JianghuJin_SteamGeysers</defName>
 		<order>500</order>
 		<genStep Class="YaomaStorytellers.GenStep_Jin_ScatterThings">
@@ -113,7 +113,7 @@
 				</li>
 			</validators>
 		</genStep>
-	</GenStepDef>
+	</GenStepDef>-->
 
 	<GenStepDef>
 		<defName>YS_JianghuJin_Fog</defName>
