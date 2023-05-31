@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using UnityEngine;
 using RimWorld;
-using RimWorld.Planet;
 using Verse;
-using Verse.AI;
-using Verse.Noise;
 
 namespace YaomaStorytellers
 {
@@ -21,15 +16,10 @@ namespace YaomaStorytellers
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = Find.AnyPlayerHomeMap;
-			if (map is null)
-			{
-				
-				return false;
-			}
-			
+			if (map is null) return false;
+
 			foreach (var step in MapGeneratorDefOf_Yaoma.YS_JianghuJin_RefreshTerrain.genSteps.OrderBy(x => x.order))
 			{
-				
 				DeepProfiler.Start(step.genStep.def.defName);
 				step.genStep.Generate(map, default(GenStepParams));
 				DeepProfiler.End();
