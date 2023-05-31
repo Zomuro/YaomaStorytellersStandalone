@@ -25,7 +25,8 @@ namespace YaomaStorytellers
             HashSet<IntVec3> cells = new HashSet<IntVec3>();
             foreach(var room in rooms)
             {
-                if (room.PsychologicallyOutdoors) continue;
+                // rooms that are outdoors or too small are not included
+                if (room.PsychologicallyOutdoors || room.CellCount < 5) continue;
                 cells.AddRange(room.Cells);
                 cells.AddRange(room.BorderCells);
             }
@@ -161,6 +162,8 @@ namespace YaomaStorytellers
         public static HashSet<IntVec3> cachedRoomCells;
 
         public static System.Random rand = new System.Random();
+
+        
 
     }
 }

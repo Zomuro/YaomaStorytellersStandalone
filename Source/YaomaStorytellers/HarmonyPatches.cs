@@ -29,9 +29,9 @@ namespace YaomaStorytellers
             harmony.Patch(AccessTools.Method(typeof(StorytellerDef), "ResolveReferences"),
                 new HarmonyMethod(typeof(HarmonyPatches), nameof(StorytellerDefDajiToggle_Prefix)));
 
-            // ExposeDataKaiyi_Post_Yaoma: postfix to save comp values for Kaiyi the Karmic
+            // ExposeDataKaiyi_Post_Yaoma: postfix to save comp values for storytellers
             harmony.Patch(AccessTools.Method(typeof(Storyteller), "ExposeData"),
-                null, new HarmonyMethod(typeof(HarmonyPatches), nameof(ExposeDataKaiyi_Post_Yaoma)));
+                null, new HarmonyMethod(typeof(HarmonyPatches), nameof(ExposeData_Post_Yaoma)));
 
             // KillDaji_Post_Yaoma: decrease crimson psychosis severity on pawn kill
             harmony.Patch(AccessTools.Method(typeof(Pawn), "Kill"),
@@ -53,6 +53,9 @@ namespace YaomaStorytellers
 
                 case "KaiyiKarmic_Yaoma": 
                     YaomaStorytellerUtility.KaiyiKarmicPostUtility(__instance);
+                    break;
+                case "JianghuJin_Yaoma":
+                    YaomaStorytellerUtility.JianghuJinPostUtility(__instance);
                     break;
 
                 default: break;
@@ -120,14 +123,24 @@ namespace YaomaStorytellers
             }
         }
 
-        // POSTFIX: save values in Kaiyi the Karmic's comp
-        public static void ExposeDataKaiyi_Post_Yaoma(Storyteller __instance)
+        // POSTFIX: save values in storyteller comps for certain storytellers
+        public static void ExposeData_Post_Yaoma(Storyteller __instance)
         {
-            if (Find.Storyteller.def != StorytellerDefOf.KaiyiKarmic_Yaoma) return;
-            StorytellerComp compKaiyi = __instance.storytellerComps.FirstOrDefault(x => x.GetType() == typeof(StorytellerComp_RandomKarmaMain));
-            if (compKaiyi != null)
+            if (Find.Storyteller.def == StorytellerDefOf.KaiyiKarmic_Yaoma)
             {
-                (compKaiyi as StorytellerComp_RandomKarmaMain).CompExposeData();
+                StorytellerComp compKaiyi = __instance.storytellerComps.FirstOrDefault(x => x.GetType() == typeof(StorytellerComp_RandomKarmaMain));
+                if (compKaiyi != null)
+                {
+                    (compKaiyi as StorytellerComp_RandomKarmaMain).CompExposeData();
+                }
+            }
+            else if (Find.Storyteller.def == StorytellerDefOf.JianghuJin_Yaoma)
+            {
+                StorytellerComp regular = __instance.storytellerComps.FirstOrDefault(x => x.GetType() == typeof(StorytellerComp_OnDemandRegular));
+                if(regular != null)
+                {
+                    (regular as StorytellerComp_OnDemandRegular).CompExposeData();
+                }
             }
         }
 

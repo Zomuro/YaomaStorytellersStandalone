@@ -482,6 +482,27 @@ namespace YaomaStorytellers
             }
         }
 
+        public static void JianghuJinPostUtility(Storyteller storyteller)
+        {
+            if (GenLocalDate.DayTick(Find.AnyPlayerHomeMap) == 60000 / 2)
+            {
+                // get StorytellerComp_OnDemandRegular and nullcheck it
+                if (!(storyteller.storytellerComps.FirstOrDefault(x => x.GetType() ==
+                      typeof(StorytellerComp_OnDemandRegular)) is StorytellerComp_OnDemandRegular c)) return;
+
+                c.days += 1;
+                if (c.days < settings.JianghuJinTerraformDays) return;
+
+                // attempts to fire the incidentDef linked to StorytellerComp_OnDemand
+                // if fired, set the days time to the setting value
+                foreach (FiringIncident fi in c.MakeIncidents(storyteller.AllIncidentTargets))
+                {
+                    // later on- set days check to whatever value is in settings
+                    if (storyteller.TryFire(fi)) c.days = 0;
+                }
+            }
+        }
+
         // random ending parts for the "Stellar augury" letter
         public static List<String> endings = new List<string> { "YS_LetterFarseerFan_Ending1",
                         "YS_LetterFarseerFan_Ending2", "YS_LetterFarseerFan_Ending3",

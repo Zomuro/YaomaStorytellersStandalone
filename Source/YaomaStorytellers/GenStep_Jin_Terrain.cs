@@ -23,7 +23,9 @@ namespace YaomaStorytellers
 
 			// reminder to adjust when adding settings later
 			// decays cells in the cached room cells (doesn't matter at this stage)
-			YaomaMapUtility.JianghuJinSimDecay(ref YaomaMapUtility.cachedRoomCells, 0.05f, RoomDecaySetting.Adjacent);
+			YaomaMapUtility.JianghuJinSimDecay(ref YaomaMapUtility.cachedRoomCells,
+				YaomaStorytellerUtility.settings.JianghuJinDecayProbTerrain,
+				YaomaStorytellerUtility.settings.JianghuJinRoomIntSetting[YaomaStorytellerUtility.settings.JianghuJinDecayTerrainInt]);
 			foreach (var cell in YaomaMapUtility.cachedRoomCells)
 			{
 				homeCells.Add(new Tuple<IntVec3, TerrainDef>(cell, cell.GetTerrain(map)));

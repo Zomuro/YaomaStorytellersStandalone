@@ -8,6 +8,7 @@ namespace YaomaStorytellers
         public static StorytellerDef FarseerFan_Yaoma;
         public static StorytellerDef KaiyiKarmic_Yaoma;
         public static StorytellerDef DeathlessDaji_Yaoma;
+        public static StorytellerDef JianghuJin_Yaoma;
 
         static StorytellerDefOf()
         {

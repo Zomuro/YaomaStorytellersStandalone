@@ -15,10 +15,10 @@ namespace YaomaStorytellers
 	{
 		public override void Generate(Map map, GenStepParams parms)
 		{
-			//HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 0.7f);
-
 			// reminder to adjust when adding settings later
-			HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 0.3f, RoomDecaySetting.Augmented);
+			HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 
+				YaomaStorytellerUtility.settings.JianghuJinDecayProbRooms, 
+				YaomaStorytellerUtility.settings.JianghuJinRoomIntSetting[YaomaStorytellerUtility.settings.JianghuJinDecayRoomsInt]);
 			if (map.TileInfo.WaterCovered) return;
 			map.regionAndRoomUpdater.Enabled = false;
 			
@@ -42,7 +42,6 @@ namespace YaomaStorytellers
 			foreach (IntVec3 cell in map.AllCells)
 			{
 				if (roomCells.Contains(cell)) continue;
-				//if (YaomaMapUtility.cachedRoomCells.Contains(cell)) continue;
 				float elev = elevation[cell];
 				if (elev > gridMult)
 				{

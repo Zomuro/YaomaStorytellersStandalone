@@ -102,6 +102,8 @@ namespace YaomaStorytellers
 
 		public void CleanupRockGrid(Map map)
 		{
+			//if (UnityEngine.Random.Range(0f, 1f) > YaomaStorytellerUtility.settings.JianghuJinCleanupRocksProb) return;
+
 			// grab all plants
 			HashSet<Thing> removeRocks = new HashSet<Thing>();
 			HashSet<Thing> natRocks = map.listerThings.AllThings.Where(x => x.def.thingClass == typeof(Mineable)).ToHashSet();

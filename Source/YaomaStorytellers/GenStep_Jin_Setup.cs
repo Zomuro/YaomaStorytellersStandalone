@@ -25,15 +25,23 @@ namespace YaomaStorytellers
 		{
 			MapGenerator.mapBeingGenerated = map;
 			RockNoises.Init(map);
-			map.TileInfo.biome = AvailBiomeScoring(map.TileInfo, map.Tile)?.RandomElementByWeight(x => x.Item2).Item1 ?? BiomeDefOf.TemperateForest;
-			map.TileInfo.hilliness = hillList.RandomElement();
+            if (YaomaStorytellerUtility.settings.JianghuJinBiomeChange)
+            {
+				map.TileInfo.biome = AvailBiomeScoring(map.TileInfo, map.Tile, YaomaStorytellerUtility.settings.JianghuJinBiomeChangeUnlocked)?.
+					RandomElementByWeight(x => x.Item2).Item1 ?? BiomeDefOf.TemperateForest;
+			}
+
+			if (YaomaStorytellerUtility.settings.JianghuJinHillinessChange)
+            {
+				map.TileInfo.hilliness = hillList.RandomElement();
+			}
 
 			YaomaMapUtility.ClearCache();
 			YaomaMapUtility.JianghuJinAllRoomCells(map);
 			//YaomaMapUtility.JianghuJinAllRoomBorderCells(map);
 		}
 
-		public IEnumerable<Tuple<BiomeDef, float>> BiomeScoring(Tile ws, int tileID)
+		/*public IEnumerable<Tuple<BiomeDef, float>> BiomeScoring(Tile ws, int tileID)
 		{ 
 			List<BiomeDef> allDefsListForReading = DefDatabase<BiomeDef>.AllDefsListForReading;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
@@ -45,16 +53,18 @@ namespace YaomaStorytellers
 				}
 			}
 			yield break;
-		}
+		}*/
 
-		public IEnumerable<Tuple<BiomeDef, float>> AvailBiomeScoring(Tile ws, int tileID)
+		public IEnumerable<Tuple<BiomeDef, float>> AvailBiomeScoring(Tile ws, int tileID, bool unlocked = false)
 		{
 			List<BiomeDef> allDefsListForReading = DefDatabase<BiomeDef>.AllDefsListForReading;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
 				BiomeDef biomeDef = allDefsListForReading[i];
-				if (biomeDef.implemented && biomeDef.canBuildBase && biomeDef.Worker.GetScore(ws, tileID) > 0)
+				if (biomeDef.implemented && biomeDef.canBuildBase)
 				{
+					if (!unlocked && biomeDef.Worker.GetScore(ws, tileID) < 0) continue;
+
 					yield return new Tuple<BiomeDef, float>(biomeDef, biomeDef.Worker.GetScore(ws, tileID));
 				}
 			}
