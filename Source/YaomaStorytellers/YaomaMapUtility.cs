@@ -121,32 +121,6 @@ namespace YaomaStorytellers
             }
         }
 
-        /*public static void JianghuJinSimDecay(ref HashSet<IntVec3> cells)
-        {
-            if (cells is null) return;
-
-            // sets the base chance of the cell not being thrown out
-            // for each cardinal adjacent cell, increases chance by 25% of base
-            float keepProb = 0.5f;
-            HashSet<IntVec3> removeCells = new HashSet<IntVec3>();
-
-            foreach (var cell in cells)
-            {
-                IEnumerable<IntVec3> adj = GenAdjFast.AdjacentCellsCardinal(cell);
-                float keepFactor = 1f + cells.Except(removeCells).Intersect(adj).Count() / 4f;
-                if (UnityEngine.Random.Range(0f, 1f) > keepProb * keepFactor) removeCells.Add(cell);
-            }
-
-            cells.ExceptWith(removeCells);
-        }*/
-
-        /*public static HashSet<IntVec3> JianghuJinDecayedRoomCells(Map map, float baseProb)
-        {
-            HashSet<IntVec3> cells = cachedRoomCells ?? JianghuJinAllRoomCells(map);
-            JianghuJinSimDecay(ref cells, baseProb);
-            return cells;
-        }*/
-
         public static void ClearCache()
         {
             cachedRoomCells = null;
