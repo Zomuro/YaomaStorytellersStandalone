@@ -22,6 +22,7 @@ namespace YaomaStorytellers
 			CleanupPlants(map);
 			CleanupSteamGesyers(map);
 			CleanupRockGrid(map);
+			CleanupStabilizers(map);
 		}
 
 		public void CleanupRockChunks(Map map)
@@ -49,8 +50,9 @@ namespace YaomaStorytellers
 				}
 
 				// prevent pathfinding error from coming up
-				pawn.jobs.StopAll(); 
-            }
+				pawn.jobs.StopAll(); // no job
+				pawn.pather.StopDead(); // no path
+			}
 		}
 
 		public void CleanupAnimals(Map map)
@@ -65,13 +67,12 @@ namespace YaomaStorytellers
 
 		public void CleanupSteamGesyers(Map map)
 		{
-			HashSet<Thing> gesyers = map.listerThings.ThingsOfDef(ThingDefOf.SteamGeyser).ToHashSet();
+			List<Thing> gesyers = map.listerThings.ThingsOfDef(ThingDefOf.SteamGeyser).ToList();
 			foreach (var gesyer in gesyers)
 			{
 				List<Thing> thingList = gesyer.Position.GetThingList(map);
-				if (thingList.FirstOrDefault(x => x.def == ThingDefOf.GeothermalGenerator) is null) gesyer.DeSpawn();
+				if (thingList.FirstOrDefault(x => x.def == ThingDefOf.GeothermalGenerator) is null) gesyer.Destroy();
 			}
-
 		}
 
 		public void CleanupPlants(Map map)
@@ -91,26 +92,42 @@ namespace YaomaStorytellers
 				//else destroy plants
 				plant.Destroy();
 			}
-
 		}
 
 		public void CleanupRockGrid(Map map)
 		{
-			//if (UnityEngine.Random.Range(0f, 1f) > YaomaStorytellerUtility.settings.JianghuJinCleanupRocksProb) return;
+			foreach (var cell in map.AllCells.ToHashSet())
+			{
+				if (YaomaMapUtility.cachedRoomCells.Contains(cell)) continue;
+				map.roofGrid.SetRoof(cell, null);
+			}
 
-			// grab all plants
 			HashSet<Thing> removeRocks = new HashSet<Thing>();
 			HashSet<Thing> natRocks = map.listerThings.AllThings.Where(x => x.def.thingClass == typeof(Mineable)).ToHashSet();
 			foreach (var natRock in natRocks)
             {
 				if (YaomaMapUtility.cachedRoomCells.Contains(natRock.Position)) continue;
-				map.roofGrid.SetRoof(natRock.Position, null);
-				//natRock.Destroy();
-				removeRocks.Add(natRock);
+				//removeRocks.Add(natRock);
+				natRock.Destroy();
 			}
-			foreach (var rock in removeRocks) rock.Destroy();
+			//foreach (var rock in removeRocks) rock.Destroy();
 
 			
+		}
+
+		public void CleanupStabilizers(Map map)
+		{
+			// grab all stabilizers
+			List<Building> stabArray = map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf_Yaoma.YS_StabilizerArrayJin).ToList();
+			List<Building> stabTotems = map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf_Yaoma.YS_StabilizerTotemJin).ToList();
+
+			foreach (var array in stabArray)
+			{
+				CompStablizer_Jin stabComp = array.TryGetComp<CompStablizer_Jin>();
+				stabComp.FuelComp.ConsumeFuel(stabComp.FuelComp.Fuel);
+				stabComp.ClearStablizeCellsCache();
+			}
+			foreach (var totem in stabTotems) totem.Destroy();
 		}
 
 		public List<ThingDef> forbidCleanPlants;

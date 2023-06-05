@@ -1,4 +1,7 @@
-﻿using RimWorld;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using RimWorld;
 using Verse;
 using Verse.Noise;
 
@@ -12,9 +15,10 @@ namespace YaomaStorytellers
 			Perlin perlin = new Perlin(0.079999998211860657, 2.0, 0.5, 6, Rand.Int, QualityMode.Medium);
 			Perlin perlin2 = new Perlin(0.15999999642372131, 2.0, 0.5, 6, Rand.Int, QualityMode.Medium);
 			MapGenFloatGrid caves = MapGenerator.Caves;
-			foreach (IntVec3 intVec in map.AllCells)
+
+			foreach (IntVec3 intVec in map.AllCells.ToHashSet())
 			{
-                if (YaomaMapUtility.cachedRoomCells.Contains(intVec))
+                if (YaomaMapUtility.JianghuJinAllCellsCombined().Contains(intVec))
                 {
 					map.terrainGrid.SetTerrain(intVec, intVec.GetTerrain(map));
 					continue;

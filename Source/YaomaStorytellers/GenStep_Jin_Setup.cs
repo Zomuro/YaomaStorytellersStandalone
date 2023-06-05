@@ -38,6 +38,7 @@ namespace YaomaStorytellers
 
 			YaomaMapUtility.ClearCache();
 			YaomaMapUtility.JianghuJinAllRoomCells(map);
+			YaomaMapUtility.JianghuJinAllStabilizerCells(map);
 		}
 
 		public IEnumerable<Tuple<BiomeDef, float>> AvailBiomeScoring(Tile ws, int tileID, bool unlocked = false)

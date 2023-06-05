@@ -5,7 +5,7 @@ using Verse;
 
 namespace YaomaStorytellers
 {
-	public class GenStep_Jin_RocksFromGrid : GenStep_CavesTerrain
+	public class GenStep_Jin_RocksFromGrid : GenStep_RocksFromGrid
 	{
 		public override void Generate(Map map, GenStepParams parms)
 		{
@@ -13,6 +13,7 @@ namespace YaomaStorytellers
 			HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 
 				YaomaStorytellerUtility.settings.JianghuJinDecayProbRooms, 
 				YaomaStorytellerUtility.settings.JianghuJinRoomIntSetting[YaomaStorytellerUtility.settings.JianghuJinDecayRoomsInt]);
+			roomCells.AddRange(YaomaMapUtility.cachedStabilizerCells);
 			if (map.TileInfo.WaterCovered) return;
 			map.regionAndRoomUpdater.Enabled = false;
 			
@@ -41,7 +42,7 @@ namespace YaomaStorytellers
 				{
 					if (caves[cell] <= 0f)
 					{
-						ThingDef def = GenStep_RocksFromGrid.RockDefAt(cell);
+						ThingDef def = RockDefAt(cell);
 						GenSpawn.Spawn(def, cell, map, WipeMode.Vanish);
 					}
 					for (int i = 0; i < list.Count; i++)

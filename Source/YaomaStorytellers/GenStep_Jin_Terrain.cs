@@ -18,7 +18,8 @@ namespace YaomaStorytellers
 			YaomaMapUtility.JianghuJinSimDecay(ref YaomaMapUtility.cachedRoomCells,
 				YaomaStorytellerUtility.settings.JianghuJinDecayProbTerrain,
 				YaomaStorytellerUtility.settings.JianghuJinRoomIntSetting[YaomaStorytellerUtility.settings.JianghuJinDecayTerrainInt]);
-			foreach (var cell in YaomaMapUtility.cachedRoomCells)
+
+			foreach (var cell in YaomaMapUtility.JianghuJinAllCellsCombined())
 			{
 				homeCells.Add(new Tuple<IntVec3, TerrainDef>(cell, cell.GetTerrain(map)));
 			}

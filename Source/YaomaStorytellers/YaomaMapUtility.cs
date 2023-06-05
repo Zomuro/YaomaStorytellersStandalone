@@ -7,23 +7,48 @@ namespace YaomaStorytellers
 {
     public static class YaomaMapUtility
     {
-        // gets the cells of all the rooms for Jin to decay and respect when terraforming
+        // gets the cells of all the rooms for Jin to decay and respect when terraforming + add in areas stablizers / totems cover
         public static HashSet<IntVec3> JianghuJinAllRoomCells(Map map)
         {
+            // nullchecks rooms
             List<Room> rooms = map.regionGrid.allRooms;
             if (rooms.NullOrEmpty()) return null;
 
-            HashSet<Room> colonyRooms = map.listerBuildings.allBuildingsColonist.Select(x => x.GetRoom()).ToHashSet();
-
+            // gets all cells in rooms that aren't psychologically outdoors or smaller than 4 cells
             HashSet<IntVec3> cells = new HashSet<IntVec3>();
             foreach(var room in rooms)
             {
                 // rooms that are outdoors or too small are not included
-                if (room.PsychologicallyOutdoors || room.CellCount < 5) continue;
+                if (room.PsychologicallyOutdoors || room.CellCount < 4) continue;
                 cells.AddRange(room.Cells);
                 cells.AddRange(room.BorderCells);
             }
+
             cachedRoomCells = cells;
+            return cells;
+        }
+
+        public static HashSet<IntVec3> JianghuJinAllStabilizerCells(Map map)
+        {
+            HashSet<IntVec3> cells = new HashSet<IntVec3>();
+
+            // get all cells in the area of the stabilizers
+            List<Building> stabilizers = map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf_Yaoma.YS_StabilizerArrayJin).ToList();
+            stabilizers.AddRange(map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf_Yaoma.YS_StabilizerTotemJin));
+            foreach (var building in stabilizers)
+            {
+                cells.AddRange(building.TryGetComp<CompStablizer_Jin>().StablizeCurrCells);
+            }
+
+            cachedStabilizerCells = cells;
+            return cells;
+        }
+
+        public static HashSet<IntVec3> JianghuJinAllCellsCombined()
+        {
+            HashSet<IntVec3> cells = new HashSet<IntVec3>();
+            cells.AddRange(cachedRoomCells);
+            cells.AddRange(cachedStabilizerCells);
             return cells;
         }
 
@@ -124,9 +149,12 @@ namespace YaomaStorytellers
         public static void ClearCache()
         {
             cachedRoomCells = null;
+            cachedStabilizerCells = null;
         }
 
         public static HashSet<IntVec3> cachedRoomCells;
+
+        public static HashSet<IntVec3> cachedStabilizerCells;
 
         public static System.Random rand = new System.Random();
 

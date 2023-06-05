@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ThingDefOf_Yaoma.cs" />
     <Compile Include="CompProperties_Stablizer_Jin.cs" />
     <Compile Include="CompStablizer_Jin.cs" />
     <Compile Include="StatPart_Jin_Mining.cs" />

@@ -9,10 +9,14 @@ using Verse;
 
 namespace YaomaStorytellers
 {
-    public class CompProperties_Stablizer_Jin : CompProperties_Refuelable
+    public class CompProperties_Stablizer_Jin : CompProperties
     {
-        public float maxRange = 0f;
+        public float minRange = 0f;
 
-        public bool destroyTerraform = true;
+        public float maxRange = 1f;
+
+        public bool scaleWithFuel = false;
+
+        public bool destroyOnTerraform = true;
     }
 }

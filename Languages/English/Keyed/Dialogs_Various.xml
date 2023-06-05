@@ -36,5 +36,13 @@
 	<YS_FarseerFanDeferText>Incident(s):</YS_FarseerFanDeferText>
 	<YS_FarseerFanDeferSelect>Defer incident(s)</YS_FarseerFanDeferSelect>
 	<YS_FarseerFanDeferContinueSelect>Continue</YS_FarseerFanDeferContinueSelect>
-		
+	
+	<!-- Building (Stablizer Totem and Array) -->
+	<YS_StabilizerRangeMin>Stabilizer min range</YS_StabilizerRangeMin>
+	<YS_StabilizerRangeMinDesc>The minimum range of this building's stabilizing field. Cells within this field will not be affected during Jianghu Jin's terraforming.</YS_StabilizerRangeMinDesc>
+	<YS_StabilizerRangeMax>Stabilizer max range</YS_StabilizerRangeMax>
+	<YS_StabilizerRangeMaxDesc>The maximum range of this building's stabilizing field. Cells within this field will not be affected during Jianghu Jin's terraforming.</YS_StabilizerRangeMaxDesc>
+	<YS_StabilizerRangeCurr>Current stabilizer range</YS_StabilizerRangeCurr>
+	<YS_StabilizerRangeCurrDesc>The current range of this building's stabilizing field. Cells within this field will not be affected during Jianghu Jin's terraforming.</YS_StabilizerRangeCurrDesc>
+	
  </LanguageData>
