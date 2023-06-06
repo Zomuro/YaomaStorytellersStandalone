@@ -32,26 +32,5 @@ namespace YaomaStorytellers
 			return true;
 
 		}
-
-		// used to alter world seedstring to get new tile results - hold for now
-		public string RandomString(int length)
-		{
-			/*string seed = Find.World.info.seedString;
-			Log.Message("original seed: " + seed);
-
-			Find.World.info.seedString = RandomString(rand.Next(4, 10));
-			Log.Message("new seed: " + Find.World.info.seedString);*/
-			//Find.World.info.seedString = seed;
-			//Log.Message(step.genStep.def.defName);
-
-			const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-+<>";
-			return new string(Enumerable.Repeat(chars, length)
-				.Select(s => s[rand.Next(s.Length)]).ToArray());
-		}
-
-
-
-		public System.Random rand = new System.Random();
-
 	}
 }

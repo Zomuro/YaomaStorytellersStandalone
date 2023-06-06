@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -9,14 +10,14 @@ namespace YaomaStorytellers
 	{
 		public override void Generate(Map map, GenStepParams parms)
 		{
-			// reminder to adjust when adding settings later
-			HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells, 
-				YaomaStorytellerUtility.settings.JianghuJinDecayProbRooms, 
-				YaomaStorytellerUtility.settings.JianghuJinRoomIntSetting[YaomaStorytellerUtility.settings.JianghuJinDecayRoomsInt]);
-			roomCells.AddRange(YaomaMapUtility.cachedStabilizerCells);
 			if (map.TileInfo.WaterCovered) return;
 			map.regionAndRoomUpdater.Enabled = false;
-			
+
+			HashSet<IntVec3> roomCells = YaomaMapUtility.JianghuJinSimDecay(YaomaMapUtility.cachedRoomCells,
+				YaomaStorytellerUtility.settings.JianghuJinDecayProbRooms,
+				YaomaStorytellerUtility.settings.JianghuJinRoomIntSetting[YaomaStorytellerUtility.settings.JianghuJinDecayRoomsInt]);
+			roomCells.AddRange(YaomaMapUtility.cachedStabilizerCells);
+
 			float gridMult = 0.7f;
 			List<RoofThreshold> list = new List<RoofThreshold>()
 			{
@@ -34,7 +35,7 @@ namespace YaomaStorytellers
 
 			MapGenFloatGrid elevation = MapGenerator.Elevation;
 			MapGenFloatGrid caves = MapGenerator.Caves;
-			foreach (IntVec3 cell in map.AllCells)
+			foreach (IntVec3 cell in map.AllCells.ToHashSet())
 			{
 				if (roomCells.Contains(cell)) continue;
 				float elev = elevation[cell];
@@ -57,7 +58,7 @@ namespace YaomaStorytellers
 			}
 			BoolGrid visited = new BoolGrid(map);
 			List<IntVec3> toRemove = new List<IntVec3>();
-			foreach (IntVec3 cell in map.AllCells)
+			foreach (IntVec3 cell in map.AllCells.ToHashSet())
 			{
 				if (!visited[cell])
 				{
@@ -79,8 +80,8 @@ namespace YaomaStorytellers
 					}
 				}
 			}
-			GenStep_ScatterLumpsMineable genStep_ScatterLumpsMineable = new GenStep_ScatterLumpsMineable();
-			genStep_ScatterLumpsMineable.maxValue = maxMineableValue;
+			GenStep_Jin_ScatterLumpsMineable genStep_MineableLumps = new GenStep_Jin_ScatterLumpsMineable();
+			genStep_MineableLumps.maxValue = maxMineableValue;
 			float density = 10f;
 			switch (Find.WorldGrid[map.Tile].hilliness)
 			{
@@ -100,8 +101,8 @@ namespace YaomaStorytellers
 					density = 16f;
 					break;
 			}
-			genStep_ScatterLumpsMineable.countPer10kCellsRange = new FloatRange(density, density);
-			genStep_ScatterLumpsMineable.Generate(map, parms);
+			genStep_MineableLumps.countPer10kCellsRange = new FloatRange(density, density);
+			genStep_MineableLumps.Generate(map, parms, roomCells);
 			map.regionAndRoomUpdater.Enabled = true;
 		}
 

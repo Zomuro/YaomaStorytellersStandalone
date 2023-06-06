@@ -19,7 +19,7 @@ namespace YaomaStorytellers
             foreach(var room in rooms)
             {
                 // rooms that are outdoors or too small are not included
-                if (room.PsychologicallyOutdoors || room.CellCount < 4) continue;
+                if (room.OutdoorsForWork || room.CellCount < 4) continue;
                 cells.AddRange(room.Cells);
                 cells.AddRange(room.BorderCells);
             }

@@ -13,7 +13,6 @@ namespace YaomaStorytellers
 			// get a record of the cells of the rooms + their terrain
 			HashSet<Tuple<IntVec3, TerrainDef>> homeCells = new HashSet<Tuple<IntVec3, TerrainDef>>();
 
-			// reminder to adjust when adding settings later
 			// decays cells in the cached room cells (doesn't matter at this stage)
 			YaomaMapUtility.JianghuJinSimDecay(ref YaomaMapUtility.cachedRoomCells,
 				YaomaStorytellerUtility.settings.JianghuJinDecayProbTerrain,
@@ -30,6 +29,7 @@ namespace YaomaStorytellers
 			// replace the home area's terrain from homeCells
 			foreach(var homeCell in homeCells)
             {
+				if (!homeCell.Item1.InBounds(map)) continue;
 				map.terrainGrid.SetTerrain(homeCell.Item1, homeCell.Item2);
 			}
 

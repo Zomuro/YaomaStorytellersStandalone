@@ -60,7 +60,7 @@ namespace YaomaStorytellers
 			HashSet<Pawn> animals = map.mapPawns.AllPawnsSpawned.Where(x => x.AnimalOrWildMan()).ToHashSet();
 			foreach (var animal in animals)
 			{
-				if (animal.Faction != null) continue;
+				if (animal.Faction != null || animal.RaceProps.Insect) continue;
 				animal.Destroy();
 			}
 		}
@@ -71,7 +71,7 @@ namespace YaomaStorytellers
 			foreach (var gesyer in gesyers)
 			{
 				List<Thing> thingList = gesyer.Position.GetThingList(map);
-				if (thingList.FirstOrDefault(x => x.def == ThingDefOf.GeothermalGenerator) is null) gesyer.Destroy();
+				if (thingList.FirstOrDefault(x => x.def == ThingDefOf.GeothermalGenerator) is null) gesyer.DeSpawn();
 			}
 		}
 
