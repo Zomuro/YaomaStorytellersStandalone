@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using RimWorld.Planet;
 using Verse;
 
 namespace YaomaStorytellers
@@ -24,6 +26,7 @@ namespace YaomaStorytellers
 				step.genStep.Generate(map, default(GenStepParams));
 				DeepProfiler.End();
 			}
+
 			map.FinalizeInit();
 
 			base.SendStandardLetter("YS_LetterLabelJianghuJin".Translate(), "YS_LetterJianghuJin".Translate(),

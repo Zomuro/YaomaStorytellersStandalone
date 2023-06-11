@@ -51,7 +51,7 @@ namespace YaomaStorytellers
 				{
 					if (!unlocked && biomeDef.Worker.GetScore(ws, tileID) < 0) continue;
 
-					yield return new Tuple<BiomeDef, float>(biomeDef, biomeDef.Worker.GetScore(ws, tileID));
+					yield return new Tuple<BiomeDef, float>(biomeDef, unlocked ? 1f : biomeDef.Worker.GetScore(ws, tileID));
 				}
 			}
 			yield break;
