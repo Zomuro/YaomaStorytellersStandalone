@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationConditional"> <!-- Construction speed -->
+		<xpath>Defs/StatDef[defName="ConstructionSpeed"]/parts</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/StatDef[defName="ConstructionSpeed"]</xpath>
+			<value>
+				<parts>
+					<li Class="YaomaStorytellers.StatPart_Jin_Construct"/>
+				</parts>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/StatDef[defName="ConstructionSpeed"]/parts</xpath>
+			<value>
+				<li Class="YaomaStorytellers.StatPart_Jin_Construct"/>
+			</value>
+		</match>
+	</Operation>
+	
+	<Operation Class="PatchOperationConditional"> <!-- MiningSpeed -->
+		<xpath>Defs/StatDef[defName="MiningSpeed"]/parts</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/StatDef[defName="MiningSpeed"]</xpath>
+			<value>
+				<parts>
+					<li Class="YaomaStorytellers.StatPart_Jin_Mining"/>
+				</parts>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/StatDef[defName="MiningSpeed"]/parts</xpath>
+			<value>
+				<li Class="YaomaStorytellers.StatPart_Jin_Mining"/>
+			</value>
+		</match>
+	</Operation>
+	
+	
+	
+</Patch>

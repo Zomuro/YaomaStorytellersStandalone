@@ -5,6 +5,7 @@
 	<YS_SettingsDeathlessDaji>Deathless Daji</YS_SettingsDeathlessDaji>
 	<YS_SettingsKaiyiKarmic>Kaiyi the Karmic</YS_SettingsKaiyiKarmic>
 	<YS_SettingsFarseerFan>Farseer Fan</YS_SettingsFarseerFan>
+	<YS_SettingsJianghuJin>Jianghu Jin</YS_SettingsJianghuJin>
 
 	<YS_SettingsDajiResurrectMechs>Disable mech resurrection: {0}</YS_SettingsDajiResurrectMechs>
 	<YS_SettingsDajiResurrectMechsTooltip>Prevent Deathless Daji to resurrect mechanoids in addition to flesh and bone pawns.</YS_SettingsDajiResurrectMechsTooltip>
@@ -58,6 +59,26 @@
 	<YS_SettingsKaiyiRerollBaseCost>Reroll base karma cost: {0}</YS_SettingsKaiyiRerollBaseCost>
 	<YS_SettingsKaiyiRerollBaseCostTooltip>Set the base karma cost of rerolling incidents.</YS_SettingsKaiyiRerollBaseCostTooltip>
 	
-	
-
+	<YS_SettingsJianghuJinTerraformDays>Period between terraforming: {0} days</YS_SettingsJianghuJinTerraformDays>
+	<YS_SettingsJianghuJinTerraformDaysTooltip>Sets the number of days between each time Jin terraforms the map.</YS_SettingsJianghuJinTerraformDaysTooltip>
+	<YS_SettingsJianghuJinDecayProbRoom>Room cell decay chance: {0}</YS_SettingsJianghuJinDecayProbRoom>
+	<YS_SettingsJianghuJinDecayProbRoomTooltip>Determines how likely cells within all indoor rooms can "decay", which could lead to room damage when terraforming the map.</YS_SettingsJianghuJinDecayProbRoomTooltip>
+	<YS_SettingsJianghuJinDecayProbRoomSetting>Room decay setting: </YS_SettingsJianghuJinDecayProbRoomSetting>
+	<YS_SettingsJianghuJinDecayProbRoomSettingTooltip>Sets the algorithm that determines how rooms are decayed:\n\nAbsolute: cells are randomly decayed.\n\nAdjacent: cell decay will simulate cracking.\n\nAugmented: intact adjacent room cells can make cell decay up to half as likely.</YS_SettingsJianghuJinDecayProbRoomSettingTooltip>
+	<YS_SettingsJianghuJinDecayProbTerrain>Terrain decay chance: {0}</YS_SettingsJianghuJinDecayProbTerrain>
+	<YS_SettingsJianghuJinDecayProbTerrainTooltip>Determines how likely terrain within all indoor rooms can "decay".</YS_SettingsJianghuJinDecayProbTerrainTooltip>
+	<YS_SettingsJianghuJinDecayProbTerrainSetting>Terrain decay setting: </YS_SettingsJianghuJinDecayProbTerrainSetting>
+	<YS_SettingsJianghuJinDecayProbTerrainSettingTooltip>Sets the algorithm that determines how terrain is decayed:\n\nAbsolute: cells are randomly decayed.\n\nAdjacent: cell decay will simulate cracking.\n\nAugmented: intact adjacent room cells can make cell decay up to half as likely.</YS_SettingsJianghuJinDecayProbTerrainSettingTooltip>
+	<YS_SettingsJianghuJinRockCleanup>Rock cleanup chance: {0}</YS_SettingsJianghuJinRockCleanup>
+	<YS_SettingsJianghuJinRockCleanupTooltip>Determines how likely Jin's terraforming incident will remove mineable buildings, save for those that are part of any indoor room, before forming new hills and mountains. This step can declutter a map.</YS_SettingsJianghuJinRockCleanupTooltip>
+	<YS_SettingsJianghuBiome>Enable biome change: {0}</YS_SettingsJianghuBiome>
+	<YS_SettingsJianghuBiomeTooltip>Allow Jin to randomly terraform the map into a different biome, if viable based on geographical features.</YS_SettingsJianghuBiomeTooltip>
+	<YS_SettingsJianghuBiomeUnlock>Unlock biome choices: {0}</YS_SettingsJianghuBiomeUnlock>
+	<YS_SettingsJianghuBiomeUnlockTooltip>Give Jin the go-ahead to transform the map's biome into any habitable biome.</YS_SettingsJianghuBiomeUnlockTooltip>
+	<YS_SettingsJianghuHilliness>Enable hilliness change: {0}</YS_SettingsJianghuHilliness>
+	<YS_SettingsJianghuHillinessTooltip>Lets Jin adjust the hilliness of the map when terraforming it.</YS_SettingsJianghuHillinessTooltip>
+	<YS_SettingsJianghuJinConstructBoost>Construction speed factor: {0}x</YS_SettingsJianghuJinConstructBoost>
+	<YS_SettingsJianghuJinConstructBoostTooltip>Sets the multiplier on construction speed Jin provides.</YS_SettingsJianghuJinConstructBoostTooltip>
+	<YS_SettingsJianghuJinMiningBoost>Mining speed factor: {0}x</YS_SettingsJianghuJinMiningBoost>
+	<YS_SettingsJianghuJinMiningBoostTooltip>Sets the multiplier on mining speed Jin provides.</YS_SettingsJianghuJinMiningBoostTooltip>
 </LanguageData>

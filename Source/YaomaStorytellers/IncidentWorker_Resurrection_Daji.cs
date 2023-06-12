@@ -1,14 +1,20 @@
-﻿using System;
-using System.Linq;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
-using RimWorld;
+using System.Linq;
 using Verse;
 using Verse.AI;
 
 namespace YaomaStorytellers
 {
-	public class IncidentWorker_Resurrection_Daji : IncidentWorker
+    public class IncidentWorker_Resurrection_Daji : IncidentWorker
 	{
+		protected override bool CanFireNowSub(IncidentParms parms)
+		{
+			if (Find.Storyteller.def != StorytellerDefOf.DeathlessDaji_Yaoma) return false;
+			return true;
+		}
+
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			// grabs all the corpses on the target map, and for every corpse

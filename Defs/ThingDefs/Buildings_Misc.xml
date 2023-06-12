@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>YS_StabilizerTotemJin</defName>
+		<label>stablizer totem</label>
+		<description>A protective emblem fashioned to keep a small space from harm, marked with a mountain and sea symbol. Its presence will spare the immediate area around it from any geological damage, but will consume the totem afterwards. While it’s standing, it serves as a source of beauty.</description>
+		<drawerType>MapMeshOnly</drawerType>
+		<fillPercent>0.3</fillPercent>
+		<tickerType>Normal</tickerType>
+		<drawGUIOverlay>true</drawGUIOverlay>
+		<useHitPoints>true</useHitPoints>
+		<graphicData>
+			<texPath>Things/Building/Misc/EggBox</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(1,0.5,1)</volume>
+			</shadowData>
+			<damageData>
+				<rect>(0,0,1,1)</rect>
+			</damageData>
+		</graphicData>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<thingCategories>
+			<li>BuildingsMisc</li>
+		</thingCategories>
+		<statBases>
+			<MaxHitPoints>100</MaxHitPoints>
+			<Beauty>10</Beauty>
+			<WorkToBuild>2000</WorkToBuild>
+			<Flammability>1</Flammability>
+			<Mass>5</Mass>
+		</statBases>
+		<comps>
+			<li Class="YaomaStorytellers.CompProperties_Stablizer_Jin">
+				<compClass>YaomaStorytellers.CompStablizer_Jin</compClass>
+				<minRange>0</minRange>
+				<maxRange>2</maxRange>
+				<scaleWithFuel>false</scaleWithFuel>
+				<destroyOnTerraform>true</destroyOnTerraform>
+			</li>
+		</comps>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+			<li>Stony</li>
+		</stuffCategories>
+		<costStuffCount>50</costStuffCount>
+		<pathCost>10</pathCost>
+		<designationCategory>Misc</designationCategory>
+		<uiOrder>4000</uiOrder>
+		<rotatable>false</rotatable>
+		<building>
+			<paintable>true</paintable>
+		</building>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>YS_StabilizerArrayJin</defName>
+		<label>stabilizer array</label>
+		<description>A specialized tool used by the Yaoma in remote, geologically active areas to reduce the effect of extreme conditions. This device has been specifically set to break down jade for energy instead of relying on a power grid for reasons unknown. It then expends that power to maintain its surroundings when it detects immense geological change. There are no hints of this gadget’s origins, save for the emblem of a mountain and sea.\n\nThe machine must be fully charged to completely protect its area of coverage- the less energy it has, the shorter its range. Even when completely depleted of power, its complexity and geometric form make it a statement piece in any home.</description>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<fillPercent>0.3</fillPercent>
+		<tickerType>Normal</tickerType>
+		<drawGUIOverlay>true</drawGUIOverlay>
+		<useHitPoints>true</useHitPoints>
+		<graphicData>
+			<texPath>Things/Building/Misc/EggBox</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(1,0.5,1)</volume>
+			</shadowData>
+			<damageData>
+				<rect>(0,0,1,1)</rect>
+			</damageData>
+		</graphicData>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<thingCategories>
+			<li>BuildingsSpecial</li>
+		</thingCategories>
+		<statBases>
+			<MaxHitPoints>150</MaxHitPoints>
+			<Beauty>100</Beauty>
+			<Flammability>0</Flammability>
+			<Mass>10</Mass>
+		</statBases>
+		<comps>
+			<li Class="YaomaStorytellers.CompProperties_Stablizer_Jin">
+				<compClass>YaomaStorytellers.CompStablizer_Jin</compClass>
+				<minRange>2</minRange>
+				<maxRange>10</maxRange>
+				<scaleWithFuel>true</scaleWithFuel>
+				<destroyOnTerraform>false</destroyOnTerraform>
+			</li>
+			<li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>0</fuelConsumptionRate>
+				<fuelCapacity>50</fuelCapacity>
+				<fuelFilter>
+					<thingDefs>
+						<li>Jade</li>
+					</thingDefs>
+				</fuelFilter>
+				<targetFuelLevelConfigurable>false</targetFuelLevelConfigurable>
+				<showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<consumeFuelOnlyWhenPowered>true</consumeFuelOnlyWhenPowered>
+				<fuelLabel>Charge</fuelLabel>
+				<fuelGizmoLabel>Charge</fuelGizmoLabel>
+				<outOfFuelMessage>No charge</outOfFuelMessage>
+			</li>
+		</comps>
+		<pathCost>10</pathCost>
+		<rotatable>false</rotatable>
+		<building>
+			<paintable>true</paintable>
+		</building>
+		<thingSetMakerTags>
+			<li>RewardStandardCore</li>
+		</thingSetMakerTags>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+	</ThingDef>
+
+
+</Defs>

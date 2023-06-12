@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<MapGeneratorDef>
+		<defName>YS_JianghuJin_RefreshTerrain</defName>
+		<genSteps>
+			<li>YS_JianghuJin_Setup</li>
+			<li>ElevationFertility</li>
+			<li>Caves</li>
+			<li>YS_JianghuJin_Terrain</li>
+			<li>YS_JianghuJin_CavesTerrain</li>
+			<li>Roads</li>
+			<li>YS_JianghuJin_Cleanup</li>
+			<li>RockChunks</li>
+			<li>SteamGeysers</li>
+			<li>FindPlayerStartSpot</li>
+			<li MayRequire="Ludeon.Rimworld.Biotech">Pollution</li>
+			<li>YS_JianghuJin_Plants</li>
+			<li>Snow</li>
+			<li>Animals</li>
+			<li>YS_JianghuJin_Fog</li>
+			<li>YS_JianghuJin_RocksFromGrid</li>
+			<!--<li>ScatterShrines</li>-->
+			<li>CaveHives</li>
+			<li MayRequire="Ludeon.RimWorld.Royalty">YS_JianghuJin_AnimaTrees</li>
+			<li MayRequire="Ludeon.Rimworld.Biotech">PoluxTrees</li>
+		</genSteps>
+	</MapGeneratorDef>
+	
+	<GenStepDef>
+		<defName>YS_JianghuJin_Setup</defName>
+		<order>1</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_Setup"/>
+	</GenStepDef>
+	
+	<GenStepDef>
+		<defName>YS_JianghuJin_Cleanup</defName>
+		<order>190</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_Cleanup">
+			<forbidCleanPlants>
+				<li MayRequire="Ludeon.RimWorld.Royalty">Plant_TreeAnima</li>
+				<li MayRequire="Ludeon.RimWorld.Royalty">Plant_GrassAnima</li>
+			</forbidCleanPlants>
+		</genStep>
+	</GenStepDef>
+	
+	<GenStepDef MayRequire="Ludeon.RimWorld.Royalty">
+		<defName>YS_JianghuJin_AnimaTrees</defName>
+		<order>1200</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_AnimaTrees">
+			<treeDef>Plant_TreeAnima</treeDef>
+		</genStep>
+	</GenStepDef>
+	
+	<GenStepDef>
+		<defName>YS_JianghuJin_RocksFromGrid</defName>
+		<order>200</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_RocksFromGrid"/>
+	</GenStepDef>
+
+	<GenStepDef>
+		<defName>YS_JianghuJin_Terrain</defName>
+		<order>210</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_Terrain"/>
+	</GenStepDef>
+	
+	<GenStepDef>
+		<defName>YS_JianghuJin_CavesTerrain</defName>
+		<order>211</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_CavesTerrain"/>
+	</GenStepDef>
+	
+	<GenStepDef>
+		<defName>YS_JianghuJin_Plants</defName>
+		<order>800</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_Plants"/>
+	</GenStepDef>
+
+	<GenStepDef>
+		<defName>YS_JianghuJin_Fog</defName>
+		<order>1500</order>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_Fog"/>
+	</GenStepDef>
+
+
+</Defs>

@@ -1,13 +1,13 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
-using Verse;
 using UnityEngine;
+using Verse;
 
 namespace YaomaStorytellers
 {
-	public class Dialog_KarmaTrade : Dialog_DebugOptionListLister
+    public class Dialog_KarmaTrade : Dialog_DebugOptionListLister
 	{
 		public override Vector2 InitialSize
 		{

@@ -32,4 +32,8 @@
 	<YS_LetterLabelKaiyiKarmicGain>Karma gain</YS_LetterLabelKaiyiKarmicGain>
 	<YS_LetterKaiyiKarmicGain>As your fate makes a turn for the worse, you gain {0} karma.</YS_LetterKaiyiKarmicGain>
 	
+	<!-- Jianghu Jin (letters) -->
+	<YS_LetterLabelJianghuJin>Terraforming</YS_LetterLabelJianghuJin>
+	<YS_LetterJianghuJin>With but a wave of her hands, Jianghu Jin has transformed the landscape. A new frontier awaits you.</YS_LetterJianghuJin>
+	
 </LanguageData>

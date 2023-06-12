@@ -1,10 +1,9 @@
-﻿using System;
+﻿using RimWorld;
 using System.Collections.Generic;
-using RimWorld;
 
 namespace YaomaStorytellers
 {
-	public class StorytellerCompProperties_RandomKarmaMain : StorytellerCompProperties_RandomMain
+    public class StorytellerCompProperties_RandomKarmaMain : StorytellerCompProperties_RandomMain
 	{
 		public StorytellerCompProperties_RandomKarmaMain()
 		{

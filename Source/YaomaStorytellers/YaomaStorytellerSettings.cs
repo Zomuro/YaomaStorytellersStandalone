@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using RimWorld;
-using Verse;
+﻿using RimWorld;
+using System.Collections.Generic;
 using UnityEngine;
+using Verse;
 
 namespace YaomaStorytellers
 {
@@ -56,6 +56,31 @@ namespace YaomaStorytellers
 
         public float KaiyiKarmicRerollBaseCost = 10f;
 
+        // Jianghu Jin Settings
+
+        public int JianghuJinTerraformDays = 15;
+
+        public float JianghuJinDecayProbRooms = 0.5f;
+
+        public int JianghuJinDecayRoomsInt = 3; // RoomDecaySetting.Augmented
+
+        public float JianghuJinDecayProbTerrain = 0.05f;
+
+        public int JianghuJinDecayTerrainInt = 2; // RoomDecaySetting.Adjacent
+
+        public float JianghuJinCleanupRocksProb = 0.3f; // unuse for now
+
+        public bool JianghuJinBiomeChange = false;
+
+        public bool JianghuJinBiomeChangeUnlocked = false;
+
+        public bool JianghuJinHillinessChange = false;
+
+        public float JianghuJinConstructBoost = 1.25f;
+
+        public float JianghuJinMiningBoost = 1.25f;
+
+
         public override void ExposeData()
         {
             // Deathless Daji Settings
@@ -86,8 +111,41 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref KaiyiKarmicRerollIncidents, "KaiyiKarmicRerollIncidents", false);
             Scribe_Values.Look(ref KaiyiKarmicRerollBaseCost, "KaiyiKarmicRerollBaseCost", 10f);
 
+            // Kaiyi the Karmic Settings
+            Scribe_Values.Look(ref JianghuJinTerraformDays, "JianghuJinTerraformDays", 15);
+            Scribe_Values.Look(ref JianghuJinDecayProbRooms, "JianghuJinDecayProbRocks", 0.1f);
+            Scribe_Values.Look(ref JianghuJinDecayRoomsInt, "JianghuJinDecayRockInt", 3);
+            Scribe_Values.Look(ref JianghuJinDecayProbTerrain, "JianghuJinDecayProbTerrain", 0.05f);
+            Scribe_Values.Look(ref JianghuJinDecayTerrainInt, "JianghuJinDecayTerrainInt", 2);
+            Scribe_Values.Look(ref JianghuJinBiomeChange, "JianghuJinBiomeChange", false);
+            Scribe_Values.Look(ref JianghuJinBiomeChangeUnlocked, "JianghuJinBiomeChangeUnlocked", false);
+            Scribe_Values.Look(ref JianghuJinHillinessChange, "JianghuJinHillinessChange", false);
+            Scribe_Values.Look(ref JianghuJinConstructBoost, "JianghuJinConstructBoost", 1.25f);
+            Scribe_Values.Look(ref JianghuJinMiningBoost, "JianghuJinMiningBoost", 1.25f);
+
             base.ExposeData();
         }
+
+        public Dictionary<int, RoomDecaySetting> JianghuJinRoomIntSetting = new Dictionary<int, RoomDecaySetting>()
+        {
+            {1, RoomDecaySetting.Absolute},
+            {2, RoomDecaySetting.Adjacent},
+            {3, RoomDecaySetting.Augmented},
+        };
+
+        public Dictionary<RoomDecaySetting, float> JianghuJinRoomSettingDefault = new Dictionary<RoomDecaySetting, float>()
+        {
+            {RoomDecaySetting.Absolute, 0.2f},
+            {RoomDecaySetting.Adjacent, 0.2f},
+            {RoomDecaySetting.Augmented, 0.3f},
+        };
+
+        public Dictionary<RoomDecaySetting, float> JianghuJinTerrainSettingDefault = new Dictionary<RoomDecaySetting, float>()
+        {
+            {RoomDecaySetting.Absolute, 0.05f},
+            {RoomDecaySetting.Adjacent, 0.05f},
+            {RoomDecaySetting.Augmented, 0.1f},
+        };
     }
 
     public class YaomaStorytellerMod : Mod
@@ -114,6 +172,10 @@ namespace YaomaStorytellers
             {
                 this.tab = Tab.DeathlessDaji;
             },  this.tab == Tab.DeathlessDaji));
+            tabsList.Add(new TabRecord("YS_SettingsJianghuJin".Translate(), delegate ()
+            {
+                this.tab = Tab.JianghuJin;
+            }, this.tab == Tab.JianghuJin));
             Rect tabRect = new Rect(inRect);
             tabRect.yMin = 80;
             TabDrawer.DrawTabs<TabRecord>(tabRect, tabsList, 200);
@@ -137,6 +199,10 @@ namespace YaomaStorytellers
                     Widgets.DrawTextureFitted(otherTwoThird, StorytellerDefOf.DeathlessDaji_Yaoma.portraitLargeTex, 0.9f);
                     break;
 
+                case Tab.JianghuJin:
+                    Widgets.DrawTextureFitted(otherTwoThird, StorytellerDefOf.JianghuJin_Yaoma.portraitLargeTex, 0.9f);
+                    break;
+
                 default: break;
             }
 
@@ -158,7 +224,9 @@ namespace YaomaStorytellers
                 case Tab.DeathlessDaji:
                     DeathlessDajiSettings(ref listing);
                     break;
-
+                case Tab.JianghuJin:
+                    JianghuJinSettings(ref listing);
+                    break;
                 default: break;
             }
 
@@ -169,6 +237,7 @@ namespace YaomaStorytellers
                 DeathlessDajiDefault();
                 FarseerFanDefault();
                 KaiyiKarmicDefault();
+                JianghuJinDefault();
             }
             listing.End();
             
@@ -208,6 +277,20 @@ namespace YaomaStorytellers
             settings.KaiyiKarmicKarmaPointScalingFactor = 1f;
             settings.KaiyiKarmicRerollIncidents = false;
             settings.KaiyiKarmicRerollBaseCost = 10f;
+        }
+
+        public void JianghuJinDefault()
+        {
+            settings.JianghuJinTerraformDays = 15;
+            settings.JianghuJinDecayRoomsInt = 3; // RoomDecaySetting.Augmented
+            settings.JianghuJinDecayProbRooms = settings.JianghuJinRoomSettingDefault[settings.JianghuJinRoomIntSetting[settings.JianghuJinDecayRoomsInt]];
+            settings.JianghuJinDecayTerrainInt = 2; // RoomDecaySetting.Adjacent
+            settings.JianghuJinDecayProbTerrain = settings.JianghuJinTerrainSettingDefault[settings.JianghuJinRoomIntSetting[settings.JianghuJinDecayTerrainInt]];
+            settings.JianghuJinBiomeChange = false;
+            settings.JianghuJinBiomeChangeUnlocked = false;
+            settings.JianghuJinHillinessChange = false;
+            settings.JianghuJinConstructBoost = 1.25f;
+            settings.JianghuJinMiningBoost = 1.25f;
         }
 
         public void FarseerFanSettings(ref Listing_Standard listing)
@@ -338,6 +421,79 @@ namespace YaomaStorytellers
             }
         }
 
+        public void JianghuJinSettings(ref Listing_Standard listing)
+        {
+            Text.Font = GameFont.Medium;
+            listing.Label("Jianghu Jin");
+            Text.Font = GameFont.Small;
+            listing.GapLine();
+
+            listing.Label("YS_SettingsJianghuJinTerraformDays".Translate(settings.JianghuJinTerraformDays), -1,
+                "YS_SettingsJianghuJinTerraformDaysTooltip".Translate());
+            settings.JianghuJinTerraformDays = (int)listing.Slider(settings.JianghuJinTerraformDays, 3f, 30f);
+            listing.Label("YS_SettingsJianghuJinDecayProbRoom".Translate(settings.JianghuJinDecayProbRooms.ToStringPercent()), -1,
+                "YS_SettingsJianghuJinDecayProbRoomTooltip".Translate());
+            settings.JianghuJinDecayProbRooms = listing.Slider((float)settings.JianghuJinDecayProbRooms, 0f, 1f);
+            if (listing.ButtonTextLabeledPct("YS_SettingsJianghuJinDecayProbRoomSetting".Translate(),
+                settings.JianghuJinRoomIntSetting[settings.JianghuJinDecayRoomsInt].ToString(), 0.6f, TextAnchor.MiddleLeft, 
+                null, "YS_SettingsJianghuJinDecayProbRoomSettingTooltip".Translate()))
+            {
+                List<FloatMenuOption> options = new List<FloatMenuOption>();
+                foreach(var setting in settings.JianghuJinRoomIntSetting)
+                {
+                    options.Add(new FloatMenuOption(setting.Value.ToString(), delegate ()
+                    {
+                        settings.JianghuJinDecayRoomsInt = setting.Key;
+                        settings.JianghuJinDecayProbRooms = settings.JianghuJinRoomSettingDefault[setting.Value];
+                    }, MenuOptionPriority.Default, null, null, 0f, null, null, true, 0));
+                }
+                Find.WindowStack.Add(new FloatMenu(options));
+            }
+            listing.Label("YS_SettingsJianghuJinDecayProbTerrain".Translate(settings.JianghuJinDecayProbTerrain.ToStringPercent()), -1,
+                "YS_SettingsJianghuJinDecayProbTerrainTooltip".Translate());
+            settings.JianghuJinDecayProbTerrain = listing.Slider((float)settings.JianghuJinDecayProbTerrain, 0f, 1f);
+            if (listing.ButtonTextLabeledPct("YS_SettingsJianghuJinDecayProbTerrainSetting".Translate(),
+                settings.JianghuJinRoomIntSetting[settings.JianghuJinDecayTerrainInt].ToString(), 0.6f, TextAnchor.MiddleLeft,
+                null, "YS_SettingsJianghuJinDecayProbTerrainSettingTooltip".Translate()))
+            {
+                List<FloatMenuOption> options = new List<FloatMenuOption>();
+                foreach (var setting in settings.JianghuJinRoomIntSetting)
+                {
+                    options.Add(new FloatMenuOption(setting.Value.ToString(), delegate ()
+                    {
+                        settings.JianghuJinDecayTerrainInt = setting.Key;
+                        settings.JianghuJinDecayProbTerrain = settings.JianghuJinTerrainSettingDefault[setting.Value];
+                    }, MenuOptionPriority.Default, null, null, 0f, null, null, true, 0));
+                }
+                Find.WindowStack.Add(new FloatMenu(options));
+            }
+            listing.Label("YS_SettingsJianghuJinConstructBoost".Translate(settings.JianghuJinConstructBoost.ToString("F2")), -1,
+                "YS_SettingsJianghuJinConstructBoostTooltip".Translate());
+            settings.JianghuJinConstructBoost = listing.Slider((float)settings.JianghuJinConstructBoost, 0.5f, 2f);
+            listing.Label("YS_SettingsJianghuJinMiningBoost".Translate(settings.JianghuJinMiningBoost.ToString("F2")), -1,
+                "YS_SettingsJianghuJinMiningBoostTooltip".Translate());
+            settings.JianghuJinMiningBoost = listing.Slider((float)settings.JianghuJinMiningBoost, 0.5f, 2f);
+
+            listing.GapLine();
+            listing.CheckboxLabeled("YS_SettingsJianghuBiome".Translate(settings.JianghuJinBiomeChange.ToString()),
+                ref settings.JianghuJinBiomeChange, "YS_SettingsJianghuBiomeTooltip".Translate());
+            if (settings.JianghuJinBiomeChange)
+            {
+                listing.CheckboxLabeled("YS_SettingsJianghuBiomeUnlock".Translate(settings.JianghuJinBiomeChangeUnlocked.ToString()),
+                ref settings.JianghuJinBiomeChangeUnlocked, "YS_SettingsJianghuBiomeUnlockTooltip".Translate());
+            }
+            listing.CheckboxLabeled("YS_SettingsJianghuHilliness".Translate(settings.JianghuJinHillinessChange.ToString()),
+                ref settings.JianghuJinHillinessChange, "YS_SettingsJianghuHillinessTooltip".Translate());
+
+            listing.Gap(16f);
+            if (listing.ButtonText("Reset to default"))
+            {
+                JianghuJinDefault();
+            }
+        }
+
+        
+
         public override string SettingsCategory()
         {
             return "YaomaStorytellersSettings".Translate();
@@ -366,9 +522,12 @@ namespace YaomaStorytellers
         {
             FarseerFan,
             KaiyiKarmic,
-            DeathlessDaji
+            DeathlessDaji,
+            JianghuJin
         }
 
         private bool initalizedDaji = false;
+
+        
     }
 }

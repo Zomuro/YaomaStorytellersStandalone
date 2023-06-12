@@ -1,0 +1,51 @@
+﻿using RimWorld;
+using System;
+using System.Linq;
+using Verse;
+
+namespace YaomaStorytellers
+{
+    public class IncidentWorker_Terraform_Jin : IncidentWorker
+	{
+		protected override bool CanFireNowSub(IncidentParms parms)
+		{
+			if (Find.Storyteller.def != StorytellerDefOf.JianghuJin_Yaoma) return false;
+			return true; // adjust so that it only fires when Jin is the storyteller
+		}
+
+		protected override bool TryExecuteWorker(IncidentParms parms)
+		{
+			Map map = Find.AnyPlayerHomeMap;
+			if (map is null) return false;
+
+			// display when the mapgen is loading
+			LongEventHandler.QueueLongEvent(delegate ()
+			{
+				foreach (var step in MapGeneratorDefOf_Yaoma.YS_JianghuJin_RefreshTerrain.genSteps.OrderBy(x => x.order))
+				{
+					DeepProfiler.Start(step.genStep.def.defName);
+					try 
+					{
+						step.genStep.Generate(map, default(GenStepParams));
+					}
+					catch (Exception arg)
+					{
+						Log.Error("Error in GenStep: " + arg);
+					}
+					finally
+					{
+						DeepProfiler.End();
+					}
+				}
+
+				map.FinalizeInit();
+			}, "YS_JinTerraformMapPage", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap), true);
+
+			base.SendStandardLetter("YS_LetterLabelJianghuJin".Translate(), "YS_LetterJianghuJin".Translate(),
+				LetterDefOf.NeutralEvent, parms, null, Array.Empty<NamedArgument>());
+
+			return true;
+
+		}
+	}
+}

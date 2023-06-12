@@ -1,10 +1,10 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RimWorld;
-using Verse;
 using UnityEngine;
+using Verse;
 
 namespace YaomaStorytellers
 {
@@ -479,6 +479,27 @@ namespace YaomaStorytellers
             if (injuries.TryRandomElement(out Hediff_Injury injury))
             {
                 injury.Heal(result.totalDamageDealt * settings.DajiLifestealMeleePercent);
+            }
+        }
+
+        public static void JianghuJinPostUtility(Storyteller storyteller)
+        {
+            if (GenLocalDate.DayTick(Find.AnyPlayerHomeMap) == 60000 / 2)
+            {
+                // get StorytellerComp_OnDemandRegular and nullcheck it
+                if (!(storyteller.storytellerComps.FirstOrDefault(x => x.GetType() ==
+                      typeof(StorytellerComp_OnDemandRegular)) is StorytellerComp_OnDemandRegular c)) return;
+
+                c.days += 1;
+                if (c.days < settings.JianghuJinTerraformDays) return;
+
+                // attempts to fire the incidentDef linked to StorytellerComp_OnDemand
+                // if fired, set the days time to the setting value
+                foreach (FiringIncident fi in c.MakeIncidents(storyteller.AllIncidentTargets))
+                {
+                    // later on- set days check to whatever value is in settings
+                    if (storyteller.TryFire(fi)) c.days = 0;
+                }
             }
         }
 
