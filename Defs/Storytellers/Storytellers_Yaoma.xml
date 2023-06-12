@@ -469,9 +469,9 @@
 	<StorytellerDef ParentName="BaseStoryteller"> <!-- Jianghu Jin: terraforms the map -->
 		<defName>JianghuJin_Yaoma</defName>
 		<label>Jianghu Jin</label>
-		<description>test desc.</description>
-		<portraitLarge>UI/Storytellers/DeathlessDajiClean</portraitLarge>
-		<portraitTiny>UI/Storytellers/DeathlessDajiClean_Tiny</portraitTiny>
+		<description>Jianghu Jin’s travels have enlightened her on the marvels of many natural landscapes. At regular intervals, she will transform the map to display the majesty of the planet. She also understands the significance of home, and will largely keep indoor rooms intact as well as provide a boon to pawn construction and mining speed.\n\nBesides that, Jin does not concern herself with altering events or tampering with chance, letting incidents occur randomly.</description>
+		<portraitLarge>UI/Storytellers/JianghuJin</portraitLarge>
+		<portraitTiny>UI/Storytellers/JianghuJin_Tiny</portraitTiny>
 		<listOrder>40</listOrder>
 		<comps>		
 		  <!-- Home all -->

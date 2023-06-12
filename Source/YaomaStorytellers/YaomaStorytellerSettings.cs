@@ -199,6 +199,10 @@ namespace YaomaStorytellers
                     Widgets.DrawTextureFitted(otherTwoThird, StorytellerDefOf.DeathlessDaji_Yaoma.portraitLargeTex, 0.9f);
                     break;
 
+                case Tab.JianghuJin:
+                    Widgets.DrawTextureFitted(otherTwoThird, StorytellerDefOf.JianghuJin_Yaoma.portraitLargeTex, 0.9f);
+                    break;
+
                 default: break;
             }
 
