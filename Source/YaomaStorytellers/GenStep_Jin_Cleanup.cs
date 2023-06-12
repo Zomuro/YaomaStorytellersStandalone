@@ -43,10 +43,10 @@ namespace YaomaStorytellers
 			foreach(var pawn in pawns)
             {
 				// if pawn is animal or wild man with no faction, kill them all when terraforming - reduce them to ashes
-				if (pawn.AnimalOrWildMan() && pawn.Faction is null)
+				if (pawn.AnimalOrWildMan())
                 {
+					if (pawn.Faction is null || pawn.RaceProps.Insect) continue;
 					pawn.Destroy();
-					continue;
 				}
 
 				// prevent pathfinding error from coming up
