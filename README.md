@@ -45,6 +45,18 @@ As part of his agreement with you, **Kaiyi** reserves the right to increase inci
 
 Beyond that, he is a fervent believer of living in the moment, throwing in whatever event catches her fancy.
 
+### Jianghu Jin
+
+<p align="center">
+  <img width="512" src="Textures/UI/Storytellers/JianghuJin.png">
+</p>
+
+*“Another world, another horizon!”*
+
+**Jianghu Jin’s** travels have enlightened her on the marvels of many natural landscapes. At regular intervals, she will transform the map to display the majesty of the planet. She also understands the significance of home, and will largely keep indoor rooms intact as well as provide a boon to pawn construction and mining speed.
+
+**Jin** does not concern herself with altering events or tampering with chance, letting incidents occur randomly.*
+
 ## Additional Lore
 
 These **immortals** have a history of their own: maybe you'd like to [learn a little more about them][1]?
@@ -61,18 +73,19 @@ These **immortals** have a history of their own: maybe you'd like to [learn a li
    - **Farseer Fan**: alternative and deferred incident predictions.
    - **Kaiyi the Karmic**: karma incident point scaling and incident catalog rerolls.
    - **Deathless Daji**: lifesteal on melee attacks and **Crimson Psychosis** severity decrease on kills.
-
+   - **Jianghu Jin**: map biome change (limited and unlocked) and hilliness alteration on terraforming.
 
 * **Is there a race mod associated with this? Am I missing out on something?** No, you aren't missing anything. Originally, the storytellers were meant to accompany a race mod. But because of their level of polish compared to the rest of the mod at the time, I've opted to put the storytellers into their own standalone mod.
 
 ## Credits
 My warmest thanks go to:
 * **Vex**, for the incredible art of Farseer Fan and Kaiyi the Karmic.
-* **Visandar_the_Unliving**, for his heart-stopping depiction of Deathless Daji.
-* **Gouda quiche**, for his storyteller balance discussions and mod setting advice.
+* **Visandar_the_Unliving**, for his heart-stopping depiction of Deathless Daji and charming art of Jianghu Jin.
+* **Gouda quiche**, for his storyteller balance, C#, and mod setting advice.
 * **Feldoh**, for his expertise in C# and help in polishing storyteller design.
 * **Fraudecon, Argon, and Sovereign**, for listening to my ramblings.
 * **Elseud** and **TheCatLover366**, for aiding in editing descriptions and lore.
+* **Aelanna** and **Smartkar**, for their suggestions on improving Jianghu Jin's design.
 
 And many others within the RimWorld community for their support!
  
