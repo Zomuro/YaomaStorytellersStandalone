@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RimWorld;
 using System.Linq;
-using RimWorld;
 using Verse;
 using Verse.Noise;
 
 namespace YaomaStorytellers
 {
-	public class GenStep_Jin_CavesTerrain : GenStep_CavesTerrain
+    public class GenStep_Jin_CavesTerrain : GenStep_CavesTerrain
 	{
 		public override void Generate(Map map, GenStepParams parms)
 		{

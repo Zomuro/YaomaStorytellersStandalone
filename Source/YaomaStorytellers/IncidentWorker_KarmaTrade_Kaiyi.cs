@@ -1,12 +1,12 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
 using Verse;
 
 namespace YaomaStorytellers
 {
-	public class IncidentWorker_KarmaTrade_Kaiyi : IncidentWorker
+    public class IncidentWorker_KarmaTrade_Kaiyi : IncidentWorker
 	{
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{

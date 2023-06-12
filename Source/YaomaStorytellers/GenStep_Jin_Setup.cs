@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using RimWorld;
+﻿using RimWorld;
 using RimWorld.Planet;
+using System;
+using System.Collections.Generic;
 using Verse;
 
 namespace YaomaStorytellers
 {
-	public class GenStep_Jin_Setup : GenStep
+    public class GenStep_Jin_Setup : GenStep
 	{
 		public override int SeedPart
 		{

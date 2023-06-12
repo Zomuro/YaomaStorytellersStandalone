@@ -1,15 +1,15 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
 using Verse;
 
 namespace YaomaStorytellers
 {
-	// may use this instead of having an random main and karmatracker- just combo the two
+    // may use this instead of having an random main and karmatracker- just combo the two
 
-	// we need to adjust incidentweights anyways
-	public class StorytellerComp_RandomKarmaMain : StorytellerComp_RandomMain //, IExposable
+    // we need to adjust incidentweights anyways
+    public class StorytellerComp_RandomKarmaMain : StorytellerComp_RandomMain //, IExposable
 	{
 		public StorytellerCompProperties_RandomKarmaMain CompProps
 		{

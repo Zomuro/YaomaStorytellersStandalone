@@ -2,7 +2,7 @@
 
 namespace YaomaStorytellers
 {
-	public class StorytellerCompProperties_OnDemand : StorytellerCompProperties
+    public class StorytellerCompProperties_OnDemand : StorytellerCompProperties
 	{
 		public StorytellerCompProperties_OnDemand()
 		{

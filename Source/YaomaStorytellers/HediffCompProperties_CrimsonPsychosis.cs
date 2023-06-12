@@ -2,7 +2,7 @@
 
 namespace YaomaStorytellers
 {
-	public class HediffCompProperties_CrimsonPsychosis : HediffCompProperties
+    public class HediffCompProperties_CrimsonPsychosis : HediffCompProperties
 	{
 		public HediffCompProperties_CrimsonPsychosis()
 		{

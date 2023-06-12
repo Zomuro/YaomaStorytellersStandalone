@@ -3,7 +3,7 @@ using Verse;
 
 namespace YaomaStorytellers
 {
-	public class StatPart_Jin_Construct : StatPart
+    public class StatPart_Jin_Construct : StatPart
     {
 		public override void TransformValue(StatRequest req, ref float val)
 		{

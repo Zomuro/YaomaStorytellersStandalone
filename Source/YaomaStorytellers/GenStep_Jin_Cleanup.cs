@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using RimWorld;
+using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
 using Verse;
 
 namespace YaomaStorytellers
 {
-	public class GenStep_Jin_Cleanup: GenStep
+    public class GenStep_Jin_Cleanup: GenStep
 	{
 		public override int SeedPart
 		{
@@ -81,9 +81,8 @@ namespace YaomaStorytellers
 			HashSet<Thing> plants = map.listerThings.ThingsMatching(ThingRequest.ForGroup(ThingRequestGroup.Plant)).ToHashSet();
 			foreach (var plant in plants)
 			{
-				// plants in growing zones OR in home area are not culled
-				if (map.zoneManager.ZoneAt(plant.Position) as Zone_Growing != null || 
-					map.areaManager.Home[plant.Position]) continue;
+				// plants in indoor rooms or stablizer range are safe
+				if (YaomaMapUtility.JianghuJinAllStabilizerCells(map).Contains(plant.Position)) continue;
 
 				// if def in forbidCleanPlants, skip
 				if (!forbidCleanPlants.NullOrEmpty() &&
@@ -107,12 +106,8 @@ namespace YaomaStorytellers
 			foreach (var natRock in natRocks)
             {
 				if (YaomaMapUtility.cachedRoomCells.Contains(natRock.Position)) continue;
-				//removeRocks.Add(natRock);
 				natRock.Destroy();
 			}
-			//foreach (var rock in removeRocks) rock.Destroy();
-
-			
 		}
 
 		public void CleanupStabilizers(Map map)

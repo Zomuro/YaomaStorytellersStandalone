@@ -1,11 +1,11 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
-using RimWorld;
 using Verse;
 
 namespace YaomaStorytellers
 {
-	public class GenStep_Jin_Terrain : GenStep_Terrain
+    public class GenStep_Jin_Terrain : GenStep_Terrain
 	{
 		// maintains the cells of the home area when altering terrain- useful for housing
 		public override void Generate(Map map, GenStepParams parms)

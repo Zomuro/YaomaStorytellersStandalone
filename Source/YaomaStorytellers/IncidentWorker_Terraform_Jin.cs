@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RimWorld;
+using System;
 using System.Linq;
-using RimWorld;
-using RimWorld.Planet;
 using Verse;
 
 namespace YaomaStorytellers
 {
-	public class IncidentWorker_Terraform_Jin : IncidentWorker
+    public class IncidentWorker_Terraform_Jin : IncidentWorker
 	{
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -20,14 +18,28 @@ namespace YaomaStorytellers
 			Map map = Find.AnyPlayerHomeMap;
 			if (map is null) return false;
 
-			foreach (var step in MapGeneratorDefOf_Yaoma.YS_JianghuJin_RefreshTerrain.genSteps.OrderBy(x => x.order))
+			// display when the mapgen is loading
+			LongEventHandler.QueueLongEvent(delegate ()
 			{
-				DeepProfiler.Start(step.genStep.def.defName);
-				step.genStep.Generate(map, default(GenStepParams));
-				DeepProfiler.End();
-			}
+				foreach (var step in MapGeneratorDefOf_Yaoma.YS_JianghuJin_RefreshTerrain.genSteps.OrderBy(x => x.order))
+				{
+					DeepProfiler.Start(step.genStep.def.defName);
+					try 
+					{
+						step.genStep.Generate(map, default(GenStepParams));
+					}
+					catch (Exception arg)
+					{
+						Log.Error("Error in GenStep: " + arg);
+					}
+					finally
+					{
+						DeepProfiler.End();
+					}
+				}
 
-			map.FinalizeInit();
+				map.FinalizeInit();
+			}, "YS_JinTerraformMapPage", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap), true);
 
 			base.SendStandardLetter("YS_LetterLabelJianghuJin".Translate(), "YS_LetterJianghuJin".Translate(),
 				LetterDefOf.NeutralEvent, parms, null, Array.Empty<NamedArgument>());

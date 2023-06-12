@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using RimWorld;
+﻿using RimWorld;
 using RimWorld.Planet;
+using System.Collections.Generic;
+using System.Linq;
 using Verse;
 
 namespace YaomaStorytellers
 {
-	public class GenStep_Jin_RocksFromGrid : GenStep_RocksFromGrid
+    public class GenStep_Jin_RocksFromGrid : GenStep_RocksFromGrid
 	{
 		public override void Generate(Map map, GenStepParams parms)
 		{

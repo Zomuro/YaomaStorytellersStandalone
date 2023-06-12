@@ -3,7 +3,7 @@ using Verse;
 
 namespace YaomaStorytellers
 {
-	[DefOf]
+    [DefOf]
 	public static class MapGeneratorDefOf_Yaoma
 	{
 		static MapGeneratorDefOf_Yaoma()

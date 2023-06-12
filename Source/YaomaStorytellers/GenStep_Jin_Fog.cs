@@ -3,7 +3,7 @@ using Verse;
 
 namespace YaomaStorytellers
 {
-	public class GenStep_Jin_Fog : GenStep_Fog
+    public class GenStep_Jin_Fog : GenStep_Fog
 	{
 		public override void Generate(Map map, GenStepParams parms)
 		{

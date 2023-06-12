@@ -1,10 +1,10 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
-using RimWorld;
 
 namespace YaomaStorytellers
 {
-	public class StorytellerComp_OnDemand : StorytellerComp
+    public class StorytellerComp_OnDemand : StorytellerComp
 	{
 		private StorytellerCompProperties_OnDemand Props
 		{
