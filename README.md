@@ -55,7 +55,7 @@ Beyond that, he is a fervent believer of living in the moment, throwing in whate
 
 **Jianghu Jin’s** travels have enlightened her on the marvels of many natural landscapes. At regular intervals, she will transform the map to display the majesty of the planet. She also understands the significance of home, and will largely keep indoor rooms intact as well as provide a boon to pawn construction and mining speed.
 
-**Jin** does not concern herself with altering events or tampering with chance, letting incidents occur randomly.*
+**Jin** does not concern herself with altering events or tampering with chance, letting incidents occur randomly.
 
 ## Additional Lore
 
