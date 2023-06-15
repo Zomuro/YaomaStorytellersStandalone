@@ -43,25 +43,15 @@ namespace YaomaStorytellers
 			foreach(var pawn in pawns)
             {
 				// if pawn is animal or wild man with no faction, kill them all when terraforming - reduce them to ashes
-				if (pawn.AnimalOrWildMan())
+				if (pawn.Spawned && pawn.AnimalOrWildMan() && (pawn.Faction == null || pawn.RaceProps.Insect) && !pawn.IsPrisonerInPrisonCell())
                 {
-					if (pawn.Faction is null || pawn.RaceProps.Insect) continue;
 					pawn.Destroy();
+					continue;
 				}
 
 				// prevent pathfinding error from coming up
 				pawn.jobs.StopAll(); // no job
 				pawn.pather.StopDead(); // no path
-			}
-		}
-
-		public void CleanupAnimals(Map map)
-		{
-			HashSet<Pawn> animals = map.mapPawns.AllPawnsSpawned.Where(x => x.AnimalOrWildMan()).ToHashSet();
-			foreach (var animal in animals)
-			{
-				if (animal.Faction != null || animal.RaceProps.Insect) continue;
-				animal.Destroy();
 			}
 		}
 
