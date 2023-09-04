@@ -1,11 +1,14 @@
 # Yaoma Storytellers (Standalone)
+
+![Preview](About/Preview.png)
+
 ## Introduction
 
-Residing primarily in the globular star cluster known as **The Tianting**, the **Yaoma** are a group of hermaphroditic xenohumans closely related to and otherwise visually indistinguishable from baseliners. They originated from a prosperous glitterworld, designed by the first of them: their mythologized hero-king known as **Ku**. From their **Jade Progenitor**, they have received a sacred mission to ensure greater humanity’s survival against the archotechs. Whether said mission is warranted- another story.
+Residing primarily in the globular star cluster known as **The Tianting**, the **Yaoma** are a group of hermaphroditic xenohumans closely related to and otherwise visually indistinguishable from baseliners. They originated from a prosperous glitterworld, designed by the first of them: their mythologized hero-king known as **Ku**. From their **Jade Progenitor**, they have received a sacred mission to ensure greater humanity’s survival against the archotechs. Whether said directive is warranted is another story.
 
 Among them are those that have traversed the full breadth of **Yaoma cultivation**, a psycho-transhumanist method for transcendence of the human mind and body. They are known as **immortals**. **Immortals** represent the most honored and powerful of the **Yaoma**, capable of altering the natural world with their comprehension of the **Dao**, a metaphysical gestalt schema managed by the xenotype. By applying said laws with the usage of **qi**, the motive force of the universe, the **Jade Sisters** hope to stand against the transcendent machines.
 
-Of these **immortals**, at least three of them have more than a passing interest in storytelling. Their experiences, comprehensions, and capabilities shape the tales that they tell to such an extent that natural law bends to them.
+Of these **immortals**, a few of them have more than a passing interest in storytelling. Their experiences, understanding, and capabilities shape the tales that they tell to such an extent that natural law bends to their will.
 
 Survive their challenges, and you just may seize victory against the archotechs.
 
@@ -80,6 +83,7 @@ These **immortals** have a history of their own: maybe you'd like to [learn a li
 My warmest thanks go to:
 * **Vex**, for the incredible art of Farseer Fan and Kaiyi the Karmic.
 * **Visandar_the_Unliving**, for his heart-stopping depiction of Deathless Daji and charming art of Jianghu Jin.
+* **DetVisor**, for the incredible mod page art assets and preview;
 * **Gouda quiche**, for his storyteller balance, C#, and mod setting advice.
 * **Feldoh**, for his expertise in C# and help in polishing storyteller design.
 * **Fraudecon, Argon, and Sovereign**, for listening to my ramblings.
