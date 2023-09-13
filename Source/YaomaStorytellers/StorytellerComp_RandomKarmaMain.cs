@@ -78,42 +78,42 @@ namespace YaomaStorytellers
 			Scribe_Collections.Look(ref selectedIncidents, "selectedIncidents", LookMode.Def);
 			Scribe_Values.Look<int>(ref daysCheck, "daysCheck", 0, false);
 			Scribe_Values.Look<bool>(ref initKarma, "initKarma", false);
-		}
+		}*/
 
 		public override void Initialize()
 		{
             if (!GameComp.initKarma)
             {
-				initKarma = true;
-				karma = Settings.KaiyiKarmicKarma;
+				GameComp.initKarma = true;
+				GameComp.karma = Settings.KaiyiKarmicKarma;
             }
 
 			// start building baseincidentcost dict with one defined in xml
-			baseIncidentChange = CompProps.baseIncidentCategoryKarmaChange.ToDictionary(x => x.def, x => x.change);
+			GameComp.baseIncidentChange = CompProps.baseIncidentCategoryKarmaChange.ToDictionary(x => x.def, x => x.change);
 
 			// if there are new incidentcategorydefs that are not defined in the properties list, add them with base cost 2 (treat like misc)
 			foreach (IncidentCategoryDef i in DefDatabase<IncidentCategoryDef>.AllDefs)
 			{
-				if (!baseIncidentChange.Keys.Contains(i)) baseIncidentChange.Add(i, 2);
+				if (!GameComp.baseIncidentChange.Keys.Contains(i)) GameComp.baseIncidentChange.Add(i, 2);
 			}
 
 			// for all the incidentdefs, if the incident def indeed has the category in baseincidentcost
 			// AND the incident diff isn't already in the list, we add it to the count list
 			foreach (IncidentDef i in DefDatabase<IncidentDef>.AllDefs)
             {
-				if (baseIncidentChange.Keys.Contains(i.category) && 
-					!selectableIncidentCount.Keys.Contains(i)) selectableIncidentCount.Add(i, 1);
+				if (GameComp.baseIncidentChange.Keys.Contains(i.category) && 
+					!GameComp.selectableIncidentCount.Keys.Contains(i)) GameComp.selectableIncidentCount.Add(i, 1);
 			}
 			
 			// we then set the estIncidentCost:
 			// if the incidentdef isn't in there, we add it in as base cost
 			// otherwise, it isn't touched at all
-			foreach (IncidentDef i in selectableIncidentCount.Keys)
+			foreach (IncidentDef i in GameComp.selectableIncidentCount.Keys)
             {
-				if(!estIncidentChange.ContainsKey(i)) estIncidentChange.Add(i, baseIncidentChange[i.category] * CostFactor);
+				if(!GameComp.estIncidentChange.ContainsKey(i)) GameComp.estIncidentChange.Add(i, GameComp.baseIncidentChange[i.category] * CostFactor);
 			}
-			cachedCostFactor = CostFactor;
-		}*/
+			GameComp.cachedCostFactor = CostFactor;
+		}
 
 		public void RefreshIncidentChange()
         {

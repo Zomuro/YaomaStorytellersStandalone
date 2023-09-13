@@ -528,18 +528,11 @@ namespace YaomaStorytellers
         {
             get
             {
-                if (cachedGameComp is null)
-                {
-                    GameComponent_YaomaStorytellers comp = Current.Game.GetComponent<GameComponent_YaomaStorytellers>();
-                    if (comp != null) cachedGameComp = comp;
-                }
-                return cachedGameComp;
+                return Current.Game.GetComponent<GameComponent_YaomaStorytellers>();
             }
         }
 
         private static StorytellerComp_RandomKarmaMain cachedKarmaTracker;
-
-        private static GameComponent_YaomaStorytellers cachedGameComp;
 
         public static System.Random rand = new System.Random();
     }
