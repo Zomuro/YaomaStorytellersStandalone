@@ -202,7 +202,7 @@ namespace YaomaStorytellers
         // Adjust setting karma value with purchases and the such.
         public static void KaiyiKarmicAdjustKarma(StorytellerComp_RandomKarmaMain kt, float adjust)
         {
-            kt.karma = Math.Max(settings.KaiyiKarmicKarmaMin, Math.Min(kt.karma + adjust, settings.KaiyiKarmicKarmaMax));
+            kt.GameComp.karma = Math.Max(settings.KaiyiKarmicKarmaMin, Math.Min(kt.GameComp.karma + adjust, settings.KaiyiKarmicKarmaMax));
         }
 
         // Adjust price multiplier on incidents using this. UNUSED
@@ -217,15 +217,15 @@ namespace YaomaStorytellers
 
             // if the incident has a category recognized by the KarmaTracker
             // and has a negative karma cost (i.e. negative events) 
-            if (KarmaTracker.baseIncidentChange.Keys.Contains(fi.def.category) &&
-                KarmaTracker.baseIncidentChange[fi.def.category] > 0)
+            if (KarmaTracker.GameComp.baseIncidentChange.Keys.Contains(fi.def.category) &&
+                KarmaTracker.GameComp.baseIncidentChange[fi.def.category] > 0)
             {
                 //gain full value of karma from negative events if they randomly occur
-                KaiyiKarmicAdjustKarma(KarmaTracker, KarmaTracker.estIncidentChange[fi.def]);
+                KaiyiKarmicAdjustKarma(KarmaTracker, KarmaTracker.GameComp.estIncidentChange[fi.def]);
 
                 // notifies player of their gain
                 Find.LetterStack.ReceiveLetter("YS_LetterLabelKaiyiKarmicGain".Translate(),
-                    "YS_LetterKaiyiKarmicGain".Translate(Math.Abs(Math.Round(KarmaTracker.estIncidentChange[fi.def], 2))),
+                    "YS_LetterKaiyiKarmicGain".Translate(Math.Abs(Math.Round(KarmaTracker.GameComp.estIncidentChange[fi.def], 2))),
                     LetterDefOf.NeutralEvent);
             }
         }
@@ -234,7 +234,7 @@ namespace YaomaStorytellers
         {
             if (storyteller.def != StorytellerDefOf.KaiyiKarmic_Yaoma) return fi; // skip prefix if the storyteller isn't Kaiyi
 
-            if (KarmaTracker.selectedIncidents.NullOrEmpty()) // if the KarmaTracker's selected incidents are empty or null
+            if (KarmaTracker.GameComp.selectedIncidents.NullOrEmpty()) // if the KarmaTracker's selected incidents are empty or null
             {
                 KaiyiKarmicRandomIncident(ref fi); // scales points accordingly + allow players to gain karma from negative incidents.
                 return fi;
@@ -246,7 +246,7 @@ namespace YaomaStorytellers
 
             // select a random incidentDef from KarmaTracker's selected incidentDefs
             // and create a firing incident using StorytellerComp_OnDemand
-            IncidentDef randomDef = KarmaTracker.selectedIncidents.RandomElement();
+            IncidentDef randomDef = KarmaTracker.GameComp.selectedIncidents.RandomElement();
             FiringIncident fiReplace = c.MakeIncident(storyteller.AllIncidentTargets, randomDef);
 
             if (fiReplace == null) // if the replaced incident can't be fired, fire the original
@@ -259,8 +259,8 @@ namespace YaomaStorytellers
             }
 
             fiReplace.parms.points *= KarmaTracker.KarmaPointScaling; // adjust replaced incident points using scaling
-            KarmaTracker.selectedIncidents.Remove(randomDef); // remove from selected incidents list
-            if(KarmaTracker.selectedIncidents.NullOrEmpty()) // notify if all selected incidents are done
+            KarmaTracker.GameComp.selectedIncidents.Remove(randomDef); // remove from selected incidents list
+            if(KarmaTracker.GameComp.selectedIncidents.NullOrEmpty()) // notify if all selected incidents are done
             {
                 Messages.Message("YS_MessageKarmaReplaceDone".Translate(),
                             MessageTypeDefOf.SilentInput, false);
@@ -279,11 +279,11 @@ namespace YaomaStorytellers
 
                 // decrease dayCheck (number of days till Kaiyi's incident fires)
                 // if dayCheck is still > 0 afterwards, wait for tomorrow
-                KarmaTracker.daysCheck -= 1;
-                if (KarmaTracker.daysCheck > 0) return;
+                KarmaTracker.GameComp.daysCheck -= 1;
+                if (KarmaTracker.GameComp.daysCheck > 0) return;
 
                 // if there are any selected incidents still there, return and wait for all them to be done
-                if (!KarmaTracker.selectedIncidents.NullOrEmpty()) return;
+                if (!KarmaTracker.GameComp.selectedIncidents.NullOrEmpty()) return;
 
                 // get StorytellerComp_OnDemand and nullcheck it
                 if (!(storyteller.storytellerComps.FirstOrDefault(x => x.GetType() ==
@@ -294,7 +294,7 @@ namespace YaomaStorytellers
                 foreach (FiringIncident fi in c.MakeIncidents(storyteller.AllIncidentTargets))
                 {
                     // later on- set days check to whatever value is in settings
-                    if (storyteller.TryFire(fi)) KarmaTracker.daysCheck = settings.KaiyiKarmicTradeDays;
+                    if (storyteller.TryFire(fi)) KarmaTracker.GameComp.daysCheck = settings.KaiyiKarmicTradeDays;
                 }
             }
         }
@@ -304,10 +304,10 @@ namespace YaomaStorytellers
             String labelCost = "";
 
             foreach (IncidentDef iDef in KaiyiKarmicWeightedSelection(karmaTracker, settings.KaiyiKarmicMaxChoices)
-                .OrderByDescending(x => karmaTracker.estIncidentChange[x])
+                .OrderByDescending(x => karmaTracker.GameComp.estIncidentChange[x])
                 .ThenBy(x => x.LabelCap.ToString()))
             {
-                labelCost = iDef.LabelCap.ToString() + " (" + Math.Round(karmaTracker.estIncidentChange[iDef], 2) + ")";
+                labelCost = iDef.LabelCap.ToString() + " (" + Math.Round(karmaTracker.GameComp.estIncidentChange[iDef], 2) + ")";
 
                 selectable.Add(new DebugMenuOption(labelCost, DebugMenuOptionMode.Action, delegate ()
                 {
@@ -323,7 +323,7 @@ namespace YaomaStorytellers
 
                     if (incidentsSelected.Count < 5)
                     {
-                        float estFinalVal = karmaTracker.karma + karmaDialog.EstIncidentChange(karmaTracker) + karmaTracker.estIncidentChange[iDef];
+                        float estFinalVal = karmaTracker.GameComp.karma + karmaDialog.EstIncidentChange(karmaTracker) + karmaTracker.GameComp.estIncidentChange[iDef];
                         if (estFinalVal <= settings.KaiyiKarmicKarmaMin)
                         {
                             Messages.Message("YS_MessageKaiyiKarmicIncidentDebtFloor".Translate(), MessageTypeDefOf.SilentInput, false);
@@ -365,7 +365,7 @@ namespace YaomaStorytellers
 
         public static IEnumerable<IncidentDef> KaiyiKarmicWeightedSelection(StorytellerComp_RandomKarmaMain karmaTracker, int count)
         {
-            List<IncidentDef> incidents = karmaTracker.selectableIncidentCount.Keys.Where(x => KaiyiKarmicIsSelectable(x)).ToList();
+            List<IncidentDef> incidents = karmaTracker.GameComp.selectableIncidentCount.Keys.Where(x => KaiyiKarmicIsSelectable(x)).ToList();
 
             Dictionary<IncidentCategoryDef, int> categoryCount = new Dictionary<IncidentCategoryDef, int>();
             foreach(var i in incidents)
@@ -524,8 +524,23 @@ namespace YaomaStorytellers
             }
         }
 
+        public static GameComponent_YaomaStorytellers GameComp
+        {
+            get
+            {
+                if (cachedGameComp is null)
+                {
+                    GameComponent_YaomaStorytellers comp = Current.Game.GetComponent<GameComponent_YaomaStorytellers>();
+                    if (comp != null) cachedGameComp = comp;
+                }
+                return cachedGameComp;
+            }
+        }
+
         private static StorytellerComp_RandomKarmaMain cachedKarmaTracker;
-        
+
+        private static GameComponent_YaomaStorytellers cachedGameComp;
+
         public static System.Random rand = new System.Random();
     }
 }

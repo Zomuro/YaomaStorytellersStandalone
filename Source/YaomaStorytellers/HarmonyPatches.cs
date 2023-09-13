@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -29,9 +30,9 @@ namespace YaomaStorytellers
             harmony.Patch(AccessTools.Method(typeof(StorytellerDef), "ResolveReferences"),
                 new HarmonyMethod(typeof(HarmonyPatches), nameof(StorytellerDefDajiToggle_Prefix)));
 
-            // ExposeDataKaiyi_Post_Yaoma: postfix to save comp values for storytellers
-            harmony.Patch(AccessTools.Method(typeof(Storyteller), "ExposeData"),
-                null, new HarmonyMethod(typeof(HarmonyPatches), nameof(ExposeData_Post_Yaoma)));
+            // ExposeData_Post_Yaoma: postfix to save comp values for storytellers
+            /*harmony.Patch(AccessTools.Method(typeof(Storyteller), "ExposeData"),
+                null, new HarmonyMethod(typeof(HarmonyPatches), nameof(ExposeData_Post_Yaoma)));*/
 
             // KillDaji_Post_Yaoma: decrease crimson psychosis severity on pawn kill
             harmony.Patch(AccessTools.Method(typeof(Pawn), "Kill"),
@@ -124,7 +125,7 @@ namespace YaomaStorytellers
         }
 
         // POSTFIX: save values in storyteller comps for certain storytellers
-        public static void ExposeData_Post_Yaoma(Storyteller __instance)
+        /*public static void ExposeData_Post_Yaoma(Storyteller __instance)
         {
             if (Find.Storyteller.def == StorytellerDefOf.KaiyiKarmic_Yaoma)
             {
@@ -142,7 +143,7 @@ namespace YaomaStorytellers
                     (regular as StorytellerComp_OnDemandRegular).CompExposeData();
                 }
             }
-        }
+        }*/
 
         // POSTFIX: upon dealing melee damage, heal pawn by a proportion of the damage done (Verb_MeleeAttackDamage)
         public static void ApplyMeleeDamageToTarget_Post_DajiLifesteal(Verb_MeleeAttackDamage __instance, ref DamageWorker.DamageResult __result)
