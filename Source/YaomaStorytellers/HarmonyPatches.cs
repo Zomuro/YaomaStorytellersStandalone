@@ -30,10 +30,6 @@ namespace YaomaStorytellers
             harmony.Patch(AccessTools.Method(typeof(StorytellerDef), "ResolveReferences"),
                 new HarmonyMethod(typeof(HarmonyPatches), nameof(StorytellerDefDajiToggle_Prefix)));
 
-            // ExposeData_Post_Yaoma: postfix to save comp values for storytellers
-            /*harmony.Patch(AccessTools.Method(typeof(Storyteller), "ExposeData"),
-                null, new HarmonyMethod(typeof(HarmonyPatches), nameof(ExposeData_Post_Yaoma)));*/
-
             // KillDaji_Post_Yaoma: decrease crimson psychosis severity on pawn kill
             harmony.Patch(AccessTools.Method(typeof(Pawn), "Kill"),
                 null, new HarmonyMethod(typeof(HarmonyPatches), nameof(KillDaji_Post_Yaoma)));
@@ -123,27 +119,6 @@ namespace YaomaStorytellers
                 YaomaStorytellerUtility.DeathlessDajiMurderSanity(__0?.Instigator as Pawn);
             }
         }
-
-        // POSTFIX: save values in storyteller comps for certain storytellers
-        /*public static void ExposeData_Post_Yaoma(Storyteller __instance)
-        {
-            if (Find.Storyteller.def == StorytellerDefOf.KaiyiKarmic_Yaoma)
-            {
-                StorytellerComp compKaiyi = __instance.storytellerComps.FirstOrDefault(x => x.GetType() == typeof(StorytellerComp_RandomKarmaMain));
-                if (compKaiyi != null)
-                {
-                    (compKaiyi as StorytellerComp_RandomKarmaMain).CompExposeData();
-                }
-            }
-            else if (Find.Storyteller.def == StorytellerDefOf.JianghuJin_Yaoma)
-            {
-                StorytellerComp regular = __instance.storytellerComps.FirstOrDefault(x => x.GetType() == typeof(StorytellerComp_OnDemandRegular));
-                if(regular != null)
-                {
-                    (regular as StorytellerComp_OnDemandRegular).CompExposeData();
-                }
-            }
-        }*/
 
         // POSTFIX: upon dealing melee damage, heal pawn by a proportion of the damage done (Verb_MeleeAttackDamage)
         public static void ApplyMeleeDamageToTarget_Post_DajiLifesteal(Verb_MeleeAttackDamage __instance, ref DamageWorker.DamageResult __result)

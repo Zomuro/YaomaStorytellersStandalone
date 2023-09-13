@@ -488,17 +488,17 @@ namespace YaomaStorytellers
             {
                 // get StorytellerComp_OnDemandRegular and nullcheck it
                 if (!(storyteller.storytellerComps.FirstOrDefault(x => x.GetType() ==
-                      typeof(StorytellerComp_OnDemandRegular)) is StorytellerComp_OnDemandRegular c)) return;
+                      typeof(StorytellerComp_OnDemand)) is StorytellerComp_OnDemand c)) return;
 
-                c.days += 1;
-                if (c.days < settings.JianghuJinTerraformDays) return;
+                GameComp.teraformDays += 1;
+                if (GameComp.teraformDays < settings.JianghuJinTerraformDays) return;
 
                 // attempts to fire the incidentDef linked to StorytellerComp_OnDemand
                 // if fired, set the days time to the setting value
                 foreach (FiringIncident fi in c.MakeIncidents(storyteller.AllIncidentTargets))
                 {
                     // later on- set days check to whatever value is in settings
-                    if (storyteller.TryFire(fi)) c.days = 0;
+                    if (storyteller.TryFire(fi)) GameComp.teraformDays = 0;
                 }
             }
         }

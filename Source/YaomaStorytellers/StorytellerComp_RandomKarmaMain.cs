@@ -68,18 +68,6 @@ namespace YaomaStorytellers
 			return 1 + (Math.Abs(GameComp.karma + change) / 100f) * Settings.KaiyiKarmicKarmaPointScalingFactor;
 		}
 
-		/*public void CompExposeData()
-		{
-			Scribe_Values.Look<float>(ref karma, "karma", 0);
-			Scribe_Values.Look<float>(ref cachedCostFactor, "cachedCostFactor", 1, false);
-			Scribe_Collections.Look(ref baseIncidentChange, "baseIncidentCost", LookMode.Def, LookMode.Value);
-			Scribe_Collections.Look(ref selectableIncidentCount, "selectableIncidentCount", LookMode.Def, LookMode.Value);
-			Scribe_Collections.Look(ref estIncidentChange, "estIncidentCost", LookMode.Def, LookMode.Value);
-			Scribe_Collections.Look(ref selectedIncidents, "selectedIncidents", LookMode.Def);
-			Scribe_Values.Look<int>(ref daysCheck, "daysCheck", 0, false);
-			Scribe_Values.Look<bool>(ref initKarma, "initKarma", false);
-		}*/
-
 		public override void Initialize()
 		{
             if (!GameComp.initKarma)
@@ -223,25 +211,6 @@ namespace YaomaStorytellers
 				return YaomaStorytellerUtility.GameComp;
 			}
 		}
-
-
-		/*public float karma = 0f;
-
-		public float cachedCostFactor = 1f;
-
-		public Dictionary<IncidentCategoryDef, float> baseIncidentChange = new Dictionary<IncidentCategoryDef, float>();
-
-		public Dictionary<IncidentDef, int> selectableIncidentCount = new Dictionary<IncidentDef, int>();
-
-		public Dictionary<IncidentDef, float> estIncidentChange = new Dictionary<IncidentDef, float>();
-
-		public List<IncidentDef> selectedIncidents = new List<IncidentDef>();
-
-		public List<IncidentCategoryDef> alteredCats = new List<IncidentCategoryDef>();
-
-		public int daysCheck = 0;
-
-		private bool initKarma = false;*/
 
 	}
 }

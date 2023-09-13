@@ -71,7 +71,6 @@
     <Compile Include="StatPart_Jin_Construct.cs" />
     <Compile Include="RoomDecaySetting.cs" />
     <Compile Include="GenStep_Jin_Fog.cs" />
-    <Compile Include="StorytellerComp_OnDemandRegular.cs" />
     <Compile Include="YaomaMapUtility.cs" />
     <Compile Include="GenStep_Jin_AnimaTrees.cs" />
     <Compile Include="GenStep_Jin_RocksFromGrid.cs" />

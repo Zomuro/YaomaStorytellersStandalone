@@ -602,7 +602,6 @@
 			</li>
 			<!-- custom storyteller comp -->
 			<li Class="YaomaStorytellers.StorytellerCompProperties_OnDemand">
-				<compClass>YaomaStorytellers.StorytellerComp_OnDemandRegular</compClass>
 				<incident>Terraform_Yaoma</incident>
 			</li>
 		</comps>

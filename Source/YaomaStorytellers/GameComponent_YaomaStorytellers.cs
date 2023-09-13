@@ -32,7 +32,7 @@ namespace YaomaStorytellers
 
 		// Jianghu Jin field
 
-		public int regularDays = 0;
+		public int teraformDays = 0;
 
 		public GameComponent_YaomaStorytellers(Game game)
 		{
@@ -48,7 +48,7 @@ namespace YaomaStorytellers
 			Scribe_Collections.Look(ref selectedIncidents, "selectedIncidents", LookMode.Def);
 			Scribe_Values.Look(ref daysCheck, "daysCheck", 0, false);
 			Scribe_Values.Look(ref initKarma, "initKarma", false);
-			Scribe_Values.Look(ref regularDays, "regularDays", 0);
+			Scribe_Values.Look(ref teraformDays, "teraformDays", 0);
 		}
 
 		public override void StartedNewGame()
