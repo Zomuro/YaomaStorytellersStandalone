@@ -60,5 +60,29 @@ namespace YaomaStorytellers
 		{
 			base.LoadedGame();
 		}
+
+		public void ResetExposedData(StorytellerDef def)
+        {
+			if (def == StorytellerDefOf.KaiyiKarmic_Yaoma) ResetKaiyiKarmicSave();
+
+		}
+
+		public void ResetKaiyiKarmicSave()
+        {
+			karma = 0f;
+			cachedCostFactor = 1f;
+			baseIncidentChange = new Dictionary<IncidentCategoryDef, float>();
+			selectableIncidentCount = new Dictionary<IncidentDef, int>();
+			estIncidentChange = new Dictionary<IncidentDef, float>();
+			selectedIncidents = new List<IncidentDef>();
+			alteredCats = new List<IncidentCategoryDef>();
+			daysCheck = 0;
+			initKarma = false;
+		}
+
+		public void ResetJianghuJinSave()
+		{
+			teraformDays = 0;
+		}
 	}
 }

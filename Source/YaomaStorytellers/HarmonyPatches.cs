@@ -3,6 +3,7 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Verse;
 
 namespace YaomaStorytellers
@@ -37,18 +38,22 @@ namespace YaomaStorytellers
             // ApplyMeleeDamageToTarget_Post_DajiLifesteal: give melee attacks lifesteal
             harmony.Patch(AccessTools.Method(typeof(Verb_MeleeAttackDamage), "ApplyMeleeDamageToTarget"),
                 null, new HarmonyMethod(typeof(HarmonyPatches), nameof(ApplyMeleeDamageToTarget_Post_DajiLifesteal)));
+
+            // DoWindowContentsKaiyi_Pre_Confirm: code for switching away from Kaiyi ingame
+            harmony.Patch(AccessTools.Method(typeof(Page_SelectStorytellerInGame), "DoWindowContents"),
+                new HarmonyMethod(typeof(HarmonyPatches), nameof(DoWindowContentsKaiyi_Pre_Confirm)));
         }
 
         // POSTFIX: cause incidents to occur each day or week based on conditions for Deathless Daji or Kaiyi the Karmic
         public static void StorytellerTick_Post_Yaoma(Storyteller __instance)
         {
-            switch (__instance.def.defName) 
+            switch (__instance.def.defName)
             {
-                case "DeathlessDaji_Yaoma": 
+                case "DeathlessDaji_Yaoma":
                     YaomaStorytellerUtility.DeathlessDajiUtility(__instance);
                     break;
 
-                case "KaiyiKarmic_Yaoma": 
+                case "KaiyiKarmic_Yaoma":
                     YaomaStorytellerUtility.KaiyiKarmicPostUtility(__instance);
                     break;
                 case "JianghuJin_Yaoma":
@@ -62,7 +67,7 @@ namespace YaomaStorytellers
         // PREFIX: redirect StorytellerTick to work for Farseer Fan or Kaiyi the Karmic
         public static bool StorytellerTick_Pre_Yaoma(Storyteller __instance)
         {
-            if(__instance.def == StorytellerDefOf.FarseerFan_Yaoma) return YaomaStorytellerUtility.FarseerFanUtility(__instance);
+            if (__instance.def == StorytellerDefOf.FarseerFan_Yaoma) return YaomaStorytellerUtility.FarseerFanUtility(__instance);
             return true;
         }
 
@@ -87,7 +92,7 @@ namespace YaomaStorytellers
             {
                 if (quest.State != QuestState.Ongoing) continue;
 
-                foreach(var part in quest.PartsListForReading)
+                foreach (var part in quest.PartsListForReading)
                 {
                     IIncidentMakerQuestPart incidentMakerQuestPart = part as IIncidentMakerQuestPart;
                     if (incidentMakerQuestPart is null || ((QuestPartActivable)part).State != QuestPartState.Enabled) continue;
@@ -114,7 +119,7 @@ namespace YaomaStorytellers
         // POSTFIX: on pawn kill, reduce a pawn's Crimson Psychosis severity (if they have the hediff) based on the setting
         public static void KillDaji_Post_Yaoma(DamageInfo? __0)
         {
-            if(__0?.Instigator as Pawn != null)
+            if (__0?.Instigator as Pawn != null)
             {
                 YaomaStorytellerUtility.DeathlessDajiMurderSanity(__0?.Instigator as Pawn);
             }
@@ -125,6 +130,50 @@ namespace YaomaStorytellers
         {
             if (__result is null) return;
             if (__instance.CasterPawn != null) YaomaStorytellerUtility.DeathlessDajiLifestealMelee(__instance.CasterPawn, __result);
+        }
+
+        // PREFIX: if the storyteller when the Page_SelectStorytellerInGame window is up is Kaiyi, run through the alternative window contents
+        public static bool DoWindowContentsKaiyi_Pre_Confirm(Page_SelectStorytellerInGame __instance, Rect __0)
+        {
+            // if the storyteller being potentially switched FROM is NOT Kaiyi, run the normal contents of Page_SelectStorytellerInGame
+            if (YaomaStorytellerUtility.settings.KaiyiKarmicSavePersist || Current.Game.storyteller.def != StorytellerDefOf.KaiyiKarmic_Yaoma)
+            {
+                YaomaStorytellerUtility.GameComp.ResetJianghuJinSave(); // reset Jin's sole saved value (days count to fire her incident) - it should be reset anyways on st change
+                return true;
+            }
+
+            Traverse traverse = Traverse.Create(__instance);
+            traverse.Method("DrawPageTitle", new[] { typeof(Rect) }).GetValue(__0);
+            Rect mainRect = traverse.Method("GetMainRect", new[] { typeof(Rect), typeof(float), typeof(bool) }).GetValue<Rect>(__0, 0f, false);
+            Storyteller storyteller = Current.Game.storyteller;
+            StorytellerDef def = Current.Game.storyteller.def;
+            StorytellerUI.DrawStorytellerSelectionInterface(mainRect, ref storyteller.def, ref storyteller.difficultyDef, ref storyteller.difficulty, 
+                traverse.Field("selectedStorytellerInfoListing").GetValue<Listing_Standard>());
+
+            if (storyteller.def != def)
+            {
+                StorytellerSelectionDialog(def);
+            }
+
+            return false;
+        }
+
+        public static void StorytellerSelectionDialog(StorytellerDef orgDef)
+        {
+            Storyteller storyteller = Current.Game.storyteller;
+
+            // setup continue (finialize change in storyteller) or cancel (return to original storyteller, probably Kaiyi)
+            Action contChange = delegate () 
+            {
+                YaomaStorytellerUtility.GameComp.ResetExposedData(orgDef);
+                storyteller.Notify_DefChanged(); 
+            };
+            Action cancelChange = delegate () { storyteller.def = orgDef; };
+
+            Find.WindowStack.Add(new Dialog_MessageBox("YS_KaiyiKarmicChangeWarning".Translate(orgDef.LabelCap, storyteller.def.LabelCap),
+                "YS_KaiyiKarmicChangeContinue".Translate(), contChange,
+                "YS_KaiyiKarmicChangeCancel".Translate(), cancelChange)
+            { doCloseX = false, closeOnClickedOutside = false });
         }
 
     }

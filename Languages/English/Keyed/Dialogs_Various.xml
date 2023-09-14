@@ -13,7 +13,6 @@
 	
 	<YS_KarmaTradeIncidentCount>{0}/5</YS_KarmaTradeIncidentCount>
 	
-	
 	<YS_KarmaTradeDebtResolution>With your negative karma balance, you could trigger Kaiyi's "debt resolution" service. In that scenario, terrible events would occur beyond your control.\n\nDo you still wish to gamble your fate?</YS_KarmaTradeDebtResolution>
 	<YS_KarmaTradeDebtResolutionReturn>Return</YS_KarmaTradeDebtResolutionReturn>
 	<YS_KarmaTradeDebtResolutionConfirm>Confirm</YS_KarmaTradeDebtResolutionConfirm>
@@ -23,6 +22,11 @@
 	<YS_KarmaTradeReroll>Reroll fates ({0})</YS_KarmaTradeReroll>
 	<YS_KarmaTradeNoMoreReroll>No rerolls</YS_KarmaTradeNoMoreReroll>
 	<YS_KarmaTradeClearSelections>Clear selections</YS_KarmaTradeClearSelections>
+	
+	<!-- Dialog_MessageBox (Kaiyi the Karmic warning)-->
+	<YS_KaiyiKarmicChangeWarning>Warning!\n\nChanging storytellers from {0} to {1} will wipe your history of karmic trades for this game.\n\nThis will force you to begin a clean business relationship with Kaiyi the next time you work with him, with only the starting karma in the bank.\n\nPlease confirm that you want to wipe the ledger (clear Kaiyi's save data).\n\nAlternatively, you can instruct Kaiyi to save all records of your karmic dealings, and reopen your account with him another time hassle-free (Mod settings > Kaiyi the Karmic > enable "Save karma ledger" to save karmic values).</YS_KaiyiKarmicChangeWarning>
+	<YS_KaiyiKarmicChangeContinue>So be it</YS_KaiyiKarmicChangeContinue>
+	<YS_KaiyiKarmicChangeCancel>Let me think about it</YS_KaiyiKarmicChangeCancel>
 	
 	<!-- Dialog_MessageBox (Farseer Fan Alternative Incidents)-->
 	<YS_FarseerFanAltOffer>The stars foretell a divergence in fate- and so Farseer Fan calls upon you to make a choice.</YS_FarseerFanAltOffer>
