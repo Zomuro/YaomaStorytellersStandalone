@@ -13,7 +13,6 @@
 	
 	<YS_KarmaTradeIncidentCount>{0}/5</YS_KarmaTradeIncidentCount>
 	
-	
 	<YS_KarmaTradeDebtResolution>With your negative karma balance, you could trigger Kaiyi's "debt resolution" service. In that scenario, terrible events would occur beyond your control.\n\nDo you still wish to gamble your fate?</YS_KarmaTradeDebtResolution>
 	<YS_KarmaTradeDebtResolutionReturn>Return</YS_KarmaTradeDebtResolutionReturn>
 	<YS_KarmaTradeDebtResolutionConfirm>Confirm</YS_KarmaTradeDebtResolutionConfirm>
@@ -47,5 +46,11 @@
 	
 	<!-- Loading page (Jin's incident loading page) -->
 	<YS_JinTerraformMapPage>Transforming the map</YS_JinTerraformMapPage>
+	
+	<!-- Dialog_MessageBox (Storyteller warning)-->
+	<YS_StorytellerChangeWarningKaiyi>Warning!\n\nChanging storytellers from {0} to {1} will wipe your history of karmic trades for this game.\n\nThis will force you to begin a clean business relationship with Kaiyi the next time you work with him, with only the starting karma in the bank.\n\nPlease confirm that you want to wipe the ledger (clear Kaiyi's save data).\n\nAlternatively, you can instruct Kaiyi to save all records of your karmic dealings, and reopen your account with him another time hassle-free (Mod settings > Kaiyi the Karmic > enable "Save karma ledger" to save karmic values).</YS_StorytellerChangeWarningKaiyi>
+	<YS_StorytellerChangeWarningJin>Warning!\n\nChanging storytellers from {0} to {1} will reset the countdown to terraforming the map.\n\nPlease confirm that you want to reset the timer (clear Jin's save data).\n\nAlternatively, you can tell Jin to keep the countdown in mind (Mod settings > Jianghu Jin > enable "Saved by breaktime" to save days to terraforming).</YS_StorytellerChangeWarningJin>
+	<YS_StorytellerChangeContinue>So be it</YS_StorytellerChangeContinue>
+	<YS_StorytellerChangeCancel>Let me think about it</YS_StorytellerChangeCancel>
 	
  </LanguageData>

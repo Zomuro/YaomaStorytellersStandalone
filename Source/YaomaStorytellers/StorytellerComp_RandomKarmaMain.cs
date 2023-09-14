@@ -21,7 +21,7 @@ namespace YaomaStorytellers
 
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			if (Rand.MTBEventOccurs(this.Props.mtbDays, 60000f, 1000f))
+			if (Rand.MTBEventOccurs(Props.mtbDays, 60000f, 1000f))
 			{
 				bool flag = target.IncidentTargetTags().Contains(IncidentTargetTagDefOf.Map_RaidBeacon);
 				List<IncidentCategoryDef> list = new List<IncidentCategoryDef>();
@@ -57,72 +57,60 @@ namespace YaomaStorytellers
         {
             get
             {
-				if (!YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScaling) return 1f;
-				return 1 + (Math.Abs(karma) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
+				if (!Settings.KaiyiKarmicKarmaPointScaling) return 1f;
+				return 1 + (Math.Abs(GameComp.karma) / 100f) * Settings.KaiyiKarmicKarmaPointScalingFactor;
 			}
         }
 
 		public float EstKarmaPointScaling(float change)
 		{
-			if (!YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScaling) return 1f;
-			return 1 + (Math.Abs(karma + change) / 100f) * YaomaStorytellerUtility.settings.KaiyiKarmicKarmaPointScalingFactor;
-		}
-
-		public void CompExposeData()
-		{
-			Scribe_Values.Look<float>(ref karma, "karma", 0);
-			Scribe_Values.Look<float>(ref cachedCostFactor, "cachedCostFactor", 1, false);
-			Scribe_Collections.Look(ref baseIncidentChange, "baseIncidentCost", LookMode.Def, LookMode.Value);
-			Scribe_Collections.Look(ref selectableIncidentCount, "selectableIncidentCount", LookMode.Def, LookMode.Value);
-			Scribe_Collections.Look(ref estIncidentChange, "estIncidentCost", LookMode.Def, LookMode.Value);
-			Scribe_Collections.Look(ref selectedIncidents, "selectedIncidents", LookMode.Def);
-			Scribe_Values.Look<int>(ref daysCheck, "daysCheck", 0, false);
-			Scribe_Values.Look<bool>(ref initKarma, "initKarma", false);
+			if (!Settings.KaiyiKarmicKarmaPointScaling) return 1f;
+			return 1 + (Math.Abs(GameComp.karma + change) / 100f) * Settings.KaiyiKarmicKarmaPointScalingFactor;
 		}
 
 		public override void Initialize()
 		{
-            if (!initKarma)
+            if (!GameComp.initKarma)
             {
-				initKarma = true;
-				karma = YaomaStorytellerUtility.settings.KaiyiKarmicKarma;
+				GameComp.initKarma = true;
+				GameComp.karma = Settings.KaiyiKarmicKarma;
             }
 
 			// start building baseincidentcost dict with one defined in xml
-			baseIncidentChange = CompProps.baseIncidentCategoryKarmaChange.ToDictionary(x => x.def, x => x.change);
+			GameComp.baseIncidentChange = CompProps.baseIncidentCategoryKarmaChange.ToDictionary(x => x.def, x => x.change);
 
 			// if there are new incidentcategorydefs that are not defined in the properties list, add them with base cost 2 (treat like misc)
 			foreach (IncidentCategoryDef i in DefDatabase<IncidentCategoryDef>.AllDefs)
 			{
-				if (!baseIncidentChange.Keys.Contains(i)) baseIncidentChange.Add(i, 2);
+				if (!GameComp.baseIncidentChange.Keys.Contains(i)) GameComp.baseIncidentChange.Add(i, 2);
 			}
 
 			// for all the incidentdefs, if the incident def indeed has the category in baseincidentcost
 			// AND the incident diff isn't already in the list, we add it to the count list
 			foreach (IncidentDef i in DefDatabase<IncidentDef>.AllDefs)
             {
-				if (baseIncidentChange.Keys.Contains(i.category) && 
-					!selectableIncidentCount.Keys.Contains(i)) selectableIncidentCount.Add(i, 1);
+				if (GameComp.baseIncidentChange.Keys.Contains(i.category) && 
+					!GameComp.selectableIncidentCount.Keys.Contains(i)) GameComp.selectableIncidentCount.Add(i, 1);
 			}
 			
 			// we then set the estIncidentCost:
 			// if the incidentdef isn't in there, we add it in as base cost
 			// otherwise, it isn't touched at all
-			foreach (IncidentDef i in selectableIncidentCount.Keys)
+			foreach (IncidentDef i in GameComp.selectableIncidentCount.Keys)
             {
-				if(!estIncidentChange.ContainsKey(i)) estIncidentChange.Add(i, baseIncidentChange[i.category] * CostFactor);
+				if(!GameComp.estIncidentChange.ContainsKey(i)) GameComp.estIncidentChange.Add(i, GameComp.baseIncidentChange[i.category] * CostFactor);
 			}
-			cachedCostFactor = CostFactor;
+			GameComp.cachedCostFactor = CostFactor;
 		}
 
 		public void RefreshIncidentChange()
         {
-			if (cachedCostFactor == CostFactor) return;
+			if (GameComp.cachedCostFactor == CostFactor) return;
 			Dictionary<IncidentDef, float> temp = new Dictionary<IncidentDef, float>();
-			foreach (IncidentDef key in estIncidentChange.Keys)
-				temp[key] = estIncidentChange[key] * CostFactor / cachedCostFactor;
-			estIncidentChange = temp;
-			cachedCostFactor = CostFactor;
+			foreach (IncidentDef key in GameComp.estIncidentChange.Keys)
+				temp[key] = GameComp.estIncidentChange[key] * CostFactor / GameComp.cachedCostFactor;
+			GameComp.estIncidentChange = temp;
+			GameComp.cachedCostFactor = CostFactor;
 		}
 
 		// deals with the incidents selected by the pawn
@@ -135,19 +123,18 @@ namespace YaomaStorytellers
 				foreach (IncidentDef i in incidents)
 				{
 					this.AdjustIncidentCount(i);
-					alteredCats.Add(i.category);
+					GameComp.alteredCats.Add(i.category);
 				}
 
 				// then adjusts incident karma price based on that
-				//adaptiveIncidentPricing();
-				AdaptiveIncidentPricing(alteredCats.Distinct());
-				alteredCats.Clear();
+				AdaptiveIncidentPricing(GameComp.alteredCats.Distinct());
+				GameComp.alteredCats.Clear();
 			}
 		}
 
 		public void AdjustIncidentCount(IncidentDef i)
 		{
-			if (selectableIncidentCount.Keys.Contains(i)) selectableIncidentCount[i] += 1;
+			if (GameComp.selectableIncidentCount.Keys.Contains(i)) GameComp.selectableIncidentCount[i] += 1;
 		}
 
 		public void AdaptiveIncidentPricing(IEnumerable<IncidentCategoryDef> categories)
@@ -162,8 +149,8 @@ namespace YaomaStorytellers
 				{
 					//estimated incident cost becomes (weight in category)/(total sum of weights) 
 					//	* (number of incidents in category) * (base incident cost of that category)
-					estIncidentChange[temp.Key] = (((float)temp.Value) / weights.Values.Sum()) *
-						baseIncidentChange[icd] * weights.Count() * CostFactor;
+					GameComp.estIncidentChange[temp.Key] = (((float)temp.Value) / weights.Values.Sum()) *
+						GameComp.baseIncidentChange[icd] * weights.Count() * CostFactor;
 				}
 
 				weights.Clear();
@@ -173,9 +160,9 @@ namespace YaomaStorytellers
 		public void AdaptiveWeighting(ref Dictionary<IncidentDef, float> weights, IncidentCategoryDef icd)
         {
 			// depending on if it costs karma or not, alter weighting
-			double power = baseIncidentChange[icd] >= 0 ? -1f : 1f;
+			double power = GameComp.baseIncidentChange[icd] >= 0 ? -1f : 1f;
 
-			foreach (var id in from incident in selectableIncidentCount
+			foreach (var id in from incident in GameComp.selectableIncidentCount
 							   where incident.Key.category == icd
 							   select incident)
 			{
@@ -189,8 +176,8 @@ namespace YaomaStorytellers
 
 			foreach(var x in cats)
             {
-				if (karma < 0 && baseIncidentChange[x.category] >= 0) x.weight *= 1 + Math.Abs(karma) / Math.Abs(YaomaStorytellerUtility.settings.KaiyiKarmicKarmaMin);
-				else if (karma > 0 && baseIncidentChange[x.category] < 0) x.weight *= 1 + Math.Abs(karma) / Math.Abs(YaomaStorytellerUtility.settings.KaiyiKarmicKarmaMax);
+				if (GameComp.karma < 0 && GameComp.baseIncidentChange[x.category] >= 0) x.weight *= 1 + Math.Abs(GameComp.karma) / Math.Abs(Settings.KaiyiKarmicKarmaMin);
+				else if (GameComp.karma > 0 && GameComp.baseIncidentChange[x.category] < 0) x.weight *= 1 + Math.Abs(GameComp.karma) / Math.Abs(Settings.KaiyiKarmicKarmaMax);
 			}
 
 			return cats;
@@ -198,34 +185,32 @@ namespace YaomaStorytellers
 
 		public override string ToString()
 		{
-			return base.ToString() + " " + YaomaStorytellerUtility.settings.KaiyiKarmicKarma;
+			return base.ToString() + " " + Settings.KaiyiKarmicKarma;
 		}
 
 		public float CostFactor
         {
             get
             {
-				return YaomaStorytellerUtility.settings.KaiyiKarmicBasePriceFactor;
+				return Settings.KaiyiKarmicBasePriceFactor;
 			}
         }
 
-		public float karma = 0f;
+		public YaomaStorytellerSettings Settings
+        {
+            get
+            {
+				return YaomaStorytellerUtility.settings;
+			} 
+        }
 
-		public float cachedCostFactor = 1f;
-
-		public Dictionary<IncidentCategoryDef, float> baseIncidentChange = new Dictionary<IncidentCategoryDef, float>();
-
-		public Dictionary<IncidentDef, int> selectableIncidentCount = new Dictionary<IncidentDef, int>();
-
-		public Dictionary<IncidentDef, float> estIncidentChange = new Dictionary<IncidentDef, float>();
-
-		public List<IncidentDef> selectedIncidents = new List<IncidentDef>();
-
-		public List<IncidentCategoryDef> alteredCats = new List<IncidentCategoryDef>();
-
-		public int daysCheck = 0;
-
-		private bool initKarma = false;
+		public GameComponent_YaomaStorytellers GameComp
+		{
+			get
+			{
+				return YaomaStorytellerUtility.GameComp;
+			}
+		}
 
 	}
 }

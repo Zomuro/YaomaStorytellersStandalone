@@ -7,6 +7,7 @@
 	<YS_SettingsFarseerFan>Farseer Fan</YS_SettingsFarseerFan>
 	<YS_SettingsJianghuJin>Jianghu Jin</YS_SettingsJianghuJin>
 
+	<!-- Deathless Daji -->
 	<YS_SettingsDajiResurrectMechs>Disable mech resurrection: {0}</YS_SettingsDajiResurrectMechs>
 	<YS_SettingsDajiResurrectMechsTooltip>Prevent Deathless Daji to resurrect mechanoids in addition to flesh and bone pawns.</YS_SettingsDajiResurrectMechsTooltip>
 	<YS_SettingsDajiResurrectWeapons>Disable weapon retrieval: {0}</YS_SettingsDajiResurrectWeapons>
@@ -24,7 +25,7 @@
 	<YS_SettingsDajiLifestealMeleePercent>Lifesteal proportion: {0}</YS_SettingsDajiLifestealMeleePercent>
 	<YS_SettingsDajiLifestealMeleePercentTooltip>Adjust the percentage of damage dealt pawns heal by when they deal melee damage.</YS_SettingsDajiLifestealMeleePercentTooltip>
 	
-	
+	<!-- Farseer Fan -->
 	<YS_SettingsFanGrace>Grace period: {0}</YS_SettingsFanGrace>
 	<YS_SettingsFanGraceTooltip>The minimum in-game days before Farseer Fan begins to tell the future at the start of the game.\n\nIncreasing this value will cause Farseer Fan to take longer at the start of the game before she starts predicting incidents (i.e. from one day to four days). Decreasing this value will shorten the period of time at the start of the game before she predicts any incidents.\n\nWARNING! It is not recommended to set this value too low- it will force only diseases to be predicted.</YS_SettingsFanGraceTooltip>
 	<YS_SettingsFanPredict>Max prediction period: {0}</YS_SettingsFanPredict>
@@ -36,7 +37,8 @@
 	<YS_SettingsFanPredictAltTooltip>Allow Farseer Fan to randomly provide a choice to select an alternative set of incidents.</YS_SettingsFanPredictAltTooltip>
 	<YS_SettingsFanPredictDefer>Enable deferred predictions: {0}</YS_SettingsFanPredictDefer>
 	<YS_SettingsFanPredictDeferTooltip>Allow Farseer Fan to randomly provide a choice to defer incidents to a later time. If said postponement is selected, she will also add a negative incident.</YS_SettingsFanPredictDeferTooltip>
-
+	
+	<!-- Kaiyi the Karmic -->
 	<YS_SettingsKaiyiStart>Starting karma: {0}</YS_SettingsKaiyiStart>
 	<YS_SettingsKaiyiStartTooltip>The amount of karma you start with.</YS_SettingsKaiyiStartTooltip>
 	<YS_SettingsKaiyiCostFactor>Fate cost factor: {0}x</YS_SettingsKaiyiCostFactor>
@@ -58,7 +60,10 @@
 	<YS_SettingsKaiyiRerollTooltip>Allow incident choices to be rerolled for a payment of karma. The karma cost is affected by the cost factor.</YS_SettingsKaiyiRerollTooltip>
 	<YS_SettingsKaiyiRerollBaseCost>Reroll base karma cost: {0}</YS_SettingsKaiyiRerollBaseCost>
 	<YS_SettingsKaiyiRerollBaseCostTooltip>Set the base karma cost of rerolling incidents.</YS_SettingsKaiyiRerollBaseCostTooltip>
+	<YS_SettingsKaiyiSavePersist>Save karma ledger: {0}</YS_SettingsKaiyiSavePersist>
+	<YS_SettingsKaiyiSavePersistTooltip>Toggle whether or not Kaiyi will keep a record of your transactions with him.\n\nIf you allow him retain your karmic information when closing your account (changing storyteller), you can reopen your account again.\n\nOtherwise, you'll have to develop a business relationship with him again.</YS_SettingsKaiyiSavePersistTooltip>
 	
+	<!-- Jianghu Jin -->
 	<YS_SettingsJianghuJinTerraformDays>Period between terraforming: {0} days</YS_SettingsJianghuJinTerraformDays>
 	<YS_SettingsJianghuJinTerraformDaysTooltip>Sets the number of days between each time Jin terraforms the map.</YS_SettingsJianghuJinTerraformDaysTooltip>
 	<YS_SettingsJianghuJinDecayProbRoom>Room cell decay chance: {0}</YS_SettingsJianghuJinDecayProbRoom>
@@ -72,7 +77,7 @@
 	<YS_SettingsJianghuJinRockCleanup>Rock cleanup chance: {0}</YS_SettingsJianghuJinRockCleanup>
 	<YS_SettingsJianghuJinRockCleanupTooltip>Determines how likely Jin's terraforming incident will remove mineable buildings, save for those that are part of any indoor room, before forming new hills and mountains. This step can declutter a map.</YS_SettingsJianghuJinRockCleanupTooltip>
 	<YS_SettingsJianghuBiome>Enable biome change: {0}</YS_SettingsJianghuBiome>
-	<YS_SettingsJianghuBiomeTooltip>Allow Jin to randomly terraform the map into a different biome, if viable based on geographical features.</YS_SettingsJianghuBiomeTooltip>
+	<YS_SettingsJianghuBiomeTooltip>Allow Jin to randomly terraform the map into a different biome, if viable, based on geographical features.</YS_SettingsJianghuBiomeTooltip>
 	<YS_SettingsJianghuBiomeUnlock>Unlock biome choices: {0}</YS_SettingsJianghuBiomeUnlock>
 	<YS_SettingsJianghuBiomeUnlockTooltip>Give Jin the go-ahead to transform the map's biome into any habitable biome.</YS_SettingsJianghuBiomeUnlockTooltip>
 	<YS_SettingsJianghuHilliness>Enable hilliness change: {0}</YS_SettingsJianghuHilliness>
@@ -81,4 +86,7 @@
 	<YS_SettingsJianghuJinConstructBoostTooltip>Sets the multiplier on construction speed Jin provides.</YS_SettingsJianghuJinConstructBoostTooltip>
 	<YS_SettingsJianghuJinMiningBoost>Mining speed factor: {0}x</YS_SettingsJianghuJinMiningBoost>
 	<YS_SettingsJianghuJinMiningBoostTooltip>Sets the multiplier on mining speed Jin provides.</YS_SettingsJianghuJinMiningBoostTooltip>
+	<YS_SettingsJianghuJinSavePersist>Saved by breaktime: {0}</YS_SettingsJianghuJinSavePersist>
+	<YS_SettingsJianghuJinSavePersistTooltip>Toggle whether or not Jin will take keep track of the days left to terraform the map when you change storytellers.\n\nEnabling this option will have Jin keep track of the time left.</YS_SettingsJianghuJinSavePersistTooltip>
+	
 </LanguageData>

@@ -56,6 +56,8 @@ namespace YaomaStorytellers
 
         public float KaiyiKarmicRerollBaseCost = 10f;
 
+        public bool KaiyiKarmicSavePersist = false;
+
         // Jianghu Jin Settings
 
         public int JianghuJinTerraformDays = 15;
@@ -79,6 +81,8 @@ namespace YaomaStorytellers
         public float JianghuJinConstructBoost = 1.25f;
 
         public float JianghuJinMiningBoost = 1.25f;
+
+        public bool JianghuJinSavePersist = false;
 
 
         public override void ExposeData()
@@ -110,6 +114,7 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref KaiyiKarmicMaxChoices, "KaiyiKarmicMaxChoices", 10);
             Scribe_Values.Look(ref KaiyiKarmicRerollIncidents, "KaiyiKarmicRerollIncidents", false);
             Scribe_Values.Look(ref KaiyiKarmicRerollBaseCost, "KaiyiKarmicRerollBaseCost", 10f);
+            Scribe_Values.Look(ref KaiyiKarmicSavePersist, "KaiyiKarmicSavePersist", false);
 
             // Kaiyi the Karmic Settings
             Scribe_Values.Look(ref JianghuJinTerraformDays, "JianghuJinTerraformDays", 15);
@@ -122,6 +127,7 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref JianghuJinHillinessChange, "JianghuJinHillinessChange", false);
             Scribe_Values.Look(ref JianghuJinConstructBoost, "JianghuJinConstructBoost", 1.25f);
             Scribe_Values.Look(ref JianghuJinMiningBoost, "JianghuJinMiningBoost", 1.25f);
+            Scribe_Values.Look(ref JianghuJinSavePersist, "JianghuJinSavePersist", false);
 
             base.ExposeData();
         }
@@ -210,7 +216,7 @@ namespace YaomaStorytellers
             listing.Begin(leftThird);
             listing.Gap(16f);
 
-            switch (this.tab)
+            switch (tab)
             {
                 case Tab.FarseerFan:
                     FarseerFanSettings(ref listing);
@@ -231,7 +237,7 @@ namespace YaomaStorytellers
             }
 
             // Reset to default
-            listing.Gap(16f);
+            //listing.Gap(4f);
             if(listing.ButtonText("Reset to global default"))
             {
                 DeathlessDajiDefault();
@@ -277,6 +283,8 @@ namespace YaomaStorytellers
             settings.KaiyiKarmicKarmaPointScalingFactor = 1f;
             settings.KaiyiKarmicRerollIncidents = false;
             settings.KaiyiKarmicRerollBaseCost = 10f;
+
+            settings.KaiyiKarmicSavePersist = false;
         }
 
         public void JianghuJinDefault()
@@ -291,6 +299,8 @@ namespace YaomaStorytellers
             settings.JianghuJinHillinessChange = false;
             settings.JianghuJinConstructBoost = 1.25f;
             settings.JianghuJinMiningBoost = 1.25f;
+
+            settings.JianghuJinSavePersist = false;
         }
 
         public void FarseerFanSettings(ref Listing_Standard listing)
@@ -314,7 +324,7 @@ namespace YaomaStorytellers
             listing.CheckboxLabeled("YS_SettingsFanPredictDefer".Translate(settings.FarseerFanPredictDefer.ToString()),
                 ref settings.FarseerFanPredictDefer, "YS_SettingsFanPredictDeferTooltip".Translate());
 
-            listing.Gap(16f);
+            listing.Gap(8f);
             if (listing.ButtonText("Reset to default"))
             {
                 FarseerFanDefault();
@@ -343,8 +353,10 @@ namespace YaomaStorytellers
                 "YS_SettingsKaiyiMaxSelectableTooltip".Translate());
             settings.KaiyiKarmicMaxChoices = (int)listing.Slider(settings.KaiyiKarmicMaxChoices, 10f, 30f);
 
-            listing.GapLine();
+            listing.CheckboxLabeled("YS_SettingsKaiyiSavePersist".Translate(settings.KaiyiKarmicSavePersist.ToString()),
+                ref settings.KaiyiKarmicSavePersist, "YS_SettingsKaiyiSavePersistTooltip".Translate());
 
+            listing.GapLine();
             listing.CheckboxLabeled("YS_SettingsKaiyiPointScaling".Translate(settings.KaiyiKarmicKarmaPointScaling.ToString()),
                 ref settings.KaiyiKarmicKarmaPointScaling, "YS_SettingsKaiyiPointScalingTooltip".Translate());
             if (settings.KaiyiKarmicKarmaPointScaling)
@@ -363,8 +375,7 @@ namespace YaomaStorytellers
                 settings.KaiyiKarmicRerollBaseCost = listing.Slider((float)settings.KaiyiKarmicRerollBaseCost, 0f, 25f);
             }
 
-
-            listing.Gap(16f);
+            listing.Gap(8f);
             if (listing.ButtonText("Reset to default"))
             {
                 KaiyiKarmicDefault();
@@ -414,7 +425,7 @@ namespace YaomaStorytellers
                 initalizedDaji = true;
             }
 
-            listing.Gap(16f);
+            listing.Gap(8f);
             if (listing.ButtonText("Reset to default"))
             {
                 DeathlessDajiDefault();
@@ -474,6 +485,9 @@ namespace YaomaStorytellers
                 "YS_SettingsJianghuJinMiningBoostTooltip".Translate());
             settings.JianghuJinMiningBoost = listing.Slider((float)settings.JianghuJinMiningBoost, 0.5f, 2f);
 
+            listing.CheckboxLabeled("YS_SettingsJianghuJinSavePersist".Translate(settings.JianghuJinSavePersist.ToString()),
+                ref settings.JianghuJinSavePersist, "YS_SettingsJianghuJinSavePersistTooltip".Translate());
+
             listing.GapLine();
             listing.CheckboxLabeled("YS_SettingsJianghuBiome".Translate(settings.JianghuJinBiomeChange.ToString()),
                 ref settings.JianghuJinBiomeChange, "YS_SettingsJianghuBiomeTooltip".Translate());
@@ -485,7 +499,7 @@ namespace YaomaStorytellers
             listing.CheckboxLabeled("YS_SettingsJianghuHilliness".Translate(settings.JianghuJinHillinessChange.ToString()),
                 ref settings.JianghuJinHillinessChange, "YS_SettingsJianghuHillinessTooltip".Translate());
 
-            listing.Gap(16f);
+            listing.Gap(8f);
             if (listing.ButtonText("Reset to default"))
             {
                 JianghuJinDefault();

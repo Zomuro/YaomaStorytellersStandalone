@@ -1,5 +1,4 @@
 ﻿using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace YaomaStorytellers
@@ -10,7 +9,7 @@ namespace YaomaStorytellers
 		{
 			get
 			{
-				return (StorytellerCompProperties_OnDemand)this.props;
+				return (StorytellerCompProperties_OnDemand)props;
 			}
 		}
 
@@ -31,33 +30,6 @@ namespace YaomaStorytellers
 				{
 					// returns a firing incident for later
 					return new FiringIncident(incidentDef, this, parms);
-				}
-
-			}
-			return null;
-		}
-
-		[Obsolete]
-		public FiringIncident MakeIncident(List<IIncidentTarget> targets)
-		{
-			IncidentParms parms;
-			// for each potential target type
-			foreach (IIncidentTarget target in targets)
-			{
-				// if the incident type is null or target isn't allowed, continue to next target in list
-				if (this.Props.incident == null || !this.Props.incident.TargetAllowed(target))
-				{
-					continue;
-				}
-
-				// create incident paramaters based on incident category
-				parms = this.GenerateParms(this.Props.incident.category, target);
-
-				// check if this incident can be fired
-				if (this.Props.incident.Worker.CanFireNow(parms))
-				{
-					// returns a firing incident for later
-					return new FiringIncident(this.Props.incident, this, parms);
 				}
 
 			}

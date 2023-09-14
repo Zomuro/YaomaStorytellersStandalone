@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameComponent_YaomaStorytellers.cs" />
     <Compile Include="GenStep_Jin_Plants.cs" />
     <Compile Include="GenStep_Jin_ScatterLumpsMineable.cs" />
     <Compile Include="ThingDefOf_Yaoma.cs" />
@@ -70,7 +71,6 @@
     <Compile Include="StatPart_Jin_Construct.cs" />
     <Compile Include="RoomDecaySetting.cs" />
     <Compile Include="GenStep_Jin_Fog.cs" />
-    <Compile Include="StorytellerComp_OnDemandRegular.cs" />
     <Compile Include="YaomaMapUtility.cs" />
     <Compile Include="GenStep_Jin_AnimaTrees.cs" />
     <Compile Include="GenStep_Jin_RocksFromGrid.cs" />

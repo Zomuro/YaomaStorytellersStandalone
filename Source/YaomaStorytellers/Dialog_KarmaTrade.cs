@@ -135,15 +135,15 @@ namespace YaomaStorytellers
 			listing_Pricing = new Listing_Standard(inRect, () => scrollPositionPricing);
 			listing_Pricing.ColumnWidth = (int) (pricingRectListingView.width);
 			listing_Pricing.Begin(pricingRectListing);
-			listing_Pricing.LabelDouble("YS_KarmaTradeCurrKarma".Translate(), karmaTracker.karma.ToString("F2"));
+			listing_Pricing.LabelDouble("YS_KarmaTradeCurrKarma".Translate(), karmaTracker.GameComp.karma.ToString("F2"));
 			Text.Font = GameFont.Tiny;
 			foreach (var i in selected)
             {
-				listing_Pricing.LabelDouble(i.LabelCap, ConvertToCurrency(karmaTracker.estIncidentChange[i]));
+				listing_Pricing.LabelDouble(i.LabelCap, ConvertToCurrency(karmaTracker.GameComp.estIncidentChange[i]));
 			}
 			Text.Font = GameFont.Small;
 			listing_Pricing.GapLine();
-			listing_Pricing.LabelDouble("YS_KarmaTradeFinalKarma".Translate(), KarmaConstrain(karmaTracker.karma + EstIncidentChange(karmaTracker)).ToString("F2"));
+			listing_Pricing.LabelDouble("YS_KarmaTradeFinalKarma".Translate(), KarmaConstrain(karmaTracker.GameComp.karma + EstIncidentChange(karmaTracker)).ToString("F2"));
 			listing_Pricing.End();
 			Widgets.EndScrollView();
 			pricingListingHeight = listing_Pricing.CurHeight;
@@ -180,7 +180,7 @@ namespace YaomaStorytellers
 			float increment = selected.Any() ? (360f / selected.Count()) : 0f;
 			foreach (IncidentDef iDef in selected)
 			{
-				text = iDef.LabelCap.ToString() + " (" + karmaTracker.estIncidentChange[iDef].ToString("F2") + ")";
+				text = iDef.LabelCap.ToString() + " (" + karmaTracker.GameComp.estIncidentChange[iDef].ToString("F2") + ")";
 				if (Widgets.ButtonText(RectRadialPosition(selectedOption, selectedRectInterface.height / 3 + 30f, angle),
 					text, true, true, true, TextAnchor.MiddleCenter))
 				{
@@ -226,7 +226,7 @@ namespace YaomaStorytellers
 			{
 				if (Widgets.ButtonText(offerButton, "YS_KarmaTradeMakeOffer".Translate(), true, true, true, TextAnchor.MiddleCenter))
 				{
-					if (EstIncidentChange(karmaTracker) < 0 && karmaTracker.karma < 0)
+					if (EstIncidentChange(karmaTracker) < 0 && karmaTracker.GameComp.karma < 0)
 					{
 						action = delegate ()
 						{
@@ -240,7 +240,7 @@ namespace YaomaStorytellers
 					else action = delegate ()
 					{
 						SelectionInform(EstIncidentChange(karmaTracker), selected);
-						karmaTracker.selectedIncidents = selected;
+						karmaTracker.GameComp.selectedIncidents = selected;
 						YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(karmaTracker, EstIncidentChange(karmaTracker));
 						karmaTracker.CompleteIncidentSelection(selected);
 						Messages.Message("YS_MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
@@ -282,7 +282,7 @@ namespace YaomaStorytellers
 
 			// when rerolling selections
 			float rerollCost = YaomaStorytellerUtility.settings.KaiyiKarmicRerollBaseCost * karmaTracker.CostFactor * rerollMult * -1f; // i.e. -20
-			float karmaTillFloor = YaomaStorytellerUtility.settings.KaiyiKarmicKarmaMin - karmaTracker.karma; // (-500 - 0 = -500; -500 - (-490) = -10)
+			float karmaTillFloor = YaomaStorytellerUtility.settings.KaiyiKarmicKarmaMin - karmaTracker.GameComp.karma; // (-500 - 0 = -500; -500 - (-490) = -10)
 			if (karmaTillFloor > rerollCost) // if the amount of karma to reach min karma > reroll cost, prevent rerolls
 			{
 				if (Widgets.ButtonText(rerollButton, "YS_KarmaTradeNoMoreReroll".Translate(), true, true, Color.gray, true, TextAnchor.MiddleCenter))
@@ -357,15 +357,15 @@ namespace YaomaStorytellers
 		public float EstIncidentChange(StorytellerComp_RandomKarmaMain kt)
 		{
 			if (selected.Count == 0) return 0;
-			return (from i in selected select kt.estIncidentChange[i]).Sum();
+			return (from i in selected select kt.GameComp.estIncidentChange[i]).Sum();
 		}
 
 		public void DebtResolutionAdditions(StorytellerComp_RandomKarmaMain kt)
 		{
-			if (EstIncidentChange(kt) >= 0 || kt.karma >= 0) return;
+			if (EstIncidentChange(kt) >= 0 || kt.GameComp.karma >= 0) return;
 
-			List<IncidentDef> negOptions = (from x in kt.selectableIncidentCount
-											where kt.baseIncidentChange[x.Key.category] > 0
+			List<IncidentDef> negOptions = (from x in kt.GameComp.selectableIncidentCount
+											where kt.GameComp.baseIncidentChange[x.Key.category] > 0
 											select x.Key).ToList();
 
 			int count = (int)Math.Ceiling(kt.EstKarmaPointScaling(EstIncidentChange(kt)) - 1);
@@ -379,7 +379,7 @@ namespace YaomaStorytellers
 
 		public Tuple<Action, Action> DebtResolutionDialogActions(StorytellerComp_RandomKarmaMain kt)
 		{
-			if (EstIncidentChange(kt) >= 0 || kt.karma >= 0) return null;
+			if (EstIncidentChange(kt) >= 0 || kt.GameComp.karma >= 0) return null;
 
 			Action actionReturn = delegate ()
 			{
@@ -393,7 +393,7 @@ namespace YaomaStorytellers
 				karmaTracker.CompleteIncidentSelection(selected);
 				Messages.Message("YS_MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
 				DebtResolutionAdditions(kt);
-				karmaTracker.selectedIncidents = selected;
+				karmaTracker.GameComp.selectedIncidents = selected;
 				Log.Message(selected.ToStringSafeEnumerable());
 				this.Close(true);
 			};
