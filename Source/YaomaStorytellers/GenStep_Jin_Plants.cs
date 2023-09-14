@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using RimWorld;
+﻿using RimWorld;
+using System.Linq;
 using Verse;
 
 namespace YaomaStorytellers

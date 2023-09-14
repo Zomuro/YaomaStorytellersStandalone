@@ -1,9 +1,5 @@
-﻿using System;
+﻿using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RimWorld;
 using Verse;
 
 namespace YaomaStorytellers
@@ -61,10 +57,17 @@ namespace YaomaStorytellers
 			base.LoadedGame();
 		}
 
+		public string GetWarningString(StorytellerDef orgDef, StorytellerDef currDef)
+		{
+			if (orgDef == StorytellerDefOf.KaiyiKarmic_Yaoma) return "YS_StorytellerChangeWarningKaiyi".Translate(orgDef.LabelCap, currDef.LabelCap);
+			else if (orgDef == StorytellerDefOf.JianghuJin_Yaoma) return "YS_StorytellerChangeWarningJin".Translate(orgDef.LabelCap, currDef.LabelCap);
+			return "this is a test string, you shouldn't see this";
+		}
+
 		public void ResetExposedData(StorytellerDef def)
         {
 			if (def == StorytellerDefOf.KaiyiKarmic_Yaoma) ResetKaiyiKarmicSave();
-
+			else if (def == StorytellerDefOf.JianghuJin_Yaoma) ResetJianghuJinSave();
 		}
 
 		public void ResetKaiyiKarmicSave()

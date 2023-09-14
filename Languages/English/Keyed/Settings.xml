@@ -61,7 +61,7 @@
 	<YS_SettingsKaiyiRerollBaseCost>Reroll base karma cost: {0}</YS_SettingsKaiyiRerollBaseCost>
 	<YS_SettingsKaiyiRerollBaseCostTooltip>Set the base karma cost of rerolling incidents.</YS_SettingsKaiyiRerollBaseCostTooltip>
 	<YS_SettingsKaiyiSavePersist>Save karma ledger: {0}</YS_SettingsKaiyiSavePersist>
-	<YS_SettingsKaiyiSavePersistTooltip>Toggle whether or not Kaiyi will keep a record of your transactions with him. If you allow him retain your karmic information when closing your account (changing storyteller), you can reopen your account again.\n\nOtherwise, you'll have to develop a business relationship with him again.</YS_SettingsKaiyiSavePersistTooltip>
+	<YS_SettingsKaiyiSavePersistTooltip>Toggle whether or not Kaiyi will keep a record of your transactions with him.\n\nIf you allow him retain your karmic information when closing your account (changing storyteller), you can reopen your account again.\n\nOtherwise, you'll have to develop a business relationship with him again.</YS_SettingsKaiyiSavePersistTooltip>
 	
 	<!-- Jianghu Jin -->
 	<YS_SettingsJianghuJinTerraformDays>Period between terraforming: {0} days</YS_SettingsJianghuJinTerraformDays>
@@ -86,8 +86,7 @@
 	<YS_SettingsJianghuJinConstructBoostTooltip>Sets the multiplier on construction speed Jin provides.</YS_SettingsJianghuJinConstructBoostTooltip>
 	<YS_SettingsJianghuJinMiningBoost>Mining speed factor: {0}x</YS_SettingsJianghuJinMiningBoost>
 	<YS_SettingsJianghuJinMiningBoostTooltip>Sets the multiplier on mining speed Jin provides.</YS_SettingsJianghuJinMiningBoostTooltip>
+	<YS_SettingsJianghuJinSavePersist>Saved by breaktime: {0}</YS_SettingsJianghuJinSavePersist>
+	<YS_SettingsJianghuJinSavePersistTooltip>Toggle whether or not Jin will take keep track of the days left to terraform the map when you change storytellers.\n\nEnabling this option will have Jin keep track of the time left.</YS_SettingsJianghuJinSavePersistTooltip>
 	
-	<!--<YS_SettingsJianghuJinSavePersist>Saved by breaktime: {0}</YS_SettingsJianghuJinSavePersist>
-	<YS_SettingsJianghuJinSavePersistTooltip>Toggle whether or not Jin will allow you to take a break (change storyteller). If you want to rest, she'll let you take time off, and pick up where you left off. Otherwise, you'll have to begin the next rodeo from the starting line.</YS_SettingsJianghuJinSavePersistTooltip>
-	-->
 </LanguageData>

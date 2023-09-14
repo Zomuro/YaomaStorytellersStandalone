@@ -23,11 +23,6 @@
 	<YS_KarmaTradeNoMoreReroll>No rerolls</YS_KarmaTradeNoMoreReroll>
 	<YS_KarmaTradeClearSelections>Clear selections</YS_KarmaTradeClearSelections>
 	
-	<!-- Dialog_MessageBox (Kaiyi the Karmic warning)-->
-	<YS_KaiyiKarmicChangeWarning>Warning!\n\nChanging storytellers from {0} to {1} will wipe your history of karmic trades for this game.\n\nThis will force you to begin a clean business relationship with Kaiyi the next time you work with him, with only the starting karma in the bank.\n\nPlease confirm that you want to wipe the ledger (clear Kaiyi's save data).\n\nAlternatively, you can instruct Kaiyi to save all records of your karmic dealings, and reopen your account with him another time hassle-free (Mod settings > Kaiyi the Karmic > enable "Save karma ledger" to save karmic values).</YS_KaiyiKarmicChangeWarning>
-	<YS_KaiyiKarmicChangeContinue>So be it</YS_KaiyiKarmicChangeContinue>
-	<YS_KaiyiKarmicChangeCancel>Let me think about it</YS_KaiyiKarmicChangeCancel>
-	
 	<!-- Dialog_MessageBox (Farseer Fan Alternative Incidents)-->
 	<YS_FarseerFanAltOffer>The stars foretell a divergence in fate- and so Farseer Fan calls upon you to make a choice.</YS_FarseerFanAltOffer>
 	<YS_FarseerFanOrgIncidText>Original incident(s):</YS_FarseerFanOrgIncidText>
@@ -51,5 +46,11 @@
 	
 	<!-- Loading page (Jin's incident loading page) -->
 	<YS_JinTerraformMapPage>Transforming the map</YS_JinTerraformMapPage>
+	
+	<!-- Dialog_MessageBox (Storyteller warning)-->
+	<YS_StorytellerChangeWarningKaiyi>Warning!\n\nChanging storytellers from {0} to {1} will wipe your history of karmic trades for this game.\n\nThis will force you to begin a clean business relationship with Kaiyi the next time you work with him, with only the starting karma in the bank.\n\nPlease confirm that you want to wipe the ledger (clear Kaiyi's save data).\n\nAlternatively, you can instruct Kaiyi to save all records of your karmic dealings, and reopen your account with him another time hassle-free (Mod settings > Kaiyi the Karmic > enable "Save karma ledger" to save karmic values).</YS_StorytellerChangeWarningKaiyi>
+	<YS_StorytellerChangeWarningJin>Warning!\n\nChanging storytellers from {0} to {1} will reset the countdown to terraforming the map.\n\nPlease confirm that you want to reset the timer (clear Jin's save data).\n\nAlternatively, you can tell Jin to keep the countdown in mind (Mod settings > Jianghu Jin > enable "Saved by breaktime" to save days to terraforming).</YS_StorytellerChangeWarningJin>
+	<YS_StorytellerChangeContinue>So be it</YS_StorytellerChangeContinue>
+	<YS_StorytellerChangeCancel>Let me think about it</YS_StorytellerChangeCancel>
 	
  </LanguageData>

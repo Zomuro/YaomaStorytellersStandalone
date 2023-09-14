@@ -237,7 +237,7 @@ namespace YaomaStorytellers
             }
 
             // Reset to default
-            listing.Gap(8f);
+            //listing.Gap(4f);
             if(listing.ButtonText("Reset to global default"))
             {
                 DeathlessDajiDefault();
@@ -485,8 +485,8 @@ namespace YaomaStorytellers
                 "YS_SettingsJianghuJinMiningBoostTooltip".Translate());
             settings.JianghuJinMiningBoost = listing.Slider((float)settings.JianghuJinMiningBoost, 0.5f, 2f);
 
-            /*listing.CheckboxLabeled("YS_SettingsJianghuJinSavePersist".Translate(settings.JianghuJinSavePersist.ToString()),
-                ref settings.JianghuJinSavePersist, "YS_SettingsJianghuJinSavePersistTooltip".Translate());*/
+            listing.CheckboxLabeled("YS_SettingsJianghuJinSavePersist".Translate(settings.JianghuJinSavePersist.ToString()),
+                ref settings.JianghuJinSavePersist, "YS_SettingsJianghuJinSavePersistTooltip".Translate());
 
             listing.GapLine();
             listing.CheckboxLabeled("YS_SettingsJianghuBiome".Translate(settings.JianghuJinBiomeChange.ToString()),

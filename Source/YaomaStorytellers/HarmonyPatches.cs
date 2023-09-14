@@ -2,7 +2,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -135,13 +134,8 @@ namespace YaomaStorytellers
         // PREFIX: if the storyteller when the Page_SelectStorytellerInGame window is up is Kaiyi, run through the alternative window contents
         public static bool DoWindowContentsKaiyi_Pre_Confirm(Page_SelectStorytellerInGame __instance, Rect __0)
         {
-            // if the storyteller being potentially switched FROM is NOT Kaiyi, run the normal contents of Page_SelectStorytellerInGame
-            if (YaomaStorytellerUtility.settings.KaiyiKarmicSavePersist || Current.Game.storyteller.def != StorytellerDefOf.KaiyiKarmic_Yaoma)
-            {
-                YaomaStorytellerUtility.GameComp.ResetJianghuJinSave(); // reset Jin's sole saved value (days count to fire her incident) - it should be reset anyways on st change
-                return true;
-            }
-
+            // see gameComp for all the conditions
+            if (PrefixVerifyStoryteller()) return true;
             Traverse traverse = Traverse.Create(__instance);
             traverse.Method("DrawPageTitle", new[] { typeof(Rect) }).GetValue(__0);
             Rect mainRect = traverse.Method("GetMainRect", new[] { typeof(Rect), typeof(float), typeof(bool) }).GetValue<Rect>(__0, 0f, false);
@@ -149,30 +143,35 @@ namespace YaomaStorytellers
             StorytellerDef def = Current.Game.storyteller.def;
             StorytellerUI.DrawStorytellerSelectionInterface(mainRect, ref storyteller.def, ref storyteller.difficultyDef, ref storyteller.difficulty, 
                 traverse.Field("selectedStorytellerInfoListing").GetValue<Listing_Standard>());
-
-            if (storyteller.def != def)
-            {
-                StorytellerSelectionDialog(def);
-            }
-
+            if (storyteller.def != def) StorytellerSelectionDialog(def); // if another storyteller is selected, open up dialog
             return false;
         }
 
+        // helper method to verify if prefix should be fired
+        public static bool PrefixVerifyStoryteller()
+        {
+            Storyteller storyteller = Current.Game.storyteller;
+            bool storytellerCheck = storyteller.def != StorytellerDefOf.KaiyiKarmic_Yaoma && storyteller.def != StorytellerDefOf.JianghuJin_Yaoma; // check not Jin or Kaiyi
+            bool checkKaiyi = storyteller.def == StorytellerDefOf.KaiyiKarmic_Yaoma && YaomaStorytellerUtility.settings.KaiyiKarmicSavePersist; // check if Kaiyi and setting on
+            bool checkJin = storyteller.def == StorytellerDefOf.JianghuJin_Yaoma && YaomaStorytellerUtility.settings.JianghuJinSavePersist;  // check if Jin and setting on
+            if (storytellerCheck || checkKaiyi || checkJin) return true; // if one of the conditions is true, set true and skip harmony prefix
+            return false;
+        }
+
+        // helper method to open up dialog to confirm storyteller selection
         public static void StorytellerSelectionDialog(StorytellerDef orgDef)
         {
             Storyteller storyteller = Current.Game.storyteller;
-
-            // setup continue (finialize change in storyteller) or cancel (return to original storyteller, probably Kaiyi)
-            Action contChange = delegate () 
+            Action contChange = delegate () // setup continue (finialize change in storyteller) 
             {
                 YaomaStorytellerUtility.GameComp.ResetExposedData(orgDef);
                 storyteller.Notify_DefChanged(); 
             };
-            Action cancelChange = delegate () { storyteller.def = orgDef; };
+            Action cancelChange = delegate () { storyteller.def = orgDef; }; // or cancel (return to original storyteller)
 
-            Find.WindowStack.Add(new Dialog_MessageBox("YS_KaiyiKarmicChangeWarning".Translate(orgDef.LabelCap, storyteller.def.LabelCap),
-                "YS_KaiyiKarmicChangeContinue".Translate(), contChange,
-                "YS_KaiyiKarmicChangeCancel".Translate(), cancelChange)
+            Find.WindowStack.Add(new Dialog_MessageBox(YaomaStorytellerUtility.GameComp.GetWarningString(orgDef, storyteller.def),
+                "YS_StorytellerChangeContinue".Translate(), contChange,
+                "YS_StorytellerChangeCancel".Translate(), cancelChange)
             { doCloseX = false, closeOnClickedOutside = false });
         }
 
