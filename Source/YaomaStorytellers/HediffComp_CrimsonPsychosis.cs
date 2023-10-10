@@ -23,7 +23,7 @@ namespace YaomaStorytellers
         {
             get
             {
-                return parent.Severity.ToStringPercent("P1");
+                return parent.Severity.ToStringPercent();
             }
         }
 

@@ -25,7 +25,7 @@ namespace YaomaStorytellers
                 // simulate incidents till we get one
                 int counter = 0; List<FiringIncident> fi_sim = null;
                 FarseerFanSimulate(storyteller, ref fi_sim, ref counter);
-
+                
                 //switch case
                 switch (FarseerFanRandomCase())
                 {
@@ -34,7 +34,7 @@ namespace YaomaStorytellers
                         break;
                     case 2:
                         List<FiringIncident> alt_fi_sim = null;
-                        FarseerFanAltSim(storyteller, ref alt_fi_sim);
+                        FarseerFanAltSim(storyteller, fi_sim, ref alt_fi_sim);
                         FarseerFanOfferAlt(storyteller, fi_sim, alt_fi_sim, counter);
                         break;
                     case 3:
@@ -60,23 +60,26 @@ namespace YaomaStorytellers
                 if (fi_sim.Any()) break;
                 counter += 1;
             }
+
         }
 
         public static int FarseerFanRandomCase()
         {
-            List<int> behavior = new List<int>() {1};
-            if (settings.FarseerFanPredictAlt) behavior.Add(2); // only if alterate incidents are enabled
-            if (settings.FarseerFanPredictDefer) behavior.Add(3); // only if deferred incidents are enabled
+            Dictionary<int, float> chance = new Dictionary<int, float>(){ 
+                { 1, settings.FarseerFanPredictWeight } 
+            };
+            if (settings.FarseerFanPredictAlt) chance[2] = settings.FarseerFanPredictAltWeight; ; // only if alterate incidents are enabled
+            if (settings.FarseerFanPredictDefer) chance[3] = settings.FarseerFanPredictDeferWeight; ; // only if deferred incidents are enabled
 
-            return behavior[rand.Next(behavior.Count)]; // return random case
+            return chance.RandomElementByWeight(x => x.Value).Key; // return random case
         }
 
-        public static void FarseerFanAltSim(Storyteller storyteller, ref List<FiringIncident> alt_fi_sim)
-        {
+        public static void FarseerFanAltSim(Storyteller storyteller, List<FiringIncident> org_fi_sim, ref List<FiringIncident> alt_fi_sim)
+        {           
             while (alt_fi_sim.EnumerableNullOrEmpty())
             {
                 alt_fi_sim = storyteller.MakeIncidentsForInterval().ToList();
-                if (alt_fi_sim.Any()) break;
+                if (alt_fi_sim.Any() && alt_fi_sim != org_fi_sim) break;
             }
         }
 

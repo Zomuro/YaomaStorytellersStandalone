@@ -14,6 +14,10 @@ namespace YaomaStorytellers
 
         public float DajiCrimsonSeverityGain = 0.3f;
 
+        public float DajiCrimsonChance = 0.4f;
+
+        public IntRange DajiCrimsonSevRange = new IntRange(0, 50);
+
         public bool DajiBloodyPortrait = false;
 
         public bool DajiMurderSanity = false;
@@ -33,6 +37,12 @@ namespace YaomaStorytellers
         public bool FarseerFanPredictAlt = false;
 
         public bool FarseerFanPredictDefer = false;
+
+        public float FarseerFanPredictWeight = 1f;
+
+        public float FarseerFanPredictDeferWeight = 0.1f;
+
+        public float FarseerFanPredictAltWeight = 0.1f;
 
         // Kaiyi the Karmic Settings
 
@@ -91,6 +101,8 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref DajiRessurectMechsDisable, "DajiRessurectMechsDisable", false);
             Scribe_Values.Look(ref DajiRetrieveWeaponsDisable, "DajiRetrieveWeaponsDisable", false);
             Scribe_Values.Look(ref DajiCrimsonSeverityGain, "DajiCrimsonSeverityGain", 0.3f);
+            Scribe_Values.Look(ref DajiCrimsonChance, "DajiCrimsonChance", 0.4f);
+            Scribe_Values.Look(ref DajiCrimsonSevRange, "DajiCrimsonSevRange", new IntRange(0, 50));
             Scribe_Values.Look(ref DajiBloodyPortrait, "DajiBloodyPortrait", false);
             Scribe_Values.Look(ref DajiMurderSanity, "DajiMurderSanity", false);
             Scribe_Values.Look(ref DajiMurderSanitySevReduce, "DajiMurderSanitySevReduce", 0.01f);
@@ -102,6 +114,10 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref FarseerFanPredictionDetail, "FarseerFanPredictionDetail", false);
             Scribe_Values.Look(ref FarseerFanPredictAlt, "FarseerFanPredictAlt", false);
             Scribe_Values.Look(ref FarseerFanPredictDefer, "FarseerFanPredictDefer", false);
+
+            Scribe_Values.Look(ref FarseerFanPredictWeight, "FarseerFanPredictWeight", 1f);
+            Scribe_Values.Look(ref FarseerFanPredictDeferWeight, "FarseerFanPredictDeferWeight", 0.1f);
+            Scribe_Values.Look(ref FarseerFanPredictAltWeight, "FarseerFanPredictAltWeight", 0.1f);
 
             // Kaiyi the Karmic Settings
             Scribe_Values.Look(ref KaiyiKarmicKarma, "KaiyiKarmicKarma", 0f);
@@ -255,8 +271,13 @@ namespace YaomaStorytellers
             settings.DajiRessurectMechsDisable = false;
             settings.DajiRetrieveWeaponsDisable = false;
             settings.DajiCrimsonSeverityGain = 0.3f;
+
+            settings.DajiCrimsonChance = 0.4f;
+            settings.DajiCrimsonSevRange = new IntRange(0, 50);
+
             settings.DajiBloodyPortrait = false;
             StorytellerDefOf.DeathlessDaji_Yaoma.ResolveReferences();
+
             settings.DajiMurderSanity = false;
             settings.DajiMurderSanitySevReduce = 0.01f;
             settings.DajiLifestealMelee = false;
@@ -269,6 +290,10 @@ namespace YaomaStorytellers
             settings.FarseerFanPredictionDetail = false;
             settings.FarseerFanPredictAlt = false;
             settings.FarseerFanPredictDefer = false;
+
+            settings.FarseerFanPredictWeight = 1f;
+            settings.FarseerFanPredictDeferWeight = 0.1f;
+            settings.FarseerFanPredictAltWeight = 0.1f;
         }
 
         public void KaiyiKarmicDefault()
@@ -321,8 +346,28 @@ namespace YaomaStorytellers
             listing.GapLine();
             listing.CheckboxLabeled("YS_SettingsFanPredictAlt".Translate(settings.FarseerFanPredictAlt.ToString()),
                 ref settings.FarseerFanPredictAlt, "YS_SettingsFanPredictAltTooltip".Translate());
+            if (settings.FarseerFanPredictAlt)
+            {
+                listing.Label("YS_SettingsFanPredictAltWeight".Translate(settings.FarseerFanPredictAltWeight.ToString("F2")), -1,
+               "YS_SettingsFanPredictAltWeightTooltip".Translate());
+                settings.FarseerFanPredictAltWeight = listing.Slider((float)settings.FarseerFanPredictAltWeight, 0.1f, 1f);
+            }
+
             listing.CheckboxLabeled("YS_SettingsFanPredictDefer".Translate(settings.FarseerFanPredictDefer.ToString()),
                 ref settings.FarseerFanPredictDefer, "YS_SettingsFanPredictDeferTooltip".Translate());
+            if (settings.FarseerFanPredictDefer)
+            {
+                listing.Label("YS_SettingsFanPredictDeferWeight".Translate(settings.FarseerFanPredictDeferWeight.ToString("F2")), -1,
+               "YS_SettingsFanPredictDeferWeightTooltip".Translate());
+                settings.FarseerFanPredictDeferWeight = listing.Slider((float)settings.FarseerFanPredictDeferWeight, 0.1f, 1f);
+            }
+
+            if (settings.FarseerFanPredictAlt || settings.FarseerFanPredictDefer)
+            {
+                listing.Label("YS_SettingsFanPredictWeight".Translate(settings.FarseerFanPredictWeight.ToString("F2")), -1,
+               "YS_SettingsFanPredictWeightTooltip".Translate());
+                settings.FarseerFanPredictWeight = listing.Slider((float)settings.FarseerFanPredictWeight, 0.1f, 1f);
+            }
 
             listing.Gap(8f);
             if (listing.ButtonText("Reset to default"))
@@ -396,6 +441,13 @@ namespace YaomaStorytellers
             listing.Label("YS_SettingsDajiCrimsonSeverityGain".Translate(settings.DajiCrimsonSeverityGain.ToString("F2")), -1,
                 "YS_SettingsDajiCrimsonSeverityGainTooltip".Translate());
             settings.DajiCrimsonSeverityGain = listing.Slider((float)settings.DajiCrimsonSeverityGain, 0.1f, 1f);
+
+            listing.Label("YS_SettingsDajiCrimsonSpawn".Translate(settings.DajiCrimsonChance.ToString("P1")), -1,
+                "YS_SettingsDajiCrimsonSpawnTooltip".Translate());
+            settings.DajiCrimsonChance = listing.Slider((float)settings.DajiCrimsonChance, 0f, 1f);
+            listing.Label("YS_SettingsDajiCrimsonSpawnRange".Translate(), -1,
+                "YS_SettingsDajiCrimsonSpawnRangeTooltip".Translate());
+            listing.IntRange(ref settings.DajiCrimsonSevRange, 0, 100);
 
             bool orgToggle = settings.DajiBloodyPortrait;
             listing.CheckboxLabeled("YS_SettingsDajiBloodyPortrait".Translate(settings.DajiBloodyPortrait.ToString()),

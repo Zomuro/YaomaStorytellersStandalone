@@ -464,6 +464,15 @@
 				<incident>Resurrection_Yaoma</incident>
 			</li>
 		</comps>
+		
+		<!-- quartered adaptday lost on death; death is cheap! -->
+		<adaptDaysLossFromColonistLostByPostPopulation Inherit = "False">
+			<points>
+				<li>( 0, 7.5)</li> <!-- 30 days at normal pops; lower at really high pop -->
+				<li>(11, 7.5)</li>
+				<li>(20, 5)</li>
+			</points>
+		</adaptDaysLossFromColonistLostByPostPopulation>
 	</StorytellerDef>
 	
 	<StorytellerDef ParentName="BaseStoryteller"> <!-- Jianghu Jin: terraforms the map -->

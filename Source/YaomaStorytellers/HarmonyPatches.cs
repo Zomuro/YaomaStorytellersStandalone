@@ -34,6 +34,10 @@ namespace YaomaStorytellers
             harmony.Patch(AccessTools.Method(typeof(Pawn), "Kill"),
                 null, new HarmonyMethod(typeof(HarmonyPatches), nameof(KillDaji_Post_Yaoma)));
 
+            // GenerateInitialHediffs_Postfix: decrease crimson psychosis severity on pawn kill
+            harmony.Patch(AccessTools.Method(typeof(PawnGenerator), "GenerateInitialHediffs"),
+                null, new HarmonyMethod(typeof(HarmonyPatches), nameof(GenerateInitialHediffs_Postfix)));
+
             // ApplyMeleeDamageToTarget_Post_DajiLifesteal: give melee attacks lifesteal
             harmony.Patch(AccessTools.Method(typeof(Verb_MeleeAttackDamage), "ApplyMeleeDamageToTarget"),
                 null, new HarmonyMethod(typeof(HarmonyPatches), nameof(ApplyMeleeDamageToTarget_Post_DajiLifesteal)));
@@ -173,6 +177,19 @@ namespace YaomaStorytellers
                 "YS_StorytellerChangeContinue".Translate(), contChange,
                 "YS_StorytellerChangeCancel".Translate(), cancelChange)
             { doCloseX = false, closeOnClickedOutside = false });
+        }
+
+        // POSTFIX: add Crimson Psychosis to pawns based on rng, using a range of values (see how to define curve via settings)
+        public static void GenerateInitialHediffs_Postfix(Pawn __0, PawnGenerationRequest __1)
+        {
+            if (Find.Storyteller.def != StorytellerDefOf.DeathlessDaji_Yaoma) return;
+
+            if (__0.health.hediffSet.HasHediff(HediffDefOf_Yaoma.DeathlessDaji_Hediff_Yaoma)) return; // if pawn already has crimson psychosis, don't add it
+
+            YaomaStorytellerSettings modSetting = YaomaStorytellerUtility.settings;
+            if (UnityEngine.Random.Range(0f, 1f) < modSetting.DajiCrimsonChance) 
+                HealthUtility.AdjustSeverity(__0, HediffDefOf_Yaoma.DeathlessDaji_Hediff_Yaoma, 
+                    UnityEngine.Random.Range(((float)modSetting.DajiCrimsonSevRange.min) / 100f, ((float)modSetting.DajiCrimsonSevRange.max) / 100f));            
         }
 
     }
