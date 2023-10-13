@@ -223,8 +223,8 @@ namespace YaomaStorytellers
             if (KarmaTracker.GameComp.baseIncidentChange.Keys.Contains(fi.def.category) &&
                 KarmaTracker.GameComp.baseIncidentChange[fi.def.category] > 0)
             {
-                //gain full value of karma from negative events if they randomly occur
-                KaiyiKarmicAdjustKarma(KarmaTracker, KarmaTracker.GameComp.estIncidentChange[fi.def]);
+                //gain a half of the value of karma from negative events if they randomly occur
+                KaiyiKarmicAdjustKarma(KarmaTracker, KarmaTracker.GameComp.estIncidentChange[fi.def] / 2f);
 
                 // notifies player of their gain
                 Find.LetterStack.ReceiveLetter("YS_LetterLabelKaiyiKarmicGain".Translate(),
@@ -249,20 +249,22 @@ namespace YaomaStorytellers
 
             // select a random incidentDef from KarmaTracker's selected incidentDefs
             // and create a firing incident using StorytellerComp_OnDemand
-            IncidentDef randomDef = KarmaTracker.GameComp.selectedIncidents.RandomElement();
-            FiringIncident fiReplace = c.MakeIncident(storyteller.AllIncidentTargets, randomDef);
+            KaiyiIncidentRecord randomRecord = KarmaTracker.GameComp.selectedIncidents.RandomElement();
+            FiringIncident fiReplace = c.MakeIncident(storyteller.AllIncidentTargets, randomRecord.incidDef);
 
             if (fiReplace == null) // if the replaced incident can't be fired, fire the original
             {
-                
                 KaiyiKarmicRandomIncident(ref fi); // scales points accordingly + allow players to gain karma from negative incidents.
-                Messages.Message("YS_MessageKarmaReplaceFail".Translate(),
+
+                Messages.Message("YS_MessageKarmaReplaceFail".Translate(randomRecord.change * -1f),
                             MessageTypeDefOf.SilentInput, false); // notify incident replacment failed- will try again later
+                KaiyiKarmicAdjustKarma(KarmaTracker, randomRecord.change * -1f); // perform a refund of the selected incident record
+                KarmaTracker.GameComp.selectedIncidents.Remove(randomRecord); // remove from selected incidents list
                 return fi;
-            }
+            } 
 
             fiReplace.parms.points *= KarmaTracker.KarmaPointScaling; // adjust replaced incident points using scaling
-            KarmaTracker.GameComp.selectedIncidents.Remove(randomDef); // remove from selected incidents list
+            KarmaTracker.GameComp.selectedIncidents.Remove(randomRecord); // remove from selected incidents list
             if(KarmaTracker.GameComp.selectedIncidents.NullOrEmpty()) // notify if all selected incidents are done
             {
                 Messages.Message("YS_MessageKarmaReplaceDone".Translate(),
@@ -306,6 +308,8 @@ namespace YaomaStorytellers
         {
             String labelCost = "";
 
+            int indexCount = 0;
+
             foreach (IncidentDef iDef in KaiyiKarmicWeightedSelection(karmaTracker, settings.KaiyiKarmicMaxChoices)
                 .OrderByDescending(x => karmaTracker.GameComp.estIncidentChange[x])
                 .ThenBy(x => x.LabelCap.ToString()))
@@ -314,15 +318,8 @@ namespace YaomaStorytellers
 
                 selectable.Add(new DebugMenuOption(labelCost, DebugMenuOptionMode.Action, delegate ()
                 {
-                    IncidentParms parmSim = StorytellerUtility.DefaultParmsNow(iDef.category, Find.AnyPlayerHomeMap);
-                    if (iDef.pointsScaleable)
-                    {
-                        parmSim = Find.Storyteller.storytellerComps.First((StorytellerComp x) => x is StorytellerComp_OnOffCycle ||
-                            x is StorytellerComp_RandomMain).GenerateParms(iDef.category, parmSim.target);
-                    }
-
                     Dialog_KarmaTrade karmaDialog = (Find.WindowStack.currentlyDrawnWindow as Dialog_KarmaTrade);
-                    List<IncidentDef> incidentsSelected = karmaDialog.selected;
+                    List<KaiyiIncidentRecord> incidentsSelected = karmaDialog.selected;
 
                     if (incidentsSelected.Count < 5)
                     {
@@ -333,29 +330,32 @@ namespace YaomaStorytellers
                         }
                         else if(estFinalVal >= settings.KaiyiKarmicKarmaMax)
                         {
-                            incidentsSelected.Add(iDef);
+                            //incidentsSelected.Add(iDef);
+                            incidentsSelected.Add(new KaiyiIncidentRecord() {incidDef = iDef, 
+                                change = KarmaTracker.GameComp.estIncidentChange[iDef]});
+                            karmaDialog.RemoveSelectableIncident(iDef);
+
+                            // add portion that removes from option list this incident record or something
                             Messages.Message("YS_MessageKaiyiKarmicIncidentNum".Translate(incidentsSelected.Count.ToString()), MessageTypeDefOf.SilentInput, false);
                             Messages.Message("YS_MessageKaiyiKarmicIncidentReachedMax".Translate(), MessageTypeDefOf.SilentInput, false);
                         }
                         else
                         {
-                            incidentsSelected.Add(iDef);
+                            //incidentsSelected.Add(iDef);
+                            incidentsSelected.Add(new KaiyiIncidentRecord() { incidDef = iDef, 
+                                change = KarmaTracker.GameComp.estIncidentChange[iDef]});
+                            karmaDialog.RemoveSelectableIncident(iDef);
+
+                            // add portion that removes from option list this incident record or something
                             Messages.Message("YS_MessageKaiyiKarmicIncidentNum".Translate(incidentsSelected.Count.ToString()), MessageTypeDefOf.SilentInput, false);
                         }
                         
                     }
                     else Messages.Message("YS_MessageKaiyiKarmicIncidentsFilled".Translate(), MessageTypeDefOf.RejectInput, false);
                 }));
+
+                indexCount++;
             }
-        }
-
-        // check if adding a value will cause karma to increase/decrease beyond limit - unused for the moment
-        [Obsolete]
-        public static bool KaiyiKarmicKarmaOOB(float value)
-        {
-            if (value > settings.KaiyiKarmicKarmaMax || value < settings.KaiyiKarmicKarmaMin) return true;
-
-            return false;
         }
 
         public static bool KaiyiKarmicIsSelectable(IncidentDef incident)
@@ -378,13 +378,6 @@ namespace YaomaStorytellers
             }
             List<IncidentCategoryEntry> compWeights = karmaTracker.WeightedIncidentCategories();
 
-            // if we want to select a number of incidents > incidents that are even selectable, just send the whole list
-            if (count > incidents.Count) 
-            {
-                foreach (var i in incidents) yield return i;
-                yield break;
-            } 
-
             // else we want to go and make a dictionary of weights
             Dictionary<IncidentDef, float> incidentWeights = new Dictionary<IncidentDef, float>();
             foreach (var i in incidents)
@@ -394,24 +387,8 @@ namespace YaomaStorytellers
                 incidentWeights.Add(i, weight / categoryCount[i.category]);
             }
 
-            // get list of incident choices *count* long using weighted rng
-            float culm = 0;
-            for (int x = 0; x < count; x++)
-            {
-                float total = incidentWeights.Values.Sum();
-                float random = UnityEngine.Random.value;
-                for(int y = 0; y < incidentWeights.Count(); y++)
-                {
-                    culm += incidentWeights.ElementAt(y).Value;
-                    if(random * total < culm)
-                    {
-                        IncidentDef iDef = incidentWeights.ElementAt(y).Key;
-                        yield return iDef;
-                        incidentWeights.Remove(iDef);
-                        break;
-                    }
-                }
-            }
+            // grabs count amount of incidents, with replacement
+            for (int x = 0; x < count; x++) yield return incidentWeights.RandomElementByWeight(i => i.Value).Key;
 
             yield break;
         }

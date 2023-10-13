@@ -82,7 +82,7 @@ namespace YaomaStorytellers
 			// if there are new incidentcategorydefs that are not defined in the properties list, add them with base cost 2 (treat like misc)
 			foreach (IncidentCategoryDef i in DefDatabase<IncidentCategoryDef>.AllDefs)
 			{
-				if (!GameComp.baseIncidentChange.Keys.Contains(i)) GameComp.baseIncidentChange.Add(i, 2);
+				if (!GameComp.baseIncidentChange.Keys.Contains(i)) GameComp.baseIncidentChange.Add(i, -2f);
 			}
 
 			// for all the incidentdefs, if the incident def indeed has the category in baseincidentcost
@@ -172,15 +172,19 @@ namespace YaomaStorytellers
 
 		public List<IncidentCategoryEntry> WeightedIncidentCategories()
         {
-			List<IncidentCategoryEntry> cats = Props.categoryWeights.ListFullCopy();
+			List<IncidentCategoryEntry> result = new List<IncidentCategoryEntry>();
+			float adjWeight;
 
-			foreach(var x in cats)
+			foreach (var x in Props.categoryWeights)
             {
-				if (GameComp.karma < 0 && GameComp.baseIncidentChange[x.category] >= 0) x.weight *= 1 + Math.Abs(GameComp.karma) / Math.Abs(Settings.KaiyiKarmicKarmaMin);
-				else if (GameComp.karma > 0 && GameComp.baseIncidentChange[x.category] < 0) x.weight *= 1 + Math.Abs(GameComp.karma) / Math.Abs(Settings.KaiyiKarmicKarmaMax);
+				adjWeight = x.weight;
+				if (GameComp.karma < 0 && GameComp.baseIncidentChange[x.category] >= 0) adjWeight *= 1 + 4f* Math.Abs(GameComp.karma) / Math.Abs(Settings.KaiyiKarmicKarmaMin);
+				else if (GameComp.karma > 0 && GameComp.baseIncidentChange[x.category] < 0) adjWeight *= 1 + 4f* Math.Abs(GameComp.karma) / Math.Abs(Settings.KaiyiKarmicKarmaMax);
+
+				result.Add(new IncidentCategoryEntry() { category = x.category, weight = adjWeight });
 			}
 
-			return cats;
+			return result;
 		}
 
 		public override string ToString()

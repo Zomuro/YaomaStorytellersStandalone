@@ -164,7 +164,7 @@
 				  <ThreatBig>1.8</ThreatBig>
 				  <OrbitalVisitor>1.1</OrbitalVisitor>
 				  <FactionArrival>2.4</FactionArrival>
-				  <ThreatSmall>1</ThreatSmall>
+				  <ThreatSmall>0.9</ThreatSmall>
 				  <ShipChunkDrop>0.35</ShipChunkDrop>
 				</categoryWeights>
 				<baseIncidentCategoryKarmaChange>

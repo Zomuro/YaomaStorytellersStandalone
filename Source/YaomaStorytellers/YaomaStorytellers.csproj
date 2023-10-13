@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KaiyiIncidentRecord.cs" />
     <Compile Include="GameComponent_YaomaStorytellers.cs" />
     <Compile Include="GenStep_Jin_Plants.cs" />
     <Compile Include="GenStep_Jin_ScatterLumpsMineable.cs" />

@@ -139,14 +139,15 @@ namespace YaomaStorytellers
 			Text.Font = GameFont.Tiny;
 			foreach (var i in selected)
             {
-				listing_Pricing.LabelDouble(i.LabelCap, ConvertToCurrency(karmaTracker.GameComp.estIncidentChange[i]));
+				listing_Pricing.LabelDouble(i.incidDef.LabelCap, ConvertToCurrency(karmaTracker.GameComp.estIncidentChange[i.incidDef]));
 			}
 			Text.Font = GameFont.Small;
 			listing_Pricing.GapLine();
 			listing_Pricing.LabelDouble("YS_KarmaTradeFinalKarma".Translate(), KarmaConstrain(karmaTracker.GameComp.karma + EstIncidentChange(karmaTracker)).ToString("F2"));
 			listing_Pricing.End();
-			Widgets.EndScrollView();
 			pricingListingHeight = listing_Pricing.CurHeight;
+			Widgets.EndScrollView();
+			
 
 			// Title for selected incidents
 			Text.Font = GameFont.Medium;
@@ -178,16 +179,17 @@ namespace YaomaStorytellers
 			string text = "";
 			float angle = 270f;
 			float increment = selected.Any() ? (360f / selected.Count()) : 0f;
-			foreach (IncidentDef iDef in selected)
+			foreach (KaiyiIncidentRecord i in selected)
 			{
-				text = iDef.LabelCap.ToString() + " (" + karmaTracker.GameComp.estIncidentChange[iDef].ToString("F2") + ")";
+				text = i.incidDef.LabelCap.ToString() + " (" + karmaTracker.GameComp.estIncidentChange[i.incidDef].ToString("F2") + ")";
 				if (Widgets.ButtonText(RectRadialPosition(selectedOption, selectedRectInterface.height / 3 + 30f, angle),
 					text, true, true, true, TextAnchor.MiddleCenter))
 				{
 					action = delegate ()
 					{
-						selected.Remove(iDef);
-						Messages.Message("YS_MessageKarmaTradeRemoveSelected".Translate(iDef.label),
+						selected.Remove(i); // remove from list
+						options.Add(CreateOption(i.incidDef)); // add selection back... at the end of the list.
+						Messages.Message("YS_MessageKarmaTradeRemoveSelected".Translate(i.incidDef.label),
 							MessageTypeDefOf.SilentInput, false);
 					};
 					action();
@@ -242,7 +244,7 @@ namespace YaomaStorytellers
 						SelectionInform(EstIncidentChange(karmaTracker), selected);
 						karmaTracker.GameComp.selectedIncidents = selected;
 						YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(karmaTracker, EstIncidentChange(karmaTracker));
-						karmaTracker.CompleteIncidentSelection(selected);
+						karmaTracker.CompleteIncidentSelection(selected.Select(x => x.incidDef).ToList());
 						Messages.Message("YS_MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
 						this.Close(true);
 					};
@@ -265,7 +267,9 @@ namespace YaomaStorytellers
 			clearButton.x += clearButton.width * 1.5f;
 			if (Widgets.ButtonText(clearButton, "YS_KarmaTradeClearSelections".Translate(), true, true, true, TextAnchor.MiddleCenter))
 			{
+				foreach (var i in selected) options.Add(CreateOption(i.incidDef)); // add selection back... at the end of the list.
 				selected.Clear();
+
 				Messages.Message("YS_MessageKarmaTradeRemoveAllSelect".Translate(), MessageTypeDefOf.SilentInput, false);
 			}
 
@@ -327,6 +331,54 @@ namespace YaomaStorytellers
 			}
 		}
 
+		public DebugMenuOption CreateOption(IncidentDef iDef, int index = 0)
+        {
+			String labelCost = iDef.LabelCap.ToString() + " (" + Math.Round(karmaTracker.GameComp.estIncidentChange[iDef], 2) + ")";
+
+			Action action = delegate ()
+			{
+				//Dialog_KarmaTrade karmaDialog = (Find.WindowStack.currentlyDrawnWindow as Dialog_KarmaTrade);
+				//List<KaiyiIncidentRecord> incidentsSelected = karmaDialog.selected;
+
+				List<KaiyiIncidentRecord> incidentsSelected = selected;
+
+				if (incidentsSelected.Count < 5)
+				{
+					float estFinalVal = karmaTracker.GameComp.karma + EstIncidentChange(karmaTracker) + karmaTracker.GameComp.estIncidentChange[iDef];
+					if (estFinalVal <= YaomaStorytellerUtility.settings.KaiyiKarmicKarmaMin)
+					{
+						Messages.Message("YS_MessageKaiyiKarmicIncidentDebtFloor".Translate(), MessageTypeDefOf.SilentInput, false);
+					}
+					else if (estFinalVal >= YaomaStorytellerUtility.settings.KaiyiKarmicKarmaMax)
+					{
+						//incidentsSelected.Add(iDef);
+						incidentsSelected.Add(new KaiyiIncidentRecord() { incidDef = iDef, 
+							change = karmaTracker.GameComp.estIncidentChange[iDef]});
+
+						RemoveSelectableIncident(iDef);
+
+						// add portion that removes from option list this incident record or something
+						Messages.Message("YS_MessageKaiyiKarmicIncidentNum".Translate(incidentsSelected.Count.ToString()), MessageTypeDefOf.SilentInput, false);
+						Messages.Message("YS_MessageKaiyiKarmicIncidentReachedMax".Translate(), MessageTypeDefOf.SilentInput, false);
+					}
+					else
+					{
+						//incidentsSelected.Add(iDef);
+						incidentsSelected.Add(new KaiyiIncidentRecord() { incidDef = iDef, 
+							change = karmaTracker.GameComp.estIncidentChange[iDef]});
+						RemoveSelectableIncident(iDef);
+
+						// add portion that removes from option list this incident record or something
+						Messages.Message("YS_MessageKaiyiKarmicIncidentNum".Translate(incidentsSelected.Count.ToString()), MessageTypeDefOf.SilentInput, false);
+					}
+
+				}
+				else Messages.Message("YS_MessageKaiyiKarmicIncidentsFilled".Translate(), MessageTypeDefOf.RejectInput, false);
+			};
+
+			return new DebugMenuOption(labelCost, DebugMenuOptionMode.Action, action);
+		}
+
 		public string ConvertToCurrency(float karma)
         {
 			if (karma > 0) return ("+" + karma.ToString("F2"));
@@ -357,7 +409,7 @@ namespace YaomaStorytellers
 		public float EstIncidentChange(StorytellerComp_RandomKarmaMain kt)
 		{
 			if (selected.Count == 0) return 0;
-			return (from i in selected select kt.GameComp.estIncidentChange[i]).Sum();
+			return (from i in selected select kt.GameComp.estIncidentChange[i.incidDef]).Sum();
 		}
 
 		public void DebtResolutionAdditions(StorytellerComp_RandomKarmaMain kt)
@@ -372,7 +424,7 @@ namespace YaomaStorytellers
             while (count > 0)
             {
 				IncidentDef randIDef = negOptions.RandomElement();
-				selected.Add(randIDef);
+				selected.Add(new KaiyiIncidentRecord(){incidDef = randIDef, change = kt.GameComp.estIncidentChange[randIDef]});
 				count--;
 			}
 		}
@@ -387,21 +439,19 @@ namespace YaomaStorytellers
 
 			Action actionConfirm = delegate ()
 			{
-				this.SelectionInform(EstIncidentChange(karmaTracker), selected);
+				SelectionInform(EstIncidentChange(karmaTracker), selected);
 				YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(karmaTracker, EstIncidentChange(karmaTracker));
-				//karmaTracker.karma += this.EstIncidentCost(karmaTracker);
-				karmaTracker.CompleteIncidentSelection(selected);
+				karmaTracker.CompleteIncidentSelection(selected.Select(x=>x.incidDef).ToList());
 				Messages.Message("YS_MessageKarmaTradeEnd".Translate(), MessageTypeDefOf.SilentInput, false);
 				DebtResolutionAdditions(kt);
 				karmaTracker.GameComp.selectedIncidents = selected;
-				Log.Message(selected.ToStringSafeEnumerable());
 				this.Close(true);
 			};
 
 			return new Tuple<Action,Action>(actionReturn, actionConfirm);
 		}
 
-		public void SelectionInform(float karmaChange, List<IncidentDef> selection)
+		public void SelectionInform(float karmaChange, List<KaiyiIncidentRecord> selection)
 		{
 			string text = "";
             if (selection.NullOrEmpty())
@@ -414,7 +464,7 @@ namespace YaomaStorytellers
 			if (karmaChange >= 0) text = "YS_LetterKaiyiKarmicDealDonePositive".Translate(Math.Abs(Math.Round(karmaChange, 2)));
 			else text = "YS_LetterKaiyiKarmicDealDoneNegative".Translate(Math.Abs(Math.Round(karmaChange, 2)));
 
-			foreach (IncidentDef iDef in selection)
+			foreach (IncidentDef iDef in selection.Select(x=> x.incidDef))
 			{
 				text += "\n" + iDef.LabelCap.ToString();
 			}
@@ -444,6 +494,13 @@ namespace YaomaStorytellers
 			options = SelectableIncidents;
 		}
 
+		public void RemoveSelectableIncident(IncidentDef def)
+        {
+			String labelCost = def.LabelCap.ToString() + " (" + Math.Round(karmaTracker.GameComp.estIncidentChange[def], 2) + ")";
+			DebugMenuOption removeTarget = options.First(x => x.label == labelCost);
+			options.Remove(removeTarget);
+		}
+
 		public List<DebugMenuOption> SelectableIncidents
         {
             get
@@ -470,7 +527,7 @@ namespace YaomaStorytellers
 
 		protected Listing_Standard listing_Pricing;
 
-		public List<IncidentDef> selected = new List<IncidentDef>();
+		public List<KaiyiIncidentRecord> selected = new List<KaiyiIncidentRecord>();
 
 		public StorytellerComp_RandomKarmaMain karmaTracker;
 

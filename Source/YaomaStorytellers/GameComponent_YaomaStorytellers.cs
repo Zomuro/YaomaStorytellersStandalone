@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -18,7 +19,7 @@ namespace YaomaStorytellers
 
 		public Dictionary<IncidentDef, float> estIncidentChange = new Dictionary<IncidentDef, float>();
 
-		public List<IncidentDef> selectedIncidents = new List<IncidentDef>();
+		public List<KaiyiIncidentRecord> selectedIncidents = new List<KaiyiIncidentRecord>();
 
 		public List<IncidentCategoryDef> alteredCats = new List<IncidentCategoryDef>();
 
@@ -41,7 +42,7 @@ namespace YaomaStorytellers
 			Scribe_Collections.Look(ref baseIncidentChange, "baseIncidentCost", LookMode.Def, LookMode.Value);
 			Scribe_Collections.Look(ref selectableIncidentCount, "selectableIncidentCount", LookMode.Def, LookMode.Value);
 			Scribe_Collections.Look(ref estIncidentChange, "estIncidentCost", LookMode.Def, LookMode.Value);
-			Scribe_Collections.Look(ref selectedIncidents, "selectedIncidents", LookMode.Def);
+			Scribe_Collections.Look(ref selectedIncidents, "selectedIncidents", LookMode.Deep);
 			Scribe_Values.Look(ref daysCheck, "daysCheck", 0, false);
 			Scribe_Values.Look(ref initKarma, "initKarma", false);
 			Scribe_Values.Look(ref teraformDays, "teraformDays", 0);
@@ -77,7 +78,7 @@ namespace YaomaStorytellers
 			baseIncidentChange = new Dictionary<IncidentCategoryDef, float>();
 			selectableIncidentCount = new Dictionary<IncidentDef, int>();
 			estIncidentChange = new Dictionary<IncidentDef, float>();
-			selectedIncidents = new List<IncidentDef>();
+			selectedIncidents = new List<KaiyiIncidentRecord>();
 			alteredCats = new List<IncidentCategoryDef>();
 			daysCheck = 0;
 			initKarma = false;
