@@ -1,6 +1,7 @@
 ﻿using RimWorld;
 using System.Linq;
 using Verse;
+using UnityEngine;
 
 namespace YaomaStorytellers
 {
@@ -10,10 +11,10 @@ namespace YaomaStorytellers
 		{
 			float currentPlantDensity = map.wildPlantSpawner.CurrentPlantDensity;
 			float currentWholeMapNumDesiredPlants = map.wildPlantSpawner.CurrentWholeMapNumDesiredPlants;
-			foreach (IntVec3 c in map.AllCells.ToHashSet())
+			foreach (IntVec3 c in map.AllCells.ToHashSet()) // grab hashset of all cells, no point in randomizing order
 			{
 				if (!Rand.Chance(0.001f)) map.wildPlantSpawner.CheckSpawnWildPlantAt(c, currentPlantDensity, 
-					currentWholeMapNumDesiredPlants, true);
+					currentWholeMapNumDesiredPlants, true); // because cells get randomly selected anyways
 			}
 		}
 

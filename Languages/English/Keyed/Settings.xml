@@ -101,5 +101,7 @@
 	<YS_SettingsJianghuJinMiningBoostTooltip>Sets the multiplier on mining speed Jin provides.</YS_SettingsJianghuJinMiningBoostTooltip>
 	<YS_SettingsJianghuJinSavePersist>Saved by breaktime: {0}</YS_SettingsJianghuJinSavePersist>
 	<YS_SettingsJianghuJinSavePersistTooltip>Toggle whether or not Jin will take keep track of the days left to terraform the map when you change storytellers.\n\nEnabling this option will have Jin keep track of the time left.</YS_SettingsJianghuJinSavePersistTooltip>
+	<YS_SettingsJianghuJinRange>Stabilizer range factor: {0}x</YS_SettingsJianghuJinRange>
+	<YS_SettingsJianghuJinRangeTooltip>Multiplies the range of the stabilizer totem and array, which can either increase or decrease their protective radius against Jin's terraforming.</YS_SettingsJianghuJinRangeTooltip>
 	
 </LanguageData>

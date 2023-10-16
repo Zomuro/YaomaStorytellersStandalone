@@ -15,12 +15,11 @@
 			<li>SteamGeysers</li>
 			<li>FindPlayerStartSpot</li>
 			<li MayRequire="Ludeon.Rimworld.Biotech">Pollution</li>
-			<li>YS_JianghuJin_Plants</li>
+			<li>Plants</li>
 			<li>Snow</li>
 			<li>Animals</li>
 			<li>YS_JianghuJin_Fog</li>
 			<li>YS_JianghuJin_RocksFromGrid</li>
-			<!--<li>ScatterShrines</li>-->
 			<li>CaveHives</li>
 			<li MayRequire="Ludeon.RimWorld.Royalty">YS_JianghuJin_AnimaTrees</li>
 			<li MayRequire="Ludeon.Rimworld.Biotech">PoluxTrees</li>
@@ -70,11 +69,11 @@
 		<genStep Class="YaomaStorytellers.GenStep_Jin_CavesTerrain"/>
 	</GenStepDef>
 	
-	<GenStepDef>
+	<!--<GenStepDef>
 		<defName>YS_JianghuJin_Plants</defName>
 		<order>800</order>
 		<genStep Class="YaomaStorytellers.GenStep_Jin_Plants"/>
-	</GenStepDef>
+	</GenStepDef>-->
 
 	<GenStepDef>
 		<defName>YS_JianghuJin_Fog</defName>
