@@ -132,7 +132,7 @@ namespace YaomaStorytellers
         public static void ApplyMeleeDamageToTarget_Post_DajiLifesteal(Verb_MeleeAttackDamage __instance, ref DamageWorker.DamageResult __result)
         {
             if (__result is null) return;
-            if (__instance.CasterPawn != null) YaomaStorytellerUtility.DeathlessDajiLifestealMelee(__instance.CasterPawn, __result);
+            if (__instance.CasterPawn != null & __instance.CurrentTarget.Pawn != null) YaomaStorytellerUtility.DeathlessDajiLifestealMelee(__instance.CasterPawn, __result);
         }
 
         // PREFIX: if the storyteller when the Page_SelectStorytellerInGame window is up is Kaiyi, run through the alternative window contents

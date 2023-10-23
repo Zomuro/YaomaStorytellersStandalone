@@ -38,6 +38,23 @@ namespace YaomaStorytellers
 			doCloseX = false;
 		}
 
+		public Dialog_KarmaTrade(List<IncidentDef> incidents, IEnumerable<DebugMenuOption> options) : base(options)
+		{
+			KarmaRing = ContentFinder<Texture2D>.Get("UI/Dialogs/KaiyiKarmicRing", true);
+			karmaTracker = Find.Storyteller.storytellerComps.FirstOrDefault(x =>
+						x is StorytellerComp_RandomKarmaMain) as StorytellerComp_RandomKarmaMain;
+
+			incidentList = incidents;
+			//List<DebugMenuOption> selectables = YaomaStorytellerUtility.KaiyiKarmicSelectableIncidents(incidentList, karmaTracker);
+			selectableCache = options.ToList();
+			options = SelectableIncidents;
+			
+			closeOnClickedOutside = false;
+			forcePause = true;
+			closeOnCancel = false;
+			doCloseX = false;
+		}
+
 		public override void DoWindowContents(Rect inRect)
 		{
 			// nullchecks karma tracker
@@ -69,6 +86,7 @@ namespace YaomaStorytellers
 			allOptionsRect.width = availRect.width / 3;
 			allOptionsRect = allOptionsRect.ContractedBy(3f);
 			Widgets.DrawBoxSolidWithOutline(allOptionsRect, Color.clear, Color.gray);
+			UIHighlighter.HighlightOpportunity(allOptionsRect, "YS-Dialog-Karmic-Trade-Fates");
 
 			// Rect for pricing breakdown
 			Rect pricingRect = new Rect(availRect);
@@ -77,6 +95,7 @@ namespace YaomaStorytellers
 			pricingRect.width = availRect.width / 3;
 			pricingRect = pricingRect.ContractedBy(3f);
 			Widgets.DrawBoxSolidWithOutline(pricingRect, Color.clear, Color.gray);
+			UIHighlighter.HighlightOpportunity(pricingRect, "YS-Dialog-Karmic-Trade-Pricing");
 
 			// Rect for final trade decision
 			Rect tradeRect = new Rect(availRect);
@@ -85,6 +104,7 @@ namespace YaomaStorytellers
 			tradeRect.width = availRect.width / 3;
 			tradeRect = tradeRect.ContractedBy(3f);
 			Widgets.DrawBoxSolidWithOutline(tradeRect, Color.clear, Color.gray);
+			UIHighlighter.HighlightOpportunity(tradeRect, "YS-Dialog-Karmic-Trade-Trade");
 
 			// Rect for selected incidents
 			Rect selectedRect = new Rect(availRect);
@@ -92,6 +112,7 @@ namespace YaomaStorytellers
 			selectedRect.yMin += (int) availRect.height / 3;
 			selectedRect = selectedRect.ContractedBy(3f);
 			Widgets.DrawBoxSolidWithOutline(selectedRect, Color.clear, Color.gray);
+			UIHighlighter.HighlightOpportunity(selectedRect, "YS-Dialog-Karmic-Trade-CurrDeal");
 
 			// Title for listing of incidents
 			Text.Font = GameFont.Medium;
@@ -188,7 +209,9 @@ namespace YaomaStorytellers
 					action = delegate ()
 					{
 						selected.Remove(i); // remove from list
-						options.Add(CreateOption(i.incidDef)); // add selection back... at the end of the list.
+						//options.Add(CreateOption(i.incidDef)); // add selection back... at the end of the list.
+
+						AddSelectableIncident(i.incidDef); // add selection back.
 						Messages.Message("YS_MessageKarmaTradeRemoveSelected".Translate(i.incidDef.label),
 							MessageTypeDefOf.SilentInput, false);
 					};
@@ -267,8 +290,10 @@ namespace YaomaStorytellers
 			clearButton.x += clearButton.width * 1.5f;
 			if (Widgets.ButtonText(clearButton, "YS_KarmaTradeClearSelections".Translate(), true, true, true, TextAnchor.MiddleCenter))
 			{
-				foreach (var i in selected) options.Add(CreateOption(i.incidDef)); // add selection back... at the end of the list.
+				/*foreach (var i in selected) options.Add(CreateOption(i.incidDef)); // add selection back... at the end of the list.
 				selected.Clear();
+				*/
+				RefreshSelectableIncidents();
 
 				Messages.Message("YS_MessageKarmaTradeRemoveAllSelect".Translate(), MessageTypeDefOf.SilentInput, false);
 			}
@@ -301,7 +326,7 @@ namespace YaomaStorytellers
 					// clear selected incidents in Dialog, then reroll incidents you could select
 					selected.Clear();
 					YaomaStorytellerUtility.KaiyiKarmicAdjustKarma(karmaTracker, rerollCost);
-					RefreshSelectableIncidents();
+					RerollSelectableIncidents();
 					rerollMult += 0.5f;
 				}
 			}
@@ -331,15 +356,12 @@ namespace YaomaStorytellers
 			}
 		}
 
-		public DebugMenuOption CreateOption(IncidentDef iDef, int index = 0)
+		public DebugMenuOption CreateOption(IncidentDef iDef)
         {
 			String labelCost = iDef.LabelCap.ToString() + " (" + Math.Round(karmaTracker.GameComp.estIncidentChange[iDef], 2) + ")";
 
 			Action action = delegate ()
 			{
-				//Dialog_KarmaTrade karmaDialog = (Find.WindowStack.currentlyDrawnWindow as Dialog_KarmaTrade);
-				//List<KaiyiIncidentRecord> incidentsSelected = karmaDialog.selected;
-
 				List<KaiyiIncidentRecord> incidentsSelected = selected;
 
 				if (incidentsSelected.Count < 5)
@@ -487,18 +509,43 @@ namespace YaomaStorytellers
 			return output;
 		}
 
-		public void RefreshSelectableIncidents()
+		public void RerollSelectableIncidents() // use this method to get a completely new set of incidents and options
         {
-			selectableCache = new List<DebugMenuOption>();
-			YaomaStorytellerUtility.KaiyiKarmicSelectableIncidents(ref selectableCache, karmaTracker);
+			incidentList = YaomaStorytellerUtility.KaiyiKarmicGetFreshSelectableIncidents(karmaTracker);
+			selectableCache = YaomaStorytellerUtility.KaiyiKarmicSelectableIncidents(incidentList, karmaTracker);
 			options = SelectableIncidents;
+		}
+
+		public void RefreshSelectableIncidents()
+		{
+			foreach(var r in selected)
+            {
+				incidentList.Add(r.incidDef); // add incidentDef to list
+			}
+			ReorderIncidents(ref incidentList); // reorder incidents to correct order
+			selected.Clear();
+			options = YaomaStorytellerUtility.KaiyiKarmicSelectableIncidents(incidentList, karmaTracker); // create list of debugmenuoptions
+		}
+
+		public void ReorderIncidents(ref List<IncidentDef> incidents)
+        {
+			List<IncidentDef> result = incidents.OrderByDescending(x => karmaTracker.GameComp.estIncidentChange[x])
+				.ThenBy(x => x.LabelCap.ToString()).ToList();
+
+			incidents = result;
 		}
 
 		public void RemoveSelectableIncident(IncidentDef def)
         {
-			String labelCost = def.LabelCap.ToString() + " (" + Math.Round(karmaTracker.GameComp.estIncidentChange[def], 2) + ")";
-			DebugMenuOption removeTarget = options.First(x => x.label == labelCost);
-			options.Remove(removeTarget);
+			incidentList.Remove(def);
+			options = YaomaStorytellerUtility.KaiyiKarmicSelectableIncidents(incidentList, karmaTracker);
+		}
+
+		public void AddSelectableIncident(IncidentDef def)
+		{
+			incidentList.Add(def); // add incidentDef to list
+			ReorderIncidents(ref incidentList); // reorder incidents to correct order
+			options = YaomaStorytellerUtility.KaiyiKarmicSelectableIncidents(incidentList, karmaTracker); // create list of debugmenuoptions
 		}
 
 		public List<DebugMenuOption> SelectableIncidents
@@ -516,6 +563,8 @@ namespace YaomaStorytellers
 		private float rerollMult = 1f;
 
 		private bool focusFilter;
+
+		private List<IncidentDef> incidentList;
 
 		private List<DebugMenuOption> selectableCache;
 

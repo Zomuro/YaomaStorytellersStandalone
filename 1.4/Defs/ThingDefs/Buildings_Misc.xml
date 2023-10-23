@@ -82,7 +82,7 @@
 		</thingCategories>
 		<statBases>
 			<MaxHitPoints>150</MaxHitPoints>
-			<Beauty>100</Beauty>
+			<Beauty>150</Beauty>
 			<Flammability>0</Flammability>
 			<Mass>10</Mass>
 		</statBases>

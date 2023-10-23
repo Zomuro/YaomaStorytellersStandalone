@@ -23,9 +23,16 @@ namespace YaomaStorytellers
 			// refresh costs if settings for costFactor was changed in between
 			karmaTracker.RefreshIncidentChange();
 
+			List<IncidentDef> incidents = YaomaStorytellerUtility.KaiyiKarmicGetFreshSelectableIncidents(karmaTracker);
+			Find.WindowStack.Add(new Dialog_KarmaTrade(incidents, YaomaStorytellerUtility.KaiyiKarmicSelectableIncidents(incidents, karmaTracker)));
+
+			/* .KaiyiKarmicWeightedSelection(karmaTracker, YaomaStorytellerUtility.settings.KaiyiKarmicMaxChoices)
+				 .OrderByDescending(x => karmaTracker.GameComp.estIncidentChange[x])
+				 .ThenBy(x => x.LabelCap.ToString()).ToList();
+
 			List<DebugMenuOption> selectables_f = new List<DebugMenuOption>();
 			YaomaStorytellerUtility.KaiyiKarmicSelectableIncidents(ref selectables_f, karmaTracker);
-			Find.WindowStack.Add(new Dialog_KarmaTrade(selectables_f));
+			Find.WindowStack.Add(new Dialog_KarmaTrade(selectables_f));*/
 
 			String translateString = "YS_KaiyiKarmicDialogueIntro" + Rand.RangeInclusive(1, 5).ToString();
 			Find.WindowStack.Add(new Dialog_MessageBox(translateString.Translate(),

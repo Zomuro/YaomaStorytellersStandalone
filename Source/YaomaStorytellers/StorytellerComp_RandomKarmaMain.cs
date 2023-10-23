@@ -178,8 +178,8 @@ namespace YaomaStorytellers
 			foreach (var x in Props.categoryWeights)
             {
 				adjWeight = x.weight;
-				if (GameComp.karma < 0 && GameComp.baseIncidentChange[x.category] >= 0) adjWeight *= 1 + 4f* Math.Abs(GameComp.karma) / Math.Abs(Settings.KaiyiKarmicKarmaMin);
-				else if (GameComp.karma > 0 && GameComp.baseIncidentChange[x.category] < 0) adjWeight *= 1 + 4f* Math.Abs(GameComp.karma) / Math.Abs(Settings.KaiyiKarmicKarmaMax);
+				if (GameComp.karma < 0 && GameComp.baseIncidentChange[x.category] >= 0) adjWeight *= 1 + 3f* Math.Abs(GameComp.karma) / Math.Abs(Settings.KaiyiKarmicKarmaMin);
+				else if (GameComp.karma > 0 && GameComp.baseIncidentChange[x.category] < 0) adjWeight *= 1 + 3f* Math.Abs(GameComp.karma) / Math.Abs(Settings.KaiyiKarmicKarmaMax);
 
 				result.Add(new IncidentCategoryEntry() { category = x.category, weight = adjWeight });
 			}
@@ -192,29 +192,11 @@ namespace YaomaStorytellers
 			return base.ToString() + " " + Settings.KaiyiKarmicKarma;
 		}
 
-		public float CostFactor
-        {
-            get
-            {
-				return Settings.KaiyiKarmicBasePriceFactor;
-			}
-        }
+		public float CostFactor => Settings.KaiyiKarmicBasePriceFactor;
 
-		public YaomaStorytellerSettings Settings
-        {
-            get
-            {
-				return YaomaStorytellerUtility.settings;
-			} 
-        }
+		public YaomaStorytellerSettings Settings => YaomaStorytellerUtility.settings;
 
-		public GameComponent_YaomaStorytellers GameComp
-		{
-			get
-			{
-				return YaomaStorytellerUtility.GameComp;
-			}
-		}
+		public GameComponent_YaomaStorytellers GameComp => YaomaStorytellerUtility.GameComp;
 
 	}
 }
