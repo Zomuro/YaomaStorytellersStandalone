@@ -1,7 +1,10 @@
 ﻿using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Verse;
+using RimWorld.Planet;
+using HarmonyLib;
 
 namespace YaomaStorytellers
 {
@@ -33,7 +36,51 @@ namespace YaomaStorytellers
 				map.terrainGrid.SetTerrain(homeCell.Item1, homeCell.Item2);
 			}
 
+			/*Traverse traverse = Traverse.Create(base.def.genStep);
 
+			HashSet<IntVec3> allCells = map.AllCells.ToHashSet();
+			allCells.ExceptWith(YaomaMapUtility.JianghuJinAllCellsCombined());
+
+			BeachMaker.Init(map);
+			RiverMaker riverMaker = traverse.Method("GenerateRiver", map).GetValue<RiverMaker>();//this.GenerateRiver(map); 
+			List<IntVec3> list = new List<IntVec3>();
+			MapGenFloatGrid elevation = MapGenerator.Elevation;
+			MapGenFloatGrid fertility = MapGenerator.Fertility;
+			MapGenFloatGrid caves = MapGenerator.Caves;
+			TerrainGrid terrainGrid = map.terrainGrid;
+			foreach (IntVec3 c in allCells) // map.AllCells
+			{
+				Building edifice = c.GetEdifice(map);
+				TerrainDef terrainDef;
+				if ((edifice != null && edifice.def.Fillage == FillCategory.Full) || caves[c] > 0f)
+				{
+					terrainDef = traverse.Method("TerrainFrom", c, map, elevation[c], fertility[c], riverMaker, true).GetValue<TerrainDef>();
+					//terrainDef = this.TerrainFrom(c, map, elevation[c], fertility[c], riverMaker, true);
+				}
+				else
+				{
+					terrainDef = traverse.Method("TerrainFrom", c, map, elevation[c], fertility[c], riverMaker, false).GetValue<TerrainDef>();
+					//terrainDef = this.TerrainFrom(c, map, elevation[c], fertility[c], riverMaker, false);
+				}
+				if (terrainDef.IsRiver && edifice != null)
+				{
+					list.Add(edifice.Position);
+					edifice.Destroy(DestroyMode.Vanish);
+				}
+				terrainGrid.SetTerrain(c, terrainDef);
+			}
+			if (riverMaker != null)
+			{
+				riverMaker.ValidatePassage(map);
+			}
+			traverse.Method("RemoveIslands", map).GetValue();
+			//this.RemoveIslands(map);
+			RoofCollapseCellsFinder.RemoveBulkCollapsingRoofs(list, map);
+			BeachMaker.Cleanup();
+			foreach (TerrainPatchMaker terrainPatchMaker in map.Biome.terrainPatchMakers)
+			{
+				terrainPatchMaker.Cleanup();
+			}*/
 		}
 	}
 }

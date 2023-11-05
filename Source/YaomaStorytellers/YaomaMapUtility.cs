@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using RimWorld;
 using Verse;
+using UnityEngine;
 
 namespace YaomaStorytellers
 {
@@ -44,11 +45,31 @@ namespace YaomaStorytellers
             return cells;
         }
 
+        public static HashSet<IntVec3> JianghuJinAllSpecialCells(Map map, List<SetupProtectionRange> protectedDefs)
+        {
+            HashSet<IntVec3> cells = new HashSet<IntVec3>();
+            if (protectedDefs.NullOrEmpty()) return cells;
+
+            foreach(var defRange in protectedDefs)
+            {
+                List<Thing> things = map.listerThings.ThingsOfDef(defRange.thingDef); // get list of things
+                if (things.NullOrEmpty()) continue; // if there's nothing - continue.
+                foreach (var thing in things) // else, get the cell of the thing and all cells on the map within range.
+                {
+                    cells.AddRange(GenRadial.RadialCellsAround(thing.Position, defRange.range, true));
+                }
+            }
+
+            cachedSpecialCells = cells; // cache cells
+            return cells; // return
+        }
+
         public static HashSet<IntVec3> JianghuJinAllCellsCombined()
         {
             HashSet<IntVec3> cells = new HashSet<IntVec3>();
             cells.AddRange(cachedRoomCells);
             cells.AddRange(cachedStabilizerCells);
+            cells.AddRange(cachedSpecialCells);
             return cells;
         }
 
@@ -150,11 +171,14 @@ namespace YaomaStorytellers
         {
             cachedRoomCells = null;
             cachedStabilizerCells = null;
+            cachedSpecialCells = null;
         }
 
         public static HashSet<IntVec3> cachedRoomCells;
 
         public static HashSet<IntVec3> cachedStabilizerCells;
+
+        public static HashSet<IntVec3> cachedSpecialCells;
 
         public static System.Random rand = new System.Random();
 
