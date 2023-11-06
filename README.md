@@ -33,7 +33,7 @@ Survive their challenges, and you just may seize victory against the archotechs.
 
 If he isn’t delivering destiny, **Kaiyi the Karmic** will offer a chance to control your fate. Doing so requires karma, which can be gained from most negative events and spent on neutral as well as positive incidents. After each trade, the event choices are affected by your karma, and their prices by demand. 
 
-As part of his agreement with you, **Kaiyi** reserves the right to increase incident frequency and the prevalence of negative events; otherwise, he lets fate run its chaotic, random course. Take care not to become a debtor, lest he employs some… reconciliation services.
+As part of his exclusive agreement with you, **Kaiyi** reserves the right to increase incident frequency and the prevalence of negative events, while reducing trade with other parties; otherwise, he lets fate run its random course. Take care not to become a debtor, lest he employs some… reconciliation services.
 
 
 ### Deathless Daji
@@ -57,7 +57,7 @@ Beyond that, **Daji** is a fervent believer of living in the moment, throwing in
 
 *“Another world, another horizon!”*
 
-**Jianghu Jin** knows the marvels of many natural landscapes. At regular intervals, she will transform the map to display the majesty of the planet, while respecting indoor rooms and any area in range of a stabilizer, either in the form of a buildable totem or a rare array. In addition, she will provide a boon to pawn construction and mining speed. She does not concern herself with tampering with chance otherwise.
+**Jianghu Jin** knows the marvels of many natural landscapes. At regular intervals, she will transform the map, while respecting any area in range of a stabilizer in the form of either a buildable totem or a rare array. In addition, she will provide a boon to pawn construction and mining speed. However, outdoor regions and indoor zones beyond a stabilizer’s range will be altered and damaged, respectively. She does not concern herself with tampering with chance otherwise.
 
 ## Additional Lore
 
