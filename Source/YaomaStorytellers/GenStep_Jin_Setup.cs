@@ -39,6 +39,7 @@ namespace YaomaStorytellers
 			YaomaMapUtility.ClearCache();
 			YaomaMapUtility.JianghuJinAllRoomCells(map);
 			YaomaMapUtility.JianghuJinAllStabilizerCells(map);
+			YaomaMapUtility.JianghuJinAllSpecialCells(map, protectedSpecial);
 		}
 
 		public IEnumerable<Tuple<BiomeDef, float>> AvailBiomeScoring(Tile ws, int tileID, bool unlocked = false)
@@ -62,8 +63,17 @@ namespace YaomaStorytellers
 			Hilliness.Flat,
 			Hilliness.SmallHills,
 			Hilliness.LargeHills,
-			Hilliness.Mountainous,
-			Hilliness.Impassable
+			Hilliness.Mountainous
+			//Hilliness.Impassable // Must be a passable hilliness
 		};
+
+		public List<SetupProtectionRange> protectedSpecial;
+	}
+
+	public class SetupProtectionRange
+    {
+		public ThingDef thingDef;
+
+		public float range = 1f;
 	}
 }

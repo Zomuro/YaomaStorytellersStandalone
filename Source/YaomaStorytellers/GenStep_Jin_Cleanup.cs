@@ -7,16 +7,11 @@ namespace YaomaStorytellers
 {
     public class GenStep_Jin_Cleanup: GenStep
 	{
-		public override int SeedPart
-		{
-			get
-			{
-				return 814675462;
-			}
-		}
+		public override int SeedPart => 814675462;
 
 		public override void Generate(Map map, GenStepParams parms)
 		{
+			roomStabilizerCells = YaomaMapUtility.JianghuJinAllCellsCombined();
 			CleanupRockChunks(map);
 			CleanupPawns(map);
 			CleanupPlants(map);
@@ -27,12 +22,10 @@ namespace YaomaStorytellers
 
 		public void CleanupRockChunks(Map map)
         {
-			HashSet<ThingDef> mineables = Find.World.NaturalRockTypesIn(map.Tile).Select(x => x.building.mineableThing).ToHashSet();
-			HashSet<Thing> chunks = new HashSet<Thing>();
-			foreach (var chunkDef in mineables) chunks.AddRange(map.listerThings.ThingsOfDef(chunkDef));
+			HashSet<Thing> chunks = map.listerThings.ThingsInGroup(ThingRequestGroup.Chunk).ToHashSet();
 			foreach (var chunk in chunks)
 			{
-				if (chunk.IsInAnyStorage()) continue;
+				if (roomStabilizerCells.Contains(chunk.Position)) continue;
 				chunk.Destroy();
 			}
 		}
@@ -72,7 +65,7 @@ namespace YaomaStorytellers
 			foreach (var plant in plants)
 			{
 				// plants in indoor rooms or stablizer range are safe
-				if (YaomaMapUtility.JianghuJinAllStabilizerCells(map).Contains(plant.Position)) continue;
+				if (roomStabilizerCells.Contains(plant.Position)) continue;
 
 				// if def in forbidCleanPlants, skip
 				if (!forbidCleanPlants.NullOrEmpty() &&
@@ -87,15 +80,14 @@ namespace YaomaStorytellers
 		{
 			foreach (var cell in map.AllCells.ToHashSet())
 			{
-				if (YaomaMapUtility.cachedRoomCells.Contains(cell)) continue;
+				if (roomStabilizerCells.Contains(cell)) continue;
 				map.roofGrid.SetRoof(cell, null);
 			}
 
-			HashSet<Thing> removeRocks = new HashSet<Thing>();
 			HashSet<Thing> natRocks = map.listerThings.AllThings.Where(x => x.def.thingClass == typeof(Mineable)).ToHashSet();
 			foreach (var natRock in natRocks)
             {
-				if (YaomaMapUtility.cachedRoomCells.Contains(natRock.Position)) continue;
+				if (roomStabilizerCells.Contains(natRock.Position)) continue;
 				natRock.Destroy();
 			}
 		}
@@ -116,6 +108,8 @@ namespace YaomaStorytellers
 		}
 
 		public List<ThingDef> forbidCleanPlants;
+
+		public HashSet<IntVec3> roomStabilizerCells = new HashSet<IntVec3>();
 
 	}
 }

@@ -142,7 +142,7 @@
 	<StorytellerDef ParentName="BaseStoryteller"> <!-- Kaiyi the Karmic: allows players to select incidents they want to occur in the future. -->
 		<defName>KaiyiKarmic_Yaoma</defName>
 		<label>Kaiyi the Karmic</label>
-		<description>If he isn’t delivering destiny, Kaiyi the Karmic will offer a chance to control your fate. Doing so requires karma, which can be gained from most negative events and spent on neutral as well as positive incidents. After each trade, the event choices are affected by your karma, and their prices by demand.\n\nAs part of his agreement with you, Kaiyi reserves the right to increase incident frequency and the prevalence of negative events; otherwise, he lets fate run its chaotic, random course. Take care not to become a debtor, lest he employs some… reconciliation services.</description>
+		<description>If he isn’t delivering destiny, Kaiyi the Karmic will offer you a chance to control your fate. Doing so requires karma, which can be gained from most negative events and spent on neutral as well as positive incidents. After each trade, the event choices are affected by your karma, and their prices by demand.\n\nAs part of his exclusive agreement with you, Kaiyi reserves the right to increase incident frequency and the prevalence of negative events, while reducing trade with other parties; otherwise, he lets fate run its random course. Take care not to become a debtor, lest he employs some… reconciliation services.</description>
 		<portraitLarge>UI/Storytellers/KaiyiKarmic</portraitLarge>
 		<portraitTiny>UI/Storytellers/KaiyiKarmic_Tiny</portraitTiny>
 		<listOrder>40</listOrder>
@@ -160,12 +160,12 @@
 				<randomPointsFactorRange>0.5~1.5</randomPointsFactorRange>
 				<skipThreatBigIfRaidBeacon>true</skipThreatBigIfRaidBeacon>
 				<categoryWeights>
-				  <Misc>2.5</Misc>
 				  <ThreatBig>1.8</ThreatBig>
-				  <OrbitalVisitor>1.1</OrbitalVisitor>
-				  <FactionArrival>2.4</FactionArrival>
-				  <ThreatSmall>1</ThreatSmall>
-				  <ShipChunkDrop>0.35</ShipChunkDrop>
+				  <ThreatSmall>0.8</ThreatSmall>
+				  <Misc>3.5</Misc>
+				  <OrbitalVisitor>0.8</OrbitalVisitor>
+				  <FactionArrival>1.9</FactionArrival>
+				  <ShipChunkDrop>0.22</ShipChunkDrop>
 				</categoryWeights>
 				<baseIncidentCategoryKarmaChange>
 					<li>
@@ -464,12 +464,21 @@
 				<incident>Resurrection_Yaoma</incident>
 			</li>
 		</comps>
+		
+		<!-- quartered adaptday lost on death; death is cheap! -->
+		<adaptDaysLossFromColonistLostByPostPopulation Inherit = "False">
+			<points>
+				<li>( 0, 7.5)</li> <!-- 30 days at normal pops; lower at really high pop -->
+				<li>(11, 7.5)</li>
+				<li>(20, 5)</li>
+			</points>
+		</adaptDaysLossFromColonistLostByPostPopulation>
 	</StorytellerDef>
 	
 	<StorytellerDef ParentName="BaseStoryteller"> <!-- Jianghu Jin: terraforms the map -->
 		<defName>JianghuJin_Yaoma</defName>
 		<label>Jianghu Jin</label>
-		<description>Jianghu Jin knows the marvels of many natural landscapes. At regular intervals, she will transform the map to display the majesty of the planet, while respecting indoor rooms and any area in range of a stabilizer, either in the form of a buildable totem or a rare array. In addition, she will provide a boon to pawn construction and mining speed. She does not concern herself with tampering with chance otherwise.</description>
+		<description>Jianghu Jin knows the marvels of many natural landscapes. At regular intervals, she will transform the map, while respecting any area in range of a stabilizer in the form of either a buildable totem or a rare array. In addition, she will provide a boon to pawn construction and mining speed. However, outdoor regions and indoor zones beyond a stabilizer’s range will be altered and damaged, respectively. She does not concern herself with tampering with chance otherwise.</description>
 		<portraitLarge>UI/Storytellers/JianghuJin</portraitLarge>
 		<portraitTiny>UI/Storytellers/JianghuJin_Tiny</portraitTiny>
 		<listOrder>40</listOrder>

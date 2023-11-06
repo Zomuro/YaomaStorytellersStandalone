@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  
+	<!--===================== Concepts taught through the learning readout, when opportunities arise ===================-->
+
+	<!-- Farseer Fan -->
+	<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_Fan</defName>
+		<label>Farseer Fan: Basics</label>
+		<helpText>Farseer Fan will tell you the future: she will let you know of any incident that can occur in the future through her own "Stellar Augury" notification, along with which day it will occur.\n\nSaid future will come quicker, with more difficulties than normal.</helpText>
+	</ConceptDef>
+	
+	<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_Fan_Bonus</defName>
+		<label>Farseer Fan: Bonus mechanics</label>
+		<helpText>Farseer Fan has two bonus mechanics:\n\n1) Alternative incidents- When enabled, there is a chance for Fan to offer a choice between two incidents.\n\n2)Deferred incidents- When enabled, there is a chance for Fan to offer a choice to have an incident be fired later. If this option is selected, the event will be pushed further in the future, but come with a negative incident.</helpText>
+	</ConceptDef>
+	
+	<!--<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_Fan_StellarAugury</defName>
+		<label>Farseer Fan: Stellar Augury</label>
+		<helpText>You’re just gotten your first incident prediction!\n\nFan’s ability to see the future is incredibly accurate, and with the right setting she can provide a more specific time. Her foresight allows her to know when random events and quest-linked incidents will occur, so it’s important to heed her warnings!</helpText>
+	</ConceptDef>-->
+  
+	<!-- Kaiyi the Karmic -->
+	<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_KaiyiOne</defName>
+		<label>Kaiyi the Karmic: Basics (1/3)</label>
+		<helpText>Kaiyi the Karmic allows you to purchase or accept incidents, using karma as currency. You can select up to five incidents that Kaiyi will then provide: however, the order in which he delivers them is random.\n\nIncidents will generally have differing pricing as the game goes on, but the rule of thumb is that negative incidents provide karma while neutral and positive ones cost karma. This price is also affected by your demand: as you select certain incidents more and more frequently, it may make the incident either more expensive or provide less karma.\n\nIf Kaiyi cannot deliver on his deal with you, he’ll refund your purchase in your favor, returning the karma that you spent on positive/neutral events.</helpText>
+	</ConceptDef>
+	
+	<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_KaiyiTwo</defName>
+		<label>Kaiyi the Karmic: Basics (2/3)</label>
+		<helpText>You’ll find that making karma requires you to take more risks by willingly accepting negative incidents. In comparison, random negative incidents like raids will only provide a quarter of their current karmic value to you.\n\nWhy does it matter how much karma you have? Well, the amount of karma you have actually has quite the effect on your trade deals with Kaiyi, as well as with random incidents. For one, the choice of incidents is also affected by your karmic balance. Higher, more positive karmas increase the amount of positive incidents Kaiyi can provide, and vice versa.\n\nThis is also reflected with random incidents that Kaiyi provides you, to a lesser degree: negative incidents are more likely to occur with low karma, and positive/neutral ones occur more frequently with positive karma.</helpText>
+	</ConceptDef>
+	
+	<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_KaiyiThree</defName>
+		<label>Kaiyi the Karmic: Basics (3/3)</label>
+		<helpText>Let’s go over some closing details.\n\nKaiyi’s trade deal will occur at noon, either after a regular period of time or after all of your purchased incidents have been fulfilled, whichever comes last.\n\nIf you end your trade with a karma deficit (you spent karma overall) and with less than 0 karma, Kaiyi will employ some “debt reconciliation” services, placing additional negative incidents in your roster of purchases. You will not gain karma from these debt-related events.\n\nIt’s also important to note that when Kaiyi delivers your events, the incidents will only take the place of random events: quest-linked incidents are not affected.\n\nLastly, by signing the exclusive agreement to regularly engage in negotiations with Kaiyi, he reserves the right to increase negative occurrences and incident frequency, all the while reducing the amount of trade you have with other parties.</helpText>
+	</ConceptDef>
+	
+	<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_Kaiyi_Bonus</defName>
+		<label>Kaiyi the Karmic: Bonus mechanics</label>
+		<helpText>Kaiyi the Karmic has the following bonus mechanics:\n\n1) Rerolling incidents- If need be, he can allow you to reroll his stock of incidents. Doing so requires karma, however, and costs progressively more to change his offerings. Additionally, doing so voids your current selection, requiring you to renegotiate your choice of fate.\n\n2) Karmic point scaling- Kaiyi can also ensure that karma has an additional effect on the amount of points an incident can use. After all, as you reach more extreme karma values, your amount of risk should increase.</helpText>
+	</ConceptDef>
+	
+	<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_Kaiyi_KarmaTrade</defName>
+		<label>Kaiyi the Karmic: Karmic Trade Window</label>
+		<helpText>Kaiyi the Karmic allows you to purchase or accept incidents, using karma as currency. Here’s a quick overview.\n\nFates: This section will show you all the potential incidents you can accept (to gain karma) or buy (costing karma). Treat it like a marketplace: there’s a limited stock of events for you to choose from. As a reminder, Kaiyi’s selection of incidents is affected by your current karma: negative karma makes negative stock more likely, while positive karma makes neutral/positive incidents more likely.\n\nPricing: This section provides a breakdown of the current trade deal: how much karma each incident costs or provides, how much karma you currently have, and how much karma you’ll end up with if you go through with the deal as is.\n\nCurrent Deal: This portion outlines your current choices of incidents. A quick glance will show you their cost/benefit. If you want to remove an event from your basket, you can simply click on the incident to put it back into the market.\n\nTrade: This last part allows you to finalize your deal with Kaiyi, or reject making a deal altogether if you haven’t selected any incidents. It also provides a quick method for clearing out your selection- and depending on what permission you give Kaiyi, the option to reroll the incident list you can choose from.</helpText>
+		<highlightTags>
+			<li>YS-Dialog-Karmic-Trade-Fates</li>
+			<li>YS-Dialog-Karmic-Trade-Pricing</li>
+			<li>YS-Dialog-Karmic-Trade-CurrDeal</li>
+			<li>YS-Dialog-Karmic-Trade-Trade</li>
+		</highlightTags>
+	</ConceptDef>
+	
+	<!-- Deathless Daji -->
+	<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_Daji</defName>
+		<label>Deathless Daji: Basics</label>
+		<helpText>Deathless Daji will resurrect every lifeless body on the map at midnight every day, consent be damned. Her generosity will inflict every raised corpse with Crimson Psychosis. The more a pawn dies, the higher their threshold is for a mental break- and if a pawn completely loses it at maximum severity, they go permanently berserk.\n\nDaji also won’t let up just because a few of your colonists died. Death is cheap, after all, and she’d hate for you to miss the party!</helpText>
+	</ConceptDef>
+	
+	<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_Daji_Bonus</defName>
+		<label>Deathless Daji: Bonus mechanics</label>
+		<helpText>Deathless Daji has two bonus mechanics:\n\n1) Crimson Psychosis decreases on kill- When enabled, a pawn’s Crimson Psychosis will lessen in severity for every life they take, staving off Daji’s gift of madness.\n\n2) Melee lifesteal- When enabled, a pawn will be healed by a portion of the melee damage they deal to another pawn. Keep in mind that your colonists are not the only ones that benefit from this.</helpText>
+	</ConceptDef>
+	
+	<!--<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_Daji_Resurrect</defName>
+		<label>Deathless Daji: Resurrection</label>
+		<helpText>And now, the dead rise up!\n\nEvery corpse, whether friend or foe, has returned to the land of the living. If you don’t want a second round with your vanquished enemies, you’ll need to get rid of the bodies. Depending on the settings, you might find yourself facing raised mechanoids and armed foes.\n\nAny method works as long as a pawn’s cold dead flesh isn't on the map: burial, burning, butchering, you name it.</helpText>
+	</ConceptDef>-->
+	
+	<!-- Jianghu Jin -->
+	<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_JinOne</defName>
+		<label>Jianghu Jin: Basics (1/2)</label>
+		<helpText>Jianghu Jin will regularly transform your colony’s map. To help you make use of the new resources and altered landscape, she increases both your mining and construction speed.\n\nHer incident will also affect your base, but it can be guarded against with stabilizers. All areas that are within the range of a stabilizer are untouched; outside of their area, however, outdoor zones are almost completely changed while indoor places have their walls and floors damaged.</helpText>
+	</ConceptDef>
+	
+	<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_JinTwo</defName>
+		<label>Jianghu Jin: Basics (2/2)</label>
+		<helpText>Failing to use stabilizers puts your base at risk of damaged rooms and flooring. If you want to protect your colony, you need to learn about the two kinds of stabilizers.\n\n1) Stabilizer totem: A constructible 1x1 building that requires no research, and can be made of any material. It is relatively quick to make, provides a decent amount of beauty for its price, and protects enough space for a small room. However, the building gets destroyed after each terraforming event.\n\n2) Stabilizer array: A rare 1x1 building that can only come from rewards, and will persist through Jin’s terraforming. These pieces are marvels of engineering and design on their own, and protect a large area. This range can be further extended by powering it with jade (for some reason)- enough to cover a good portion of a base.</helpText>
+		<highlightTags>
+			<li>MainTab-Architect-Closed</li>
+			<li>DesignationCategoryButton-Misc-Closed</li>
+			<li>Designator-Build-YS_StabilizerTotemJin</li>
+		</highlightTags>
+	</ConceptDef>
+	
+	<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_Jin_Bonus</defName>
+		<label>Jianghu Jin: Bonus mechanics</label>
+		<helpText>Jianghu Jin has two bonus mechanics:\n\n1) Biome change- When enabled, Jin is able to alter the map’s biome into another biome based on geography. This setting can be further adjusted to completely unlock biomes, allowing Jin to change the map to any habitable ecosystem.\n\n2) Hilliness change- When enabled, Jin can change the map’s hilliness, ranging from mostly flat to incredibly mountainous.</helpText>
+	</ConceptDef>
+	
+	<!--<ConceptDef ParentName="NotedOpportunisticBase">
+		<defName>YS_Storyteller_Jin_Terraforming</defName>
+		<label>Jianghu Jin: Terraforming</label>
+		<helpText>Whoa! Jin has just transformed the map. You’ll want to take a moment to collect your bearings.\n\nMake sure to check your base: you won’t know how much damage your colony has suffered until one of your pawns takes a look. If you don’t like what you see, consider putting a stabilizer around critical areas.\n\nAt least you have more resources to take advantage of, eh?</helpText>
+	</ConceptDef>-->
+
+</Defs>
+

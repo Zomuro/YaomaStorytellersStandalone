@@ -20,7 +20,6 @@
 			<li>Animals</li>
 			<li>YS_JianghuJin_Fog</li>
 			<li>YS_JianghuJin_RocksFromGrid</li>
-			<!--<li>ScatterShrines</li>-->
 			<li>CaveHives</li>
 			<li MayRequire="Ludeon.RimWorld.Royalty">YS_JianghuJin_AnimaTrees</li>
 			<li MayRequire="Ludeon.Rimworld.Biotech">PoluxTrees</li>
@@ -30,7 +29,14 @@
 	<GenStepDef>
 		<defName>YS_JianghuJin_Setup</defName>
 		<order>1</order>
-		<genStep Class="YaomaStorytellers.GenStep_Jin_Setup"/>
+		<genStep Class="YaomaStorytellers.GenStep_Jin_Setup">
+			<protectedSpecial>
+				<li MayRequire="Ludeon.RimWorld.Royalty">
+					<thingDef>Plant_TreeAnima</thingDef>
+					<range>9.9</range>
+				</li>
+			</protectedSpecial>
+		</genStep>
 	</GenStepDef>
 	
 	<GenStepDef>

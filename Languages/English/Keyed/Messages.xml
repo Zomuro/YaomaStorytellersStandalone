@@ -9,7 +9,8 @@
 	<YS_MessageKarmaTradeRemoveAllSelect>Selections cleared.</YS_MessageKarmaTradeRemoveAllSelect>
 	<YS_MessageKarmaTradeEnd>The deal is concluded.</YS_MessageKarmaTradeEnd>
 	<YS_MessageKarmaNoMoreReroll>Cannot reroll fate: too much karmic debt.</YS_MessageKarmaNoMoreReroll>
-	<YS_MessageKarmaReplaceFail>Your fate resists manipulation. Kaiyi will try again later.</YS_MessageKarmaReplaceFail>
+	<YS_MessageKarmaReplaceFail>Your fate resists manipulation. Kaiyi has refunded one of your purchases ({0} karma) and provided a replacement incident.</YS_MessageKarmaReplaceFail>
+	<YS_MessageKarmaReplaceFailReplaceOnly>Your fate resists manipulation. Kaiyi has provided a replacement incident.</YS_MessageKarmaReplaceFailReplaceOnly>
 	<YS_MessageKarmaReplaceDone>Kaiyi has fufilled his end of the bargain.</YS_MessageKarmaReplaceDone>
 
 </LanguageData>

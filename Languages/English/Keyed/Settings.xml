@@ -14,14 +14,21 @@
 	<YS_SettingsDajiResurrectWeaponsTooltip>Prevent pawns from retrieving a weapon in their immediate vicinity upon resurrection.</YS_SettingsDajiResurrectWeaponsTooltip>
 	<YS_SettingsDajiCrimsonSeverityGain>Crimson Psychosis severity gain: {0}</YS_SettingsDajiCrimsonSeverityGain>
 	<YS_SettingsDajiCrimsonSeverityGainTooltip>Alter how far a pawn's Crimson Psychosis progresses upon his or her resurrection by Daji.</YS_SettingsDajiCrimsonSeverityGainTooltip>
+	
+	<YS_SettingsDajiCrimsonSpawn>Crimson Psychosis spawn chance: {0}</YS_SettingsDajiCrimsonSpawn>
+	<YS_SettingsDajiCrimsonSpawnTooltip>Affects how likely a pawn spawns with Crimson Psychosis.</YS_SettingsDajiCrimsonSpawnTooltip>
+	<YS_SettingsDajiCrimsonSpawnRange>Crimson Psychosis severity range (%):</YS_SettingsDajiCrimsonSpawnRange>
+	<YS_SettingsDajiCrimsonSpawnRangeTooltip>Sets the percentage severity for Crimson Psychosis when spawned.</YS_SettingsDajiCrimsonSpawnRangeTooltip>
+	
 	<YS_SettingsDajiBloodyPortrait>View blood: {0}</YS_SettingsDajiBloodyPortrait>
 	<YS_SettingsDajiBloodyPortraitTooltip>Toggle between the clean version and the gory version of Deathless Daji's portrait. This setting will show the clean version by default.</YS_SettingsDajiBloodyPortraitTooltip>
+	
 	<YS_SettingsDajiMurderSanity>Reduce severity on kill: {0}</YS_SettingsDajiMurderSanity>
 	<YS_SettingsDajiMurderSanityTooltip>Allow pawns to reduce the severity of their Crimson Psychosis by killing other pawns.</YS_SettingsDajiMurderSanityTooltip>
 	<YS_SettingsDajiMurderSanitySev>Severity reduction per kill: {0}</YS_SettingsDajiMurderSanitySev>
 	<YS_SettingsDajiMurderSanitySevTooltip>Alter how much each pawn kill reduces Crimson Psychosis severity.</YS_SettingsDajiMurderSanitySevTooltip>
 	<YS_SettingsDajiLifestealMelee>Enable lifesteal on melee attacks: {0}</YS_SettingsDajiLifestealMelee>
-	<YS_SettingsDajiLifestealMeleeTooltip>Enable pawns to heal by a percentage of the melee damage that they deal.</YS_SettingsDajiLifestealMeleeTooltip>
+	<YS_SettingsDajiLifestealMeleeTooltip>Enable pawns to heal by a percentage of the melee damage that they deal to other pawns.</YS_SettingsDajiLifestealMeleeTooltip>
 	<YS_SettingsDajiLifestealMeleePercent>Lifesteal proportion: {0}</YS_SettingsDajiLifestealMeleePercent>
 	<YS_SettingsDajiLifestealMeleePercentTooltip>Adjust the percentage of damage dealt pawns heal by when they deal melee damage.</YS_SettingsDajiLifestealMeleePercentTooltip>
 	
@@ -32,11 +39,17 @@
 	<YS_SettingsFanPredictTooltip>Defines the maximum time Farseer Fan can forecast out.\n\nIncreasing this can cause Farseer Fan to predict incidents that are farther in the future (i.e. from five days to 15 days), while decreasing it limits how far.\n\nWARNING! It is not recommended to set this value too high, as it can cause long periods without any incidents. Likewise, setting this too low can force incidents to occur too frequently.</YS_SettingsFanPredictTooltip>
 	<YS_SettingsFanPredictDetail>Add hours to predictions: {0}</YS_SettingsFanPredictDetail>
 	<YS_SettingsFanPredictDetailTooltip>Make predictions more specific by adding which hour an incident will occur.</YS_SettingsFanPredictDetailTooltip>
+	<YS_SettingsFanPredictWeight>Normal predictions weight: {0}</YS_SettingsFanPredictWeight>
+	<YS_SettingsFanPredictWeightTooltip>Sets the likelihood Farseer Fan will offer a normal prediction when alternative and/or deferred predictions are enabled.</YS_SettingsFanPredictWeightTooltip>
 	
 	<YS_SettingsFanPredictAlt>Enable alternative predictions: {0}</YS_SettingsFanPredictAlt>
 	<YS_SettingsFanPredictAltTooltip>Allow Farseer Fan to randomly provide a choice to select an alternative set of incidents.</YS_SettingsFanPredictAltTooltip>
+	<YS_SettingsFanPredictAltWeight>Alternative predictions weight: {0}</YS_SettingsFanPredictAltWeight>
+	<YS_SettingsFanPredictAltWeightTooltip>Sets the likelihood Farseer Fan will offer an alternative prediction, relative to normal or deferred predictions (if enabled).</YS_SettingsFanPredictAltWeightTooltip>
 	<YS_SettingsFanPredictDefer>Enable deferred predictions: {0}</YS_SettingsFanPredictDefer>
 	<YS_SettingsFanPredictDeferTooltip>Allow Farseer Fan to randomly provide a choice to defer incidents to a later time. If said postponement is selected, she will also add a negative incident.</YS_SettingsFanPredictDeferTooltip>
+	<YS_SettingsFanPredictDeferWeight>Deferred predictions weight: {0}</YS_SettingsFanPredictDeferWeight>
+	<YS_SettingsFanPredictDeferWeightTooltip>Sets the likelihood Farseer Fan will offer a deferred prediction, relative to normal or alternate predictions (if enabled).</YS_SettingsFanPredictDeferWeightTooltip>
 	
 	<!-- Kaiyi the Karmic -->
 	<YS_SettingsKaiyiStart>Starting karma: {0}</YS_SettingsKaiyiStart>
@@ -88,5 +101,9 @@
 	<YS_SettingsJianghuJinMiningBoostTooltip>Sets the multiplier on mining speed Jin provides.</YS_SettingsJianghuJinMiningBoostTooltip>
 	<YS_SettingsJianghuJinSavePersist>Saved by breaktime: {0}</YS_SettingsJianghuJinSavePersist>
 	<YS_SettingsJianghuJinSavePersistTooltip>Toggle whether or not Jin will take keep track of the days left to terraform the map when you change storytellers.\n\nEnabling this option will have Jin keep track of the time left.</YS_SettingsJianghuJinSavePersistTooltip>
+	<YS_SettingsJianghuJinRange>Stabilizer range factor: {0}x</YS_SettingsJianghuJinRange>
+	<YS_SettingsJianghuJinRangeTooltip>Multiplies the range of the stabilizer totem and array, which can either increase or decrease their protective radius against Jin's terraforming.</YS_SettingsJianghuJinRangeTooltip>
+	<YS_SettingsJianghuJinTreeSave>Disable anima tree protection: {0}</YS_SettingsJianghuJinTreeSave>
+	<YS_SettingsJianghuJinTreeSaveTooltip>Toggle if Jin is allowed to destroy the anima tree when she terraforms the map.</YS_SettingsJianghuJinTreeSaveTooltip>
 	
 </LanguageData>

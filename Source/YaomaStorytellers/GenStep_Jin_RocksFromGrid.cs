@@ -17,6 +17,7 @@ namespace YaomaStorytellers
 				YaomaStorytellerUtility.settings.JianghuJinDecayProbRooms,
 				YaomaStorytellerUtility.settings.JianghuJinRoomIntSetting[YaomaStorytellerUtility.settings.JianghuJinDecayRoomsInt]);
 			roomCells.AddRange(YaomaMapUtility.cachedStabilizerCells);
+			roomCells.AddRange(YaomaMapUtility.cachedSpecialCells);
 
 			float gridMult = 0.7f;
 			List<RoofThreshold> list = new List<RoofThreshold>()

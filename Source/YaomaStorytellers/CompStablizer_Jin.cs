@@ -16,12 +16,16 @@ namespace YaomaStorytellers
 			}
 		}
 
+		public float FinalMaxRange => Mathf.Max(Props.maxRange * YaomaStorytellerUtility.settings.JianghuJinRangeFactor, FinalMinRange);
+
+		public float FinalMinRange => Props.minRange * YaomaStorytellerUtility.settings.JianghuJinRangeFactor;
+
 		public float StablizeRadius
         {
             get
             {
-				return FuelComp is null? Props.maxRange : (Props.maxRange - Props.minRange) * FuelComp.FuelPercentOfMax + Props.minRange;
-            }
+				return FuelComp is null ? FinalMaxRange : (FinalMaxRange - FinalMinRange) * FuelComp.FuelPercentOfMax + FinalMinRange;
+			}
         }
 
 		public override string CompInspectStringExtra()
@@ -31,22 +35,22 @@ namespace YaomaStorytellers
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			if (this.parent.def.building != null)
+			if (parent.def.building != null)
 			{
 				if(Props.minRange > 0)
                 {
 					yield return new StatDrawEntry(StatCategoryDefOf.Building, "YS_StabilizerRangeMin".Translate(),
-						Props.minRange.ToString(), "YS_StabilizerRangeMinDesc".Translate(), 99991, null, null, false);
+						FinalMinRange.ToString("F2"), "YS_StabilizerRangeMinDesc".Translate(), 99991, null, null, false);
 				}
 
                 if (Props.scaleWithFuel && FuelComp != null)
                 {
 					yield return new StatDrawEntry(StatCategoryDefOf.Building, "YS_StabilizerRangeCurr".Translate(),
-						StablizeRadius.ToString(), "YS_StabilizerRangeCurrDesc".Translate(), 99992, null, null, false);
+						StablizeRadius.ToString("F2"), "YS_StabilizerRangeCurrDesc".Translate(), 99992, null, null, false);
 				}
 
 				yield return new StatDrawEntry(StatCategoryDefOf.Building, "YS_StabilizerRangeMax".Translate(),
-						Props.maxRange.ToString(), "YS_StabilizerRangeMaxDesc".Translate(), 99993, null, null, false);
+						FinalMaxRange.ToString("F2"), "YS_StabilizerRangeMaxDesc".Translate(), 99993, null, null, false);
 
 			}
 			yield break;
@@ -54,6 +58,8 @@ namespace YaomaStorytellers
 
 		public override void PostDrawExtraSelectionOverlays()
 		{
+			if (cachedFactor != YaomaStorytellerUtility.settings.JianghuJinRangeFactor) ClearStablizeCellsCache();
+
 			// shows maximum range of stablization field
 			GenDraw.DrawFieldEdges(StablizeMaxCells, Color.white);
 
@@ -83,7 +89,7 @@ namespace YaomaStorytellers
             {
                 if (cachedMaxStablize.NullOrEmpty())
                 {
-					cachedMaxStablize = (from x in GenRadial.RadialCellsAround(parent.Position, Props.maxRange, true)
+					cachedMaxStablize = (from x in GenRadial.RadialCellsAround(parent.Position, FinalMaxRange, true)
 										 where x.InBounds(Find.CurrentMap)
 										 select x).ToList();
 				}
@@ -110,11 +116,14 @@ namespace YaomaStorytellers
 		public void ClearStablizeCellsCache()
         {
 			cachedPercent = 0f;
+			cachedFactor = YaomaStorytellerUtility.settings.JianghuJinRangeFactor;
 			cachedMaxStablize = new List<IntVec3>();
 			cachedCurrStablize = new List<IntVec3>();
 		}
 
 		private float cachedPercent = 0f;
+
+		private float cachedFactor = -1f;
 
 		private CompRefuelable cachedComp;
 

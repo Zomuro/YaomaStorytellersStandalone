@@ -11,14 +11,15 @@
 		<drawGUIOverlay>true</drawGUIOverlay>
 		<useHitPoints>true</useHitPoints>
 		<graphicData>
-			<texPath>Things/Building/Misc/EggBox</texPath>
+			<texPath>Things/Building/YS_StabilizerTotem</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 			<shadowData>
-				<volume>(1,0.5,1)</volume>
+				<volume>(0.5,0.5,0.5)</volume>
 			</shadowData>
 			<damageData>
 				<rect>(0,0,1,1)</rect>
 			</damageData>
+			<drawSize>(2,2)</drawSize>
 		</graphicData>
 		<altitudeLayer>BuildingOnTop</altitudeLayer>
 		<minifiedDef>MinifiedThing</minifiedDef>
@@ -36,7 +37,7 @@
 			<li Class="YaomaStorytellers.CompProperties_Stablizer_Jin">
 				<compClass>YaomaStorytellers.CompStablizer_Jin</compClass>
 				<minRange>0</minRange>
-				<maxRange>2</maxRange>
+				<maxRange>4</maxRange>
 				<scaleWithFuel>false</scaleWithFuel>
 				<destroyOnTerraform>true</destroyOnTerraform>
 			</li>
@@ -59,21 +60,23 @@
 	<ThingDef ParentName="BuildingBase">
 		<defName>YS_StabilizerArrayJin</defName>
 		<label>stabilizer array</label>
-		<description>A specialized tool used by the Yaoma in remote, geologically active areas to reduce the effect of extreme conditions. This device has been specifically set to break down jade for energy instead of relying on a power grid for reasons unknown. It then expends that power to maintain its surroundings when it detects immense geological change. There are no hints of this gadget’s origins, save for the emblem of a mountain and sea.\n\nThe machine must be fully charged to completely protect its area of coverage- the less energy it has, the shorter its range. Even when completely depleted of power, its complexity and geometric form make it a statement piece in any home.</description>
+		<description>A specialized tool used by the Yaoma in remote, geologically active areas to reduce the effect of extreme conditions. This device has been specifically set to break down jade for energy instead of relying on a power grid for reasons unknown. It then expends that power to maintain its surroundings when it detects immense geological change. There are no hints of this gadget’s origins, save for a tiny seal of a mountain and sea.\n\nThe machine must be fully charged to completely protect its area of coverage- the less energy it has, the shorter its range. Even when completely depleted of power, its complexity and geometric form make it a statement piece in any home.</description>
 		<drawerType>MapMeshAndRealTime</drawerType>
 		<fillPercent>0.3</fillPercent>
 		<tickerType>Normal</tickerType>
 		<drawGUIOverlay>true</drawGUIOverlay>
 		<useHitPoints>true</useHitPoints>
 		<graphicData>
-			<texPath>Things/Building/Misc/EggBox</texPath>
+			<texPath>Things/Building/YS_StabilizerArray</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 			<shadowData>
-				<volume>(1,0.5,1)</volume>
+				<volume>(0.5,0.5,0.5)</volume>
 			</shadowData>
 			<damageData>
 				<rect>(0,0,1,1)</rect>
 			</damageData>
+			<drawOffset>(0,0,0.1)</drawOffset>
+			<drawSize>(1.5,1.5)</drawSize>
 		</graphicData>
 		<altitudeLayer>BuildingOnTop</altitudeLayer>
 		<minifiedDef>MinifiedThing</minifiedDef>
@@ -82,21 +85,21 @@
 		</thingCategories>
 		<statBases>
 			<MaxHitPoints>150</MaxHitPoints>
-			<Beauty>100</Beauty>
+			<Beauty>150</Beauty>
 			<Flammability>0</Flammability>
 			<Mass>10</Mass>
 		</statBases>
 		<comps>
 			<li Class="YaomaStorytellers.CompProperties_Stablizer_Jin">
 				<compClass>YaomaStorytellers.CompStablizer_Jin</compClass>
-				<minRange>2</minRange>
-				<maxRange>10</maxRange>
+				<minRange>8</minRange>
+				<maxRange>16</maxRange>
 				<scaleWithFuel>true</scaleWithFuel>
 				<destroyOnTerraform>false</destroyOnTerraform>
 			</li>
 			<li Class="CompProperties_Refuelable">
 				<fuelConsumptionRate>0</fuelConsumptionRate>
-				<fuelCapacity>50</fuelCapacity>
+				<fuelCapacity>8</fuelCapacity>
 				<fuelFilter>
 					<thingDefs>
 						<li>Jade</li>
