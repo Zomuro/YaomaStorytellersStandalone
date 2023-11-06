@@ -1,5 +1,6 @@
 ﻿using RimWorld;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
@@ -17,6 +18,10 @@ namespace YaomaStorytellers
 		{
 			Map map = Find.AnyPlayerHomeMap;
 			if (map is null) return false;
+
+			// pre-emptively destroy hives, prior to the mapgen to avoid a thread error
+			List<Thing> hives = map.listerThings.ThingsOfDef(ThingDefOf.Hive).ToList();
+			foreach (var hive in hives) hive.Destroy();
 
 			// display when the mapgen is loading
 			LongEventHandler.QueueLongEvent(delegate ()

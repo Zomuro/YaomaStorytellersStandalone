@@ -15,7 +15,7 @@
 			<li>SteamGeysers</li>
 			<li>FindPlayerStartSpot</li>
 			<li MayRequire="Ludeon.Rimworld.Biotech">Pollution</li>
-			<li>YS_JianghuJin_Plants</li> <!--Plants-->
+			<li>YS_JianghuJin_Plants</li>
 			<li>Snow</li>
 			<li>Animals</li>
 			<li>YS_JianghuJin_Fog</li>

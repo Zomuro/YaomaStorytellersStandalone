@@ -96,6 +96,8 @@ namespace YaomaStorytellers
 
         public float JianghuJinRangeFactor = 1f;
 
+        public bool JianghuJinTreeSave = false;
+
 
         public override void ExposeData()
         {
@@ -134,7 +136,7 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref KaiyiKarmicRerollBaseCost, "KaiyiKarmicRerollBaseCost", 10f);
             Scribe_Values.Look(ref KaiyiKarmicSavePersist, "KaiyiKarmicSavePersist", false);
 
-            // Kaiyi the Karmic Settings
+            // Jianghu Jin Settings
             Scribe_Values.Look(ref JianghuJinTerraformDays, "JianghuJinTerraformDays", 15);
             Scribe_Values.Look(ref JianghuJinDecayProbRooms, "JianghuJinDecayProbRocks", 0.1f);
             Scribe_Values.Look(ref JianghuJinDecayRoomsInt, "JianghuJinDecayRockInt", 3);
@@ -147,6 +149,7 @@ namespace YaomaStorytellers
             Scribe_Values.Look(ref JianghuJinMiningBoost, "JianghuJinMiningBoost", 1.25f);
             Scribe_Values.Look(ref JianghuJinSavePersist, "JianghuJinSavePersist", false);
             Scribe_Values.Look(ref JianghuJinRangeFactor, "JianghuJinRangeFactor", 1f);
+            Scribe_Values.Look(ref JianghuJinTreeSave, "JianghuJinTreeSave", false);
 
             base.ExposeData();
         }
@@ -330,6 +333,7 @@ namespace YaomaStorytellers
             settings.JianghuJinConstructBoost = 1.25f;
             settings.JianghuJinMiningBoost = 1.25f;
             settings.JianghuJinRangeFactor = 1f;
+            settings.JianghuJinTreeSave = false;
 
             settings.JianghuJinSavePersist = false;
         }
@@ -497,66 +501,6 @@ namespace YaomaStorytellers
             Text.Font = GameFont.Small;
             listing.GapLine();
 
-            /*listing.Label("YS_SettingsJianghuJinTerraformDays".Translate(settings.JianghuJinTerraformDays), -1,
-                "YS_SettingsJianghuJinTerraformDaysTooltip".Translate());
-            settings.JianghuJinTerraformDays = (int)listing.Slider(settings.JianghuJinTerraformDays, 3f, 30f);
-            listing.Label("YS_SettingsJianghuJinDecayProbRoom".Translate(settings.JianghuJinDecayProbRooms.ToStringPercent()), -1,
-                "YS_SettingsJianghuJinDecayProbRoomTooltip".Translate());
-            settings.JianghuJinDecayProbRooms = listing.Slider((float)settings.JianghuJinDecayProbRooms, 0f, 1f);
-            if (listing.ButtonTextLabeledPct("YS_SettingsJianghuJinDecayProbRoomSetting".Translate(),
-                settings.JianghuJinRoomIntSetting[settings.JianghuJinDecayRoomsInt].ToString(), 0.6f, TextAnchor.MiddleLeft, 
-                null, "YS_SettingsJianghuJinDecayProbRoomSettingTooltip".Translate()))
-            {
-                List<FloatMenuOption> options = new List<FloatMenuOption>();
-                foreach(var setting in settings.JianghuJinRoomIntSetting)
-                {
-                    options.Add(new FloatMenuOption(setting.Value.ToString(), delegate ()
-                    {
-                        settings.JianghuJinDecayRoomsInt = setting.Key;
-                        settings.JianghuJinDecayProbRooms = settings.JianghuJinRoomSettingDefault[setting.Value];
-                    }, MenuOptionPriority.Default, null, null, 0f, null, null, true, 0));
-                }
-                Find.WindowStack.Add(new FloatMenu(options));
-            }
-            listing.Label("YS_SettingsJianghuJinDecayProbTerrain".Translate(settings.JianghuJinDecayProbTerrain.ToStringPercent()), -1,
-                "YS_SettingsJianghuJinDecayProbTerrainTooltip".Translate());
-            settings.JianghuJinDecayProbTerrain = listing.Slider((float)settings.JianghuJinDecayProbTerrain, 0f, 1f);
-            if (listing.ButtonTextLabeledPct("YS_SettingsJianghuJinDecayProbTerrainSetting".Translate(),
-                settings.JianghuJinRoomIntSetting[settings.JianghuJinDecayTerrainInt].ToString(), 0.6f, TextAnchor.MiddleLeft,
-                null, "YS_SettingsJianghuJinDecayProbTerrainSettingTooltip".Translate()))
-            {
-                List<FloatMenuOption> options = new List<FloatMenuOption>();
-                foreach (var setting in settings.JianghuJinRoomIntSetting)
-                {
-                    options.Add(new FloatMenuOption(setting.Value.ToString(), delegate ()
-                    {
-                        settings.JianghuJinDecayTerrainInt = setting.Key;
-                        settings.JianghuJinDecayProbTerrain = settings.JianghuJinTerrainSettingDefault[setting.Value];
-                    }, MenuOptionPriority.Default, null, null, 0f, null, null, true, 0));
-                }
-                Find.WindowStack.Add(new FloatMenu(options));
-            }
-            listing.Label("YS_SettingsJianghuJinConstructBoost".Translate(settings.JianghuJinConstructBoost.ToString("F2")), -1,
-                "YS_SettingsJianghuJinConstructBoostTooltip".Translate());
-            settings.JianghuJinConstructBoost = listing.Slider((float)settings.JianghuJinConstructBoost, 0.5f, 2f);
-            listing.Label("YS_SettingsJianghuJinMiningBoost".Translate(settings.JianghuJinMiningBoost.ToString("F2")), -1,
-                "YS_SettingsJianghuJinMiningBoostTooltip".Translate());
-            settings.JianghuJinMiningBoost = listing.Slider((float)settings.JianghuJinMiningBoost, 0.5f, 2f);
-
-            listing.CheckboxLabeled("YS_SettingsJianghuJinSavePersist".Translate(settings.JianghuJinSavePersist.ToString()),
-                ref settings.JianghuJinSavePersist, "YS_SettingsJianghuJinSavePersistTooltip".Translate());
-
-            listing.GapLine();
-            listing.CheckboxLabeled("YS_SettingsJianghuBiome".Translate(settings.JianghuJinBiomeChange.ToString()),
-                ref settings.JianghuJinBiomeChange, "YS_SettingsJianghuBiomeTooltip".Translate());
-            if (settings.JianghuJinBiomeChange)
-            {
-                listing.CheckboxLabeled("YS_SettingsJianghuBiomeUnlock".Translate(settings.JianghuJinBiomeChangeUnlocked.ToString()),
-                ref settings.JianghuJinBiomeChangeUnlocked, "YS_SettingsJianghuBiomeUnlockTooltip".Translate());
-            }
-            listing.CheckboxLabeled("YS_SettingsJianghuHilliness".Translate(settings.JianghuJinHillinessChange.ToString()),
-                ref settings.JianghuJinHillinessChange, "YS_SettingsJianghuHillinessTooltip".Translate());*/
-
             if (viewBonusMechanics) JianghuJinBonusSettings(ref listing);
             else JianghuJinNormalSettings(ref listing);
 
@@ -631,6 +575,9 @@ namespace YaomaStorytellers
 
         public void JianghuJinBonusSettings(ref Listing_Standard listing)
         {
+            listing.CheckboxLabeled("YS_SettingsJianghuJinTreeSave".Translate(settings.JianghuJinTreeSave.ToString()),
+                           ref settings.JianghuJinTreeSave, "YS_SettingsJianghuJinTreeSaveTooltip".Translate());
+            listing.GapLine();
             listing.CheckboxLabeled("YS_SettingsJianghuBiome".Translate(settings.JianghuJinBiomeChange.ToString()),
                            ref settings.JianghuJinBiomeChange, "YS_SettingsJianghuBiomeTooltip".Translate());
             if (settings.JianghuJinBiomeChange)

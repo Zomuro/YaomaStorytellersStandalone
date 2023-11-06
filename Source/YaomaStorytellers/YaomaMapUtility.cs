@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
-using Verse;
 using UnityEngine;
+using Verse;
 
 namespace YaomaStorytellers
 {
@@ -47,8 +46,13 @@ namespace YaomaStorytellers
 
         public static HashSet<IntVec3> JianghuJinAllSpecialCells(Map map, List<SetupProtectionRange> protectedDefs)
         {
+            // basically only used for anima tree
             HashSet<IntVec3> cells = new HashSet<IntVec3>();
-            if (protectedDefs.NullOrEmpty()) return cells;
+            if (YaomaStorytellerUtility.settings.JianghuJinTreeSave || protectedDefs.NullOrEmpty())
+            {
+                cachedSpecialCells = cells; // cache cells
+                return cells;
+            }
 
             foreach(var defRange in protectedDefs)
             {
@@ -180,9 +184,7 @@ namespace YaomaStorytellers
 
         public static HashSet<IntVec3> cachedSpecialCells;
 
-        public static System.Random rand = new System.Random();
-
-        
+        public static System.Random rand = new System.Random();     
 
     }
 }

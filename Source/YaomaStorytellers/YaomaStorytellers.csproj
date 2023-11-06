@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenStep_Jin_Terrain.cs" />
     <Compile Include="KaiyiIncidentRecord.cs" />
     <Compile Include="GameComponent_YaomaStorytellers.cs" />
     <Compile Include="GenStep_Jin_Plants.cs" />
@@ -77,7 +78,6 @@
     <Compile Include="GenStep_Jin_AnimaTrees.cs" />
     <Compile Include="GenStep_Jin_RocksFromGrid.cs" />
     <Compile Include="GenStep_Jin_CavesTerrain.cs" />
-    <Compile Include="GenStep_Jin_Terrain.cs" />
     <Compile Include="GenStep_Jin_Setup.cs" />
     <Compile Include="GenStep_Jin_Cleanup.cs" />
     <Compile Include="MapGeneratorDefOf_Yaoma.cs" />
