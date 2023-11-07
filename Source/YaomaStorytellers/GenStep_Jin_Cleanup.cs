@@ -35,16 +35,16 @@ namespace YaomaStorytellers
 			HashSet<Pawn> pawns = map.mapPawns.AllPawnsSpawned.ToHashSet();
 			foreach(var pawn in pawns)
             {
+				// prevent pathfinding error from coming up
+				pawn.jobs.StopAll(); // no job
+				pawn.pather.StopDead(); // no path
+
 				// if pawn is animal or wild man with no faction, kill them all when terraforming - reduce them to ashes
 				if (pawn.Spawned && pawn.AnimalOrWildMan() && (pawn.Faction == null || pawn.RaceProps.Insect) && !pawn.IsPrisonerInPrisonCell())
                 {
 					pawn.Destroy();
 					continue;
 				}
-
-				// prevent pathfinding error from coming up
-				pawn.jobs.StopAll(); // no job
-				pawn.pather.StopDead(); // no path
 			}
 		}
 

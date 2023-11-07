@@ -24,12 +24,13 @@ namespace YaomaStorytellers
 			foreach (var hive in hives) hive.Destroy();
 
 			// display when the mapgen is loading
+			// disabled asynchronous- while async is nicer looking, this should avoid the issues with threading
 			LongEventHandler.QueueLongEvent(delegate ()
 			{
 				foreach (var step in MapGeneratorDefOf_Yaoma.YS_JianghuJin_RefreshTerrain.genSteps.OrderBy(x => x.order))
 				{
 					DeepProfiler.Start(step.genStep.def.defName);
-					try 
+					try
 					{
 						step.genStep.Generate(map, default(GenStepParams));
 					}
@@ -44,7 +45,7 @@ namespace YaomaStorytellers
 				}
 
 				map.FinalizeInit();
-			}, "YS_JinTerraformMapPage", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap), true);
+			}, "YS_JinTerraformMapPage", false, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap), true);
 
 			base.SendStandardLetter("YS_LetterLabelJianghuJin".Translate(), "YS_LetterJianghuJin".Translate(),
 				LetterDefOf.NeutralEvent, parms, null, Array.Empty<NamedArgument>());
