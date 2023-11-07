@@ -184,7 +184,7 @@ namespace YaomaStorytellers
 
         public static HashSet<IntVec3> cachedSpecialCells;
 
-        public static System.Random rand = new System.Random();     
+        public static System.Random rand = new System.Random();
 
     }
 }
