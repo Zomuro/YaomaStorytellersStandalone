@@ -64,7 +64,6 @@ namespace YaomaStorytellers
 			Hilliness.SmallHills,
 			Hilliness.LargeHills,
 			Hilliness.Mountainous
-			//Hilliness.Impassable // Must be a passable hilliness
 		};
 
 		public List<SetupProtectionRange> protectedSpecial;

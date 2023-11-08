@@ -36,7 +36,8 @@ namespace YaomaStorytellers
 			foreach(var pawn in pawns)
             {
 				// prevent pathfinding error from coming up
-				pawn.jobs.StopAll(); // no job
+				pawn.roping.BreakAllRopes(); // no ropes (animals)
+				pawn.jobs.StopAll(false, false); // no job
 				pawn.pather.StopDead(); // no path
 
 				// if pawn is animal or wild man with no faction, kill them all when terraforming - reduce them to ashes
